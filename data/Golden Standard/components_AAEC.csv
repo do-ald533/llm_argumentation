@@ -1,0 +1,1267 @@
+,text_id,component_tokens,labels
+1065,AAEC_004,this industry has affected the cultural attributes and damaged the natural environment of the tourist destinations,MajorClaim
+1066,AAEC_004,the tourism has created threatening pressure on both the sociocultural and natural environments,MajorClaim
+1067,AAEC_004,the tourism bring large profit for the destination countries,Claim
+1068,AAEC_004,international tourism can create negative impacts on the destination countries,Claim
+1069,AAEC_004,tourism has threatened the nature environments,Claim
+1070,AAEC_004,tourists from different cultures will probably cause changes to the cultural identity of the tourist destinations,Premise
+1071,AAEC_004,"Take Thailand for example, in the Vietnam War, many American soldiers came to Thailand for a break and involved in sexual and drug activities, these huge demands caused many local businesses opened and expanded, even illegally involved in under-age prostitutes to maximize their profits",Premise
+1072,AAEC_004,This was due to the lack of adequate controls by authorities and lead to a bad image of Thailand tourism,Premise
+1073,AAEC_004,tourism increasingly create harms to the natural habitats of the destination appeals,Premise
+1074,AAEC_004,"As the Australia’s Great Barrier Reef has shown, the billion visitors per annum has generated immense destruction to this nature wonder, namely breaking the corals caused by walking or throwing boat’s anchors, dropping fuel and other sorts of pollutions",Premise
+1075,AAEC_004,"many marine lives have been endangered, in the extremes part of the reef become uninhabitable for these marine species",Premise
+1076,AAEC_005,one who studies overseas will gain many skills throughout this experience,MajorClaim
+1077,AAEC_005,living and studying overseas gives the individual a new perspective on the subject that is studied or in general life,MajorClaim
+1078,AAEC_005,studying at an overseas university gives individuals the opportunity to improve social skills by interacting and communicating with students from different origins and cultures,Claim
+1079,AAEC_005,living and studying overseas is an irreplaceable experience when it comes to learn standing on your own feet,Claim
+1080,AAEC_005,one who has studied and lived overseas will become more eligible for the job than his/her peers,Claim
+1081,AAEC_005,"Compared to the peers studying in the home country, it will be more likely for the one who is living overseas to be successful in adapting himself/herself into new environments and situations in life",Premise
+1082,AAEC_005,"One who is living overseas will of course struggle with loneliness, living away from family and friends",Premise
+1083,AAEC_005,those difficulties will turn into valuable experiences in the following steps of life,Premise
+1084,AAEC_005,the one will learn living without depending on anyone else,Premise
+1085,AAEC_005,employers are mostly looking for people who have international and language skills,Premise
+1086,AAEC_005,Becoming successful in this study will give the student an edge in job market,Premise
+1087,AAEC_005,there are many difficulties a student might face when studying and living overseas,Claim
+1088,AAEC_006,studying abroad has many advantages,MajorClaim
+1089,AAEC_006,"studying abroad does not only have advantages, but also can change us in a very positive way",MajorClaim
+1090,AAEC_006,"Students gain a lot out of the experience personally, academically, and culturally",Claim
+1091,AAEC_006,students who study outside their countries can get a lot of experience living in a foreign country,Claim
+1092,AAEC_006,the new academic experience that the students can obtain at the institution where they are pursuing their studies,Claim
+1093,AAEC_006,Most important is the cultural aspect of the experience,Claim
+1094,AAEC_006,Living in a new country requires a great amount of flexibility and adaptability in one's character,Premise
+1095,AAEC_006,students might face many challenges in the host country,Premise
+1096,AAEC_006,they should be able to deal with the obstacles that they may encounter,Premise
+1097,AAEC_006,Overcoming problems teaches the students how to be more mature and self-independence,Premise
+1098,AAEC_006,they will get exposed to a different educational system,Premise
+1099,AAEC_006,They will meet new professors and new classmates which makes the academic experience different from that in their home country,Premise
+1100,AAEC_006,"While living in a foreign country, students can learn a lot about the culture of that country",Premise
+1101,AAEC_006,they can meet different people of the country,Premise
+1102,AAEC_006,"They can learn about their way of thinking, their customs and traditions, and way of life",Premise
+1103,AAEC_006,Learning about others' cultures is so important,Premise
+1104,AAEC_006,It contributes in building a new understanding in us of how we see the world,Premise
+1105,AAEC_006,"It makes us more open, and willing to accept different ideas and thoughts",Premise
+1106,AAEC_006,it educates us about the world we are living in,Premise
+1107,AAEC_021,advertising is the major reason for high sales of a product,MajorClaim
+1108,AAEC_021,high sales are obviously a reflection of the powerful advertisements,MajorClaim
+1109,AAEC_021,The most effective way to convince consumers to purchase a product is through advertising,Claim
+1110,AAEC_021,it is not sufficient in itself,Premise
+1111,AAEC_021,The product also should satisfy the needs of the consumers,Premise
+1112,AAEC_021,advertisers push the limits of creativity to dispose the consumers to purchase the product,Claim
+1113,AAEC_021,Advertisement is the most effective way to create a well-known product,Claim
+1114,AAEC_021,They make the product preferable,Claim
+1115,AAEC_021,We are mainly introduced to products through advertisements,Premise
+1116,AAEC_021,"When the consumers are impressed by the way a product is advertised, they can be convinced to consider that the product is a need in some cases",Premise
+1117,AAEC_021,"Recently, there is a very creative advertisements of a soft drink product on TV",Premise
+1118,AAEC_021,The story delivers a desired call to drink that soft drink that people tend to drink when the weather is too hot,Premise
+1119,AAEC_021,the number of that product being sold will increases,Premise
+1120,AAEC_021,"the more an advertisement of a product takes place in mass media, the more popular the product becomes",Premise
+1121,AAEC_021,Consumers tend to purchase the most known product when it comes to picking one out of two different brands of the same product,Premise
+1122,AAEC_021,"When a product is commonly used, it becomes trustworthy for the society, no matter what quality it is",Premise
+1123,AAEC_021,it also has to be affordable for the consumer,Premise
+1124,AAEC_021,advertisements have undeniable affects on the society about the product being advertised,Premise
+1125,AAEC_042,a higher pay can be one of the incentive if were to encourage harder-working employees,MajorClaim
+1126,AAEC_042,providing a more secured and relaxing environment for workers can fundamentally boost their productivity,MajorClaim
+1127,AAEC_042,they will be feeling more cared for and therefore do their best for their bosses,Claim
+1128,AAEC_042,A raise or a promotion can no doubt increase the morale in the working places,Claim
+1129,AAEC_042,creating an enjoyable working environment is more realistic and essential if one wishes an increase in productivity and better employee performances,Claim
+1130,AAEC_042,Workers understand they have to work harder to meet the boss' expectations and to make themselves worthwhile,Premise
+1131,AAEC_042,junior high school teachers have great responsibility not only for students' private lives as they are going through adolescence but also their school work,Premise
+1132,AAEC_042,it is an important phase for them to study hard and get into the high school they want,Premise
+1133,AAEC_042,"If the teachers receive higher salaries, they will be willing to spend more extra time mentoring the youngsters rather than hoping they learn in cram schools and so forth, as this is what is happening in Taiwan",Premise
+1134,AAEC_042,"Take Google for example, the company offers recreation rooms and extra personal leaves for their workers to develop a more relaxing and supportive workforce",Premise
+1135,AAEC_042,the employers can make sure the employees can actually focus and concentrate on their projects instead of thinking about their children or feeling pressured,Premise
+1136,AAEC_052,English as an elegant language should be advocated in many fields to expand the global trade and communications,MajorClaim
+1137,AAEC_052,the prevalent of English brings a great number of benefits for people,Claim
+1138,AAEC_052,the dominated status of English has destroyed culture diversity and many less-used languages become extinct,Claim
+1139,AAEC_052,English is a sophisticated language,Premise
+1140,AAEC_052,it promotes the communication and interaction between different countries more conveniently and clearly,Premise
+1141,AAEC_052,"In the ancient time, the different languages and geography set barriers for people to exchange their goods and ideas",Premise
+1142,AAEC_052,the innovation of plane and train solved the geographical barriers,Premise
+1143,AAEC_052,"If we can popularize the use of English, the language hinder will disappear as well",Premise
+1144,AAEC_052,"English is a beautiful language, which is more systematical and extensive than many other languages",Premise
+1145,AAEC_052,Learning English can foster people's sentiment and nourish their literature and art,Premise
+1146,AAEC_052,"it does not express every detail of life especially in Asia countries, which have totally different linguistic system",Premise
+1147,AAEC_052,"language contains many aspects of people's daily life, which is influenced by culture, environment as well as religious",Premise
+1148,AAEC_052,these languages have special significance for people who belong to them and using English to replace them is crudity,Premise
+1149,AAEC_052,we still need preserve other languages for sake of keeping the linguistic and cultural diversity,Claim
+1150,AAEC_061,dependence on computers is not a bad thing,MajorClaim
+1151,AAEC_061,computers have provided security and sophistication,Claim
+1152,AAEC_061,"The whole world is dependent on computers, without which, the world will go back hundreds of years",MajorClaim
+1153,AAEC_061,"Computers provide speed, increase efficiency, accuracy, precision, help to increase productivity and other countless benefits are provided by it",Claim
+1154,AAEC_061,future prospects of computers are very bright,Claim
+1155,AAEC_061,Computers have made humans over-dependent,Claim
+1156,AAEC_061,"In the modern world, computers are used everywhere",Premise
+1157,AAEC_061,"Right from flying planes to sending a small document, computers are needed",Premise
+1158,AAEC_061,"They are used in space programs, wars, hospitals, schools and so on",Premise
+1159,AAEC_061,"Computers have made human life more easy, convenient and lightning fast",Premise
+1160,AAEC_061,"in earlier days, if one had to send a message to someone in other country, it used to take months",Premise
+1161,AAEC_061,"today, it can be sent in few minutes by typing a email and few clicks",Premise
+1162,AAEC_061,"From a computer as big as a room, it has now been minimized to the size of a palm",Premise
+1163,AAEC_061,Nanotechnology is working to make computers to the order of microscopic levels,Premise
+1164,AAEC_061,Research on making computerized drone soldiers (unmanned computer controlled) is going on,Premise
+1165,AAEC_061,There is no end to the evolution of computers,Premise
+1166,AAEC_061,"Virus programs, privacy breach, leak of confidential documents, cyber attacks, identity theft, frauds etc. are some of its demerits, from a countless list",Premise
+1167,AAEC_061,Computers expose children to vulgar materials,Premise
+1168,AAEC_061,"They have even invaded mental health of humans, for example, FAD (Facebook Addiction Disorder - excessive use of social networking website Facebook)",Premise
+1169,AAEC_061,Computers have intruded our lives to the effect that a satellite can peep into our homes and privates lives,Premise
+1170,AAEC_061,"The recent case of Wikileaks, leaking confidential data is an example of how computers are harmful",Premise
+1171,AAEC_068,it is time for the government to take action to control the proliferation of violent scenes in media,MajorClaim
+1172,AAEC_068,What the government should do immediately is to strengthen censorship to control the amount of violence in media,MajorClaim
+1173,AAEC_068,our society is occupied with the violent scenes and plots at present,Claim
+1174,AAEC_068,"This will definitely set a bad example for the immature audiences who, lacking correct parental guidance and abilities to differentiate the right from wrong, are prone to go astray by imitating the violent behaviors and committing real violent crimes",Claim
+1175,AAEC_068,excessive violence would offer misleading information to the public and exert detrimental influence to the society as well,Claim
+1176,AAEC_068,they regard the violence as reasonable and justifiable,Premise
+1177,AAEC_068,"media, such as TV or film, is considered as the correct information source regulated by the government",Premise
+1178,AAEC_068,It should be reporting and reflecting true phenomenon in the society,Premise
+1179,AAEC_068,"Violence, as one of the facts in the real world, certainly has to be reported",Premise
+1180,AAEC_068,"It is recently reported in the news that a seventeen-year-old boy killed all his family members, one sister and two parents out of hatred and jealousy",Premise
+1181,AAEC_068,"In the real world, we are inclined to take extreme approach to tackle a small problem due to excessive violence exposure",Premise
+1182,AAEC_071,"while some of them are disturbing, we can not overlook other merits the advertisements bring",MajorClaim
+1183,AAEC_071,advertisements have its social responsibility and contribute to economic growth,MajorClaim
+1184,AAEC_071,it is unfair to restrict those public service advertisements which are creative and inspiring,Claim
+1185,AAEC_071,publicizing brand image or a particular product of mass media could boost sales for companies,Claim
+1186,AAEC_071,"the advertising expenses lead to a higher product price and some of them express fake information, creating information asymmetry between consumers and companies",Claim
+1187,AAEC_071,"they are not in the purpose of making profits but taking a role of disseminating valued culture, good moral traits and calling for helps for the disabled and the poor",Premise
+1188,AAEC_071,it could simulate household spending and therefore promote the economic development of the whole country,Premise
+1189,AAEC_071,"A recent study shows that after launching an advertising campaign, the sales revenue would increase by 40%, which is the very fact to verify its positive influences on economic",Premise
+1190,AAEC_071,its merits still outweigh these downsides,Premise
+1191,AAEC_072,"the most suitable method of reducing stress for modern people is by different kinds of exercise, which can not only improve health conditions but also bring positive emotions",MajorClaim
+1192,AAEC_072,many activities can let humans relax,Claim
+1193,AAEC_072,"the best way of diminishing stress is by exercises, which can benefit everyone not only physically but also mentally",MajorClaim
+1194,AAEC_072,exercise play a crucial role in ameliorating physical health,Claim
+1195,AAEC_072,"Any kinds of sports, such as jogging, swimming, or playing basketball, can effectively facilitate human respiration and circulation system",Premise
+1196,AAEC_072,these sports can also strengthen muscles and lessen surplus adipose tissues in human body,Premise
+1197,AAEC_072,The latter one is of particular importance because nowadays more and more people are suffer from obesity,Premise
+1198,AAEC_072,"Many studies has points out that numbers of overweight people have increased in developed countries in recent years, which mainly results from insufficient exercises",Premise
+1199,AAEC_072,good exercises can often successfully alleviating one's heavy burdens,Premise
+1200,AAEC_072,"rigorous exercise can also hone one's will, which enable people to be able to tackle stringent problems and arduous tasks",Claim
+1201,AAEC_072,"This hormone can delight one's mind, creating positive feelings",Premise
+1202,AAEC_072,"When people exercise, the neuron cells in the brain release a chemical compound named Dopamine",Premise
+1203,AAEC_072,Sports activities can improve mental health,Claim
+1204,AAEC_077,zoos have irreplaceable benefits in terms of animal preservation and children education,MajorClaim
+1205,AAEC_077,zoos offer a good man-made environment which could prolong the life span of wild animals and cultivate the notion of protecting animals,MajorClaim
+1206,AAEC_077,zoo is a good alternative choice for protecting animals,Claim
+1207,AAEC_077,"zoos afford a platform to education teenagers, helping to establish eco-friendly behavior towards animals",Claim
+1208,AAEC_077,complained about the drawbacks of zoos are often heard,Claim
+1209,AAEC_077,some zoos are lack of systematic management which attributes to numerous wild animals die because of food shortage,Premise
+1210,AAEC_077,being caged in the zoos for long render wildlife lost the ability to survive in nature where is full of cruel competition among various animals,Premise
+1211,AAEC_077,"our environment is damaged day by day due to the fact that excessive pursuit of economic development at expense of eco-system, which pose a great threat to the survival of wild animals",Premise
+1212,AAEC_077,various animals could be better protected by specialized staff,Premise
+1213,AAEC_077,"Once the animal got sick, professional vet will help them promptly",Premise
+1214,AAEC_077,"Thanks to the considerate care, the diversity of wild animal could be guaranteed",Premise
+1215,AAEC_077,"In the zoos, even though wild animals are caged, they have capability to walk in a limited area",Premise
+1216,AAEC_077,"When children pay a visit to the zoos, they still could observe the eating behavior or leisure activities among animals, which would definitely enrich their knowledge associated with different animals",Premise
+1217,AAEC_077,children could acquire the information regarding how to protect wild animals according to guided tour or volunteers,Premise
+1218,AAEC_082,more good comes from advertising than bad,Claim
+1219,AAEC_082,the idea that advertising is a positive part of life can be more supported,MajorClaim
+1220,AAEC_082,"Advertisements are, therefore, very important for many businesses to increase sales and hence profits",Claim
+1221,AAEC_082,advertising is carried out with the main purpose of promoting different products and services or encouraging people to consume more,Premise
+1222,AAEC_082,"to consumers, advertising can bring them many benefits",Claim
+1223,AAEC_082,customers of telecommunication services will have an idea about the current offers of different companies,Premise
+1224,AAEC_082,they can compare them and then have a better decision in choosing their internet or mobile phone plans,Premise
+1225,AAEC_082,"a huge amount of different advertisements could be sent automatically by a system to personal phones or email addresses, this is generally known as spam, and causes discomfort or even annoyance to many people",Claim
+1226,AAEC_082,advertising can be very expensive and not every advertising campaign can be done successfully and brings good results,Premise
+1227,AAEC_082,"advertising is believed by many, a financial burden to businesses",Claim
+1228,AAEC_086,big cities can be a good place for bringing up children,MajorClaim
+1229,AAEC_086,"Today's children needs somethings to entertain them, and occupy their leisure time in the best way",MajorClaim
+1230,AAEC_086,it is a good idea for children to past their first earlier life in the cities,Claim
+1231,AAEC_086,Children who live in cities have a lot of entertainment,Claim
+1232,AAEC_086,they can learn a lot of things by watching television and surfing through the net,Claim
+1233,AAEC_086,"they can exchange their knowledge, they can learn different cultures",Claim
+1234,AAEC_086,"countrysides have some advantages such as fresh air, peace, and etc",Claim
+1235,AAEC_086,education is better in big cities in comparison with countrysides,Premise
+1236,AAEC_086,"in my country the best schools, universities and institutes are located in cities, and todays education is one of the most important parts of our children's life",Premise
+1237,AAEC_086,it is acknowledged that a large number of creational facilities are built in cities,Premise
+1238,AAEC_086,"playgrounds, parks, science museums, cinemas etc",Premise
+1239,AAEC_086,in countrysides we hardly ever see creational facilities,Premise
+1240,AAEC_086,Children who live in countrysides most of the time pass their free time in farms,Premise
+1241,AAEC_086,in big cities children access to media easily,Premise
+1242,AAEC_086,Via internet they can have connection with the other children all around the world,Premise
+1243,AAEC_091,a universal language playing the dominant role in the international community is of vital significance to global people,MajorClaim
+1244,AAEC_091,a single international language plays a pivotal role in global economic cooperation,Premise
+1245,AAEC_091,a single international language serves an economic purpose,Claim
+1246,AAEC_091,"As businessmen from different countries have access to the same language, they can communicate with each other more efficiently and deeply on trade, which can intensify the transnational cooperation",Premise
+1247,AAEC_091,"without the availability of the same language, there might be a chance that misunderstanding and conflicts would ensue over business negotiations, impeding collaborations between them",Premise
+1248,AAEC_091,a universal language is an integral part of cultural communication and interactions,Claim
+1249,AAEC_091,"If people are equipped with a single international language, they can tell each other smoothly about their countries' specific cultures such as the traditional customs or the modern lifestyles, which enables people to expand their outlooks, viewing the world in new angles",Premise
+1250,AAEC_091,"when people travel to foreign countries, the local people can introduce the tourist attractions to such people with the command of the universal language, helping foreign visitors have an enjoyable exotic experience",Premise
+1251,AAEC_091,a single international language contributes to global community in terms of economic and cultural communication,MajorClaim
+1252,AAEC_091,every country should by no means disregard the preservation of their own cultural heritage,Claim
+1253,AAEC_091,"a single international language may, to some extent, erode the cultural identity of a nation",Claim
+1254,AAEC_091,"people may be impressed by the cultural values brought with the universal language, eroding a sense of national belong",Premise
+1255,AAEC_091,"some Asians are seeking individualism, previously denied by many Asian countries",Premise
+1256,AAEC_091,"they have gradually identified with such values expressed in American movies, which are imported by the governments as a result of the proliferation of English",Premise
+1257,AAEC_097,popular sports events can help reduce international tensions remarkably and promote national prides safely,MajorClaim
+1258,AAEC_097,international sporting occasions are not only one of the effective solutions to tensions among nations but also a stimulant for releasing patriotic emotions safely,MajorClaim
+1259,AAEC_097,"they can improve their results, break records and bring victories to their own countries",Claim
+1260,AAEC_097,"sport events with the spirit of healthiness, honesty and fairness can help strengthen understanding, friendship and solidarity among nations",Claim
+1261,AAEC_097,sport events help to wake up love and responsibilities strongly in each citizen,Claim
+1262,AAEC_097,sports events are good chances for excellent athletes to meet and learn valuable experiences from one another,Premise
+1263,AAEC_097,a large number of people will gather in the host city for sport events,Premise
+1264,AAEC_097,there are many good opportunities for discovering different cultures,Premise
+1265,AAEC_097,"After sharing competitive but interesting moments in each competition, the competitors often shake hands friendly and congratulate the winners, which can lead to an improvement in the relationships among nations",Premise
+1266,AAEC_097,sporting occasions play an essential role in raising patriotic emotions in both athletes and spectators,Premise
+1267,AAEC_097,Seeing national flags be honored may be the most emotional moments to each athlete,Premise
+1268,AAEC_097,The athlete also seems to be more aware of his responsibilities and he wants to contribute more to his beloved country,Premise
+1269,AAEC_097,"When witnessing our national flags flying proudly among others, many of us can stop hiding our pride and happiness",Premise
+1270,AAEC_097,"when Vietnam became the champion of SEAGAMES for the first time in 2008, a festival atmosphere permeated into the streets",Premise
+1271,AAEC_097,"People from all ages turned out to the streets with flags, banners and they sang aloud songs of Ho Chi Minh President",Premise
+1272,AAEC_097,The eager atmosphere lasted many next days,Premise
+1273,AAEC_097,some hooligans were so excited that they took part in motor racing or using fireworks illegally,Premise
+1274,AAEC_097,the hooligans only took a minority of people,Premise
+1275,AAEC_098,the benefits of children engagement in paid work outweigh its drawbacks,MajorClaim
+1276,AAEC_098,"if children take part in some kind of paid work with their parents' permission, they can learn lively lessons and become mature and responsible",MajorClaim
+1277,AAEC_098,"they are likely to understand their parents' hardship, to respect values of money and to form a good habit of saving",Claim
+1278,AAEC_098,children can learn about the hardship of earning money,Premise
+1279,AAEC_098,"When they take some kind of paid work such as looking after babies, doing housework and keeping shops, they will have some life experience and skills which make them mature and can deal with many different situations in real life",Premise
+1280,AAEC_098,"when children take jobs, they tend to be more responsible",Claim
+1281,AAEC_098,whether they can earn money or not will depend on their effectiveness and attitudes in working,Premise
+1282,AAEC_098,"To keep their jobs, children will have to try their best to finish their duties",Premise
+1283,AAEC_098,"if a child works as a shop assistant, he will have to keep an eye on good and products, calculate prices correctly and take responsibilities for any lost",Premise
+1284,AAEC_098,"children will be more material, neglect their study for earning money or be exploited by the employers",Claim
+1285,AAEC_098,"if children get good care and instructions from their parents, they can take advantages of the work to learn valuable things and avoid going in a wrong way",Premise
+1286,AAEC_103,past behaviour determines the future actions,Claim
+1287,AAEC_103,complete data concerning the history of a sued person creates more opportunity for jury members to build an overall picture of defendant's personality,Premise
+1288,AAEC_103,"past record might be useful to decide whether a person was able to perform a certain type of crime when it concerns serious crimes, such as kidnapping or a murder",Premise
+1289,AAEC_103,"in order for the jury to come up with an objective decision not depending on the past experience, the court should provide with details relevant to a particular case only",Claim
+1290,AAEC_103,a defendant with number of past crimes has more chance to be found guilty compared to a person with no or lighter criminal record,Premise
+1291,AAEC_103,"Innocent suspects, eventually, can face unfair juridical decision and pay twice for their previous inadequate actions",Premise
+1292,AAEC_103,"I am skeptical about disclosing the defendant's history to the jury, with intention to avoid subjective and probable inaccurate verdict",Claim
+1293,AAEC_103,"I strongly support the current laws of Great Britain and Australia, and would not change the regulations on keeping the jury unaware of past actions",MajorClaim
+1294,AAEC_104,the Internet will pave way for a more accessible and convenient learning,MajorClaim
+1295,AAEC_104,I would like to reiterate the necessity of the Internet in learning process,MajorClaim
+1296,AAEC_104,"the Internet is an adequate source of academic information, which will potentially fulfill the needs of university pupils",Claim
+1297,AAEC_104,"Nowadays, not only are lectures available online, it is also applicable to find reference e-books as well as multi-aspect documents on the cyberspace",Premise
+1298,AAEC_104,the Internet has grown to become the largest virtual library ever,Premise
+1299,AAEC_104,"with the use of the Internet, distance and time seem to be no more a hindrance",Premise
+1300,AAEC_104,College students can save their time browsing for necessary information through the web instead of spending hours wandering in bookstores or libraries,Premise
+1301,AAEC_104,the Internet offers a more effective and practical method of studying,Premise
+1302,AAEC_104,"While virtual flowcharts and animations may simplify complicated scientific processes, Google and Wikipedia are always accessible for detailed responses to every query",Premise
+1303,AAEC_104,the Internet will become an indispensable part in academic training,Claim
+1304,AAEC_104,This fairy tale turns out to be true thanks to technical and internet advances,Premise
+1305,AAEC_104,Have you ever imagined what it would be like to stay at home and attend a lecture by a famous speaker in Finland simultaneously,Premise
+1306,AAEC_104,"the Internet have several drawbacks which can affect the education system negatively, for instance internet abuse and black webs",Claim
+1307,AAEC_104,these problems are mainly triggered by students' wrong approach towards the Internet not the Internet itself,Premise
+1308,AAEC_104,what we are to do is a change in learners' attitude not an elimination of the Internet from academic study,Premise
+1309,AAEC_108,it would generate a sense of discrimination among different age groups and increase the government financial pressure accordingly,MajorClaim
+1310,AAEC_108,they have been instilled and imparted the most updated knowledge and skills at universities,Premise
+1311,AAEC_108,fresh graduates are likely to bring a number of practical and applicable ideas to meet the current needs of the organisation,Premise
+1312,AAEC_108,having a larger proportion of young adults could enhance the working effectiveness and efficiency,Premise
+1313,AAEC_108,"Compared with aged staffs, younger employees are often physically stronger and energetic which enables them to carry out heavy workload to meet the deadline",Premise
+1314,AAEC_108,encouraging the workers to retire at age of fifty-five to release the positions for younger job seekers has some merits,Claim
+1315,AAEC_108,the introduction of the early retirement has some benefits,Claim
+1316,AAEC_108,"From social perspective, massively forcing the early retirement would be one of financial burden to the local government",Premise
+1317,AAEC_108,sufficient pension payments and regular medical care should be given and arranged for the senior citizens after they have been imposed to terminate their employment permanently,Premise
+1318,AAEC_108,sacrificing the senior members to save the young workers poses several negative influences,Claim
+1319,AAEC_108,"From personal level, it fosters a sense of unfairness between the older and younger generations",Premise
+1320,AAEC_108,"every person within the business enterprise has the rights to proceed their work as long as they are capable of doing it, disregard the age and physical capacity",Premise
+1321,AAEC_117,technology alone can solve the world's environmental problems,MajorClaim
+1322,AAEC_117,if humans stop using technology and lead a simple way of life then only we can save the environment,Claim
+1323,AAEC_117,it is the luxuries people use which damages the environment,Premise
+1324,AAEC_117,"If people don't use air conditioners, automobiles and other such things that technology has brought us, then naturally there would be less pollution and natural resources like fossil fuels would be saved and all this would save the environment",Premise
+1325,AAEC_117,technology alone could save the environment,Claim
+1326,AAEC_117,now we have come so far ahead in technology that there is no going back,Premise
+1327,AAEC_117,We cannot ask the people of the jet age to go back to the age of the bullock cart,Premise
+1328,AAEC_117,There are a lot of advances going on technology which are helping the environment a lot,Claim
+1329,AAEC_117,One prime example is finding solutions to water problems in developing countries such as Africa,Premise
+1330,AAEC_117,"By pressurising sea water to produce vapour jets and filtering them through carbon nano tubes, we can get clean drinking water from sea water - an almost inexhaustible resource",Premise
+1331,AAEC_117,Japan is working to build a working space solar power system by 2030,Premise
+1332,AAEC_117,"By drawing on the colossal energy of the sun, it could meet the entire world's electricity requirements indefinitely without nuclear or GHG emissions",Premise
+1333,AAEC_117,"If successful, the impact on the world would be monumental",Premise
+1334,AAEC_117,"It would mean energy for schools, hospitals, and homes",Premise
+1335,AAEC_117,It would mean another industrial revolution,Premise
+1336,AAEC_119,at no time will the unique role of human teachers be replaced,MajorClaim
+1337,AAEC_119,Internet can be a useful tool for education,Claim
+1338,AAEC_119,"the global online network is the inexhaustible source of information, which definitely exceeds the fund of knowledge that any veteran teacher can accumulate",Claim
+1339,AAEC_119,"Internet and computer also offer a more comprehensive access to knowledge, ranging from visual to aural stimuli, which make learning an ever enjoyable experience, especially for children",Premise
+1340,AAEC_119,"Much information as the Internet may provide, most of the sources are unjustified by experts",Premise
+1341,AAEC_119,information from those sources is subject to question,Claim
+1342,AAEC_119,the computer can show whether an answer to a particular question is right or wrong,Premise
+1343,AAEC_119,it cannot give as an in-depth explanation as a human teacher can,Claim
+1344,AAEC_119,"Through face-to-face communication, teachers can also pinpoint the weaknesses of each student and therefore, adjusting and tailoring his or her teaching methodology to meet the levels or the demands of those students",Premise
+1345,AAEC_119,This is where the computer proves to be incompetent,Premise
+1346,AAEC_126,it's much easier to have some casual acquaintances than have some close friends,Claim
+1347,AAEC_126,it's better to have one or two close friends than to have a large number of casual acquaintances,MajorClaim
+1348,AAEC_126,being a friend with someone is different from only being acquaintant,Premise
+1349,AAEC_126,it's not easy to make friend with anyone,Premise
+1350,AAEC_126,friends are people who have great compatibility with each other,Premise
+1351,AAEC_126,"After two years in college I have found sometimes there is more differences between people than similarities, for we are growing in the different families and was educated in various ways",Premise
+1352,AAEC_126,Sometimes acquaintances are just acquaintances,Premise
+1353,AAEC_126,We spend time together but we could never be friend,Premise
+1354,AAEC_126,close friends can easily understand each others feelings,Claim
+1355,AAEC_126,acquaintances probably not able to understand you better than your friends,Premise
+1356,AAEC_126,they wouldn't even spare time to consider your feelings,Premise
+1357,AAEC_126,Everyone play the role of acquaintance and friend at the same time,Premise
+1358,AAEC_126,Being friendly is a good way to treat a acquaintance but way not enough for a friend,Premise
+1359,AAEC_126,"When my friend is sick, I would not only ask if he is okay like an acquaintance but do my best to make him get well as soon as possible",Premise
+1360,AAEC_126,"If my friend is going to the wrong direction in his life trail, I will try my best to pull him back, but not stand and stare like it's not of my business",Premise
+1361,AAEC_126,my friend will do the same to me,Premise
+1362,AAEC_126,a friend is a person you care about,Claim
+1363,AAEC_126,friends are the most important people in my life second to my family,MajorClaim
+1364,AAEC_129,I prefer to live in a higher pace condition,MajorClaim
+1365,AAEC_129,living in a higher pace is better,MajorClaim
+1366,AAEC_129,the advantages of this are qualitatively greater than that of the opposite,Claim
+1367,AAEC_129,I prefer to live in high pace,MajorClaim
+1368,AAEC_129,"we need to save time for accomplishing some important tasks, and a fitting example of which can be found in my experience of missing exam",Premise
+1369,AAEC_129,we have to be eager in our lives,Claim
+1370,AAEC_129,I just failed to participate in the university entrance exam,Premise
+1371,AAEC_129,I thought I had enough time for eating breakfast and transporting to the testing place; while I was stocked in a traffic jam and then missed the first test,Premise
+1372,AAEC_129,keeping in high pace condition can prevent me from getting lazy,Premise
+1373,AAEC_129,"If I can avoid being a sluggish person, I can have a higher probability of fulfilling my dream successfully",Premise
+1374,AAEC_129,"I had spent more time on practicing playing piano so that I won a piano competition, defeating those spending less time on practicing",Premise
+1375,AAEC_129,keeping our pace higher is important,Claim
+1376,AAEC_129,with a slower pace can enjoy their lives more,Claim
+1377,AAEC_129,it is not necessary for them to notice the time control or acquire the fame of succeed,Premise
+1378,AAEC_129,I do not think that those people with slower pace losing the piano competition can be really happy,Premise
+1379,AAEC_129,it is really joyful for me that I can immerse in the joy of the victory and accomplishment,Premise
+1380,AAEC_136,learners can obtain more useful knowledge from teachers than from other sources,Claim
+1381,AAEC_136,both alternative sources and traditional teaching methods from educators are equally important in children's acquisition of knowledge,MajorClaim
+1382,AAEC_136,technologies are vital in students' learning,Claim
+1383,AAEC_136,the widespread of alternative sources of knowledge has played an important role in students' acquisition of knowledge,Premise
+1384,AAEC_136,"Computers can be programmed to provide an endless numbers of questions in diverse range of fields, and as the students answer these questions, the facts has been learned and reinforced",Premise
+1385,AAEC_136,"A case in point is the reading and listening parts of TOEFL iBT exams, as candidates have to answer many questions in a limited period of time",Premise
+1386,AAEC_136,"when students have some academic problems, they can post those to some websites and receive correct answers from unknown people in faraway places without any costs",Premise
+1387,AAEC_136,"in the past, conducting a research require long hours of searching in library shelves, now all can be done at a click of a button",Premise
+1388,AAEC_136,formal education approaches are also indispensable,Claim
+1389,AAEC_136,schools and university are places in which students gather to be educated and learn from each others as well as formal educators,Premise
+1390,AAEC_136,"At schools, students' development has been orchestrated stage by stage, step by step by experienced teachers, and their acquisition of knowledge is guided and backed up in a systematic way",Premise
+1391,AAEC_136,alternative sources information and traditional education systems are equally important in children's development,MajorClaim
+1392,AAEC_139,we should give priority to our own issues,MajorClaim
+1393,AAEC_139,"more emphasis should be laid on human beings other than animals, and it is better to let nature take its course with regard to species extinction",MajorClaim
+1394,AAEC_139,biodiversity is essential to maintain the balance of ecosystem,Premise
+1395,AAEC_139,"If certain species are absent from this system, such kind of balance is likely to be disrupted and other species, including human beings, will come under threat",Premise
+1396,AAEC_139,it is our responsibility to keep as many species on the Earth as possible,Claim
+1397,AAEC_139,species extinction is quite natural according to the theory of evolution,Claim
+1398,AAEC_139,The environment on the Earth has been transformed many times since the first species came into being,Premise
+1399,AAEC_139,A great number of plants and animals died out,Premise
+1400,AAEC_139,they were unable to fit into the new environment,Premise
+1401,AAEC_139,the process of extinction of some species is irrevocable and we can do nothing about it,Premise
+1402,AAEC_139,We should put our own survival and sustainment in order first before considering the conservation of other species,Claim
+1403,AAEC_139,"human beings nowadays are still faced with many urgent problems such as starvation, disease and wars",Premise
+1404,AAEC_139,"When these problems are taken into account, extinction of some animals recedes greatly in importance and it is not sensible to devote our limited resources to animals that have been past help",Premise
+1405,AAEC_142,the increase in life expectancy has some pressure on the Medicare system,Claim
+1406,AAEC_142,the improvement of medical care makes a better life for all people,Claim
+1407,AAEC_142,the advanced medical care brings with it more benefits than disadvantages,MajorClaim
+1408,AAEC_142,The main advantage of high-tech medical care is that people are better taken care so that they have a good health,Claim
+1409,AAEC_142,They can contribute effectively to the development of the economy,Premise
+1410,AAEC_142,healthy workers can create more productivity,Premise
+1411,AAEC_142,they do not have to spend more time in health checking or treatment,Premise
+1412,AAEC_142,this saves an amount of time as well as cost,Premise
+1413,AAEC_142,a community with the elderly who have a good health has a major role to play in a sustainable development of a society,Premise
+1414,AAEC_142,"young people will be happy as their parents, grandparents are healthy",Premise
+1415,AAEC_142,the increase in life expectancy puts a high pressure on the economic system,Claim
+1416,AAEC_142,more pension have to spend for Medicare instead of investing in other sectors of the economic system,Premise
+1417,AAEC_142,the capital that spend on taking care the elderly is contributed by these people during their working time,Premise
+1418,AAEC_142,they are worth to have good care,Premise
+1419,AAEC_142,"They have given their effort to the society so that young people, the governments have a responsibility to improve the Medicare system",Premise
+1420,AAEC_142,the development of the health care system helps people have a better life,MajorClaim
+1421,AAEC_142,It helps people build a sustainable society where people can live a happy life when they are old,Claim
+1422,AAEC_149,one can achieve success more easily with the help from his or her family,MajorClaim
+1423,AAEC_149,"with the help of our family, we can achieve success quite easily",MajorClaim
+1424,AAEC_149,family plays a more important role in helping one to pursuit success,MajorClaim
+1425,AAEC_149,"when my father had difficulty in solving a problem in his childhood, he had to go to his teacher for help",Premise
+1426,AAEC_149,more and more people have the opportunity to receive education from university,Premise
+1427,AAEC_149,our parents receive better education than our grandparents did,Premise
+1428,AAEC_149,they can provide more advices and helps in our career,Claim
+1429,AAEC_149,"In the past, seldom people have the chance to attend a collage",Premise
+1430,AAEC_149,my grandparents did not get a education even in high school,Premise
+1431,AAEC_149,Things have changed a lot,Premise
+1432,AAEC_149,I grow up in a better condition than my father did,Premise
+1433,AAEC_149,"Whenever I have problems, I can always ask my parents for help",Premise
+1434,AAEC_149,They can solve the problem quickly,Premise
+1435,AAEC_149,they have learned quite a lot,Premise
+1436,AAEC_149,family members can help us in many other aspects,Claim
+1437,AAEC_149,"when I did not know what major to choose when I attend university, my father told a lot about different majors",Premise
+1438,AAEC_149,"He shared his own experience with me, which helped me quite a lot",Premise
+1439,AAEC_149,Parents are quite experienced than their child,Premise
+1440,AAEC_149,they can guide them toward the right direction,Premise
+1441,AAEC_149,parents can told their children as many as they can,Premise
+1442,AAEC_149,What they want is help their child to make a progress,Premise
+1443,AAEC_149,our parents and other family members can help us a lot in our life,Claim
+1444,AAEC_154,I prefer to live with a roommate,MajorClaim
+1445,AAEC_154,"it saves me money, enables me to socialize, and allows me to get help",Claim
+1446,AAEC_154,"I prefer to live with a roommate, and I always will",MajorClaim
+1447,AAEC_154,many people decide to live alone for various reasons,Claim
+1448,AAEC_154,"it offers me many advantages, such as less spending, more socializing, and more help",Claim
+1449,AAEC_154,Living with a roommate saves me a lot of money,Claim
+1450,AAEC_154,"If you have roommates, you can split the rent and utilities among them",Premise
+1451,AAEC_154,you can get more for less,Premise
+1452,AAEC_154,"last year, I shared a room off-campus with my friend, and we decided to split the rent and heating bills into half: I was able to save about fifty dollars for heating, and two hundred dollars for rent monthly",Premise
+1453,AAEC_154,I was able to save a lot of money by sharing wasted heating and rooms with my friend and splitting the bills,Premise
+1454,AAEC_154,living with a roommate also enables me to socialize more easily,Claim
+1455,AAEC_154,It is always easier to socialize when you have a lot of people around you,Premise
+1456,AAEC_154,You can invite your roommates' friends over to your room and have fun together,Premise
+1457,AAEC_154,"one night, my roommate, Millan, brought his friends along",Premise
+1458,AAEC_154,"Even though his friends and I were total strangers to each other, we quickly got to know each other",Premise
+1459,AAEC_154,We soon found out that everyone loved playing video games,Premise
+1460,AAEC_154,"We played a video game called 'Halo' together all night, and became good friends",Premise
+1461,AAEC_154,Living with a roommate made socializing much easier for me,Premise
+1462,AAEC_154,living with a roommate allows me to get help,Claim
+1463,AAEC_154,It often is the case that your roommates have the skills or knowledge you need,Premise
+1464,AAEC_154,"When you run into a problem, you can ask your roommates if they can help",Premise
+1465,AAEC_154,Some of them may have something to offer,Premise
+1466,AAEC_154,"when my computer mysteriously broke down, I dialed up the manufacturer and asked for help",Premise
+1467,AAEC_154,They failed to give me any useful solutions,Premise
+1468,AAEC_154,"To my surprise, one of my roommates noticed my problems and offered to help",Premise
+1469,AAEC_154,"He was very good with computers, and he managed to fix the problem quickly",Premise
+1470,AAEC_160,Government should decide for punishment case by case basis,MajorClaim
+1471,AAEC_160,"it should taken into consideration the situation and conditions, that forces to a person to be a criminal",MajorClaim
+1472,AAEC_160,if there will be a fixed punishment for each type of crime then it will lead to increase the crime,Claim
+1473,AAEC_160,the punishment will be clear in the mind of professional criminals and they will not feel fear while committing a crime,Premise
+1474,AAEC_160,laws and rules are there for people,Premise
+1475,AAEC_160,it is necessary to have a look behind crime,Claim
+1476,AAEC_160,The person who committed crime first time and the professional criminals should not be imprisoned at same place,Premise
+1477,AAEC_160,fixed punishment will reduce the time taken by judges to give their judgement and it will be effective economically for the Government,Claim
+1478,AAEC_160,Everyone should be treated equally,Premise
+1479,AAEC_160,sometimes we see that a poor person who do not have much money for hiring a good lawyer they get imprisoned even without committing a crime and when they come back to the society they become a professional criminal,Premise
+1480,AAEC_160,fixed punishment will reduce the space between poor and rich people and everyone will understand the importance of each other,Claim
+1481,AAEC_160,"a women steals feed for her child should be treated same as a women, who steals for her drug addiction",Premise
+1482,AAEC_163,I prefer to live in a big city,MajorClaim
+1483,AAEC_163,I have always wanted to find a job in a big company which locates in a prosperous city area,Claim
+1484,AAEC_163,I will absolutely choose a place to live that is not too far from my workplace,Premise
+1485,AAEC_163,I can save plenty of money on transportation if I choose to live in the city,Premise
+1486,AAEC_163,life in a big city will not be so dull as in a small town,Claim
+1487,AAEC_163,You can enjoy modern life and have more access to the advanced facilities,Premise
+1488,AAEC_163,"you can visit museums to learn history, and go to a more equipped library to enjoy reading, or you can go to a sports center for exercising",Premise
+1489,AAEC_163,a small town may be less developed to satisfy all these kinds of needs,Premise
+1490,AAEC_163,"living in big cities means more exposure to stimulation, like all kinds of information",Claim
+1491,AAEC_163,"If one can efficiently acquire the information, then, there might come along more opportunities for him to achieve his goals",Premise
+1492,AAEC_163,"there are various advertisements here an there, whether on the leaflets or on the big screen showing things of all sorts in commercial zones",Premise
+1493,AAEC_163,"If one is seeking a job right in the city or planing somewhere to travel, or just wants to buy a product in a dependable store, he might refer to what he has seen or heard from the advertisements to make a relatively wise choice",Premise
+1494,AAEC_163,There is also another obvious advantage of living in a big city considering the chance of receiving better education of our offspring,Claim
+1495,AAEC_163,"Schools in big cities may receive more funds from whether the local comities or the government, which may make them more equipped with advanced teaching facilities and attract more excellent teachers",Premise
+1496,AAEC_163,Our children thus will have a better chance of pursuing high-quality education which is very important for their future development,Premise
+1497,AAEC_163,"if I want to live a more convenient life with more access to modern facilities as well as with more exposure to various opportunities, and have my children receive a better education, a big city is the place to live in",MajorClaim
+1498,AAEC_169,Professors could combine doing research and preparing good courses in a dynamic way,MajorClaim
+1499,AAEC_169,"Only by developing students, can we have a better academic field",Claim
+1500,AAEC_169,conducting research is helpful for professors and students to some extent,Premise
+1501,AAEC_169,the precondition of doing research is growing students’ solid theory fundamental,Premise
+1502,AAEC_169,the research takes up too much teaching time,Claim
+1503,AAEC_169,research could bring funding and latest achievements in the field,Premise
+1504,AAEC_169,professors should spend more time on preparing courses than research,MajorClaim
+1505,AAEC_169,professors should assist students to acquire knowledge,Premise
+1506,AAEC_169,professors could teach students through research and projects,Claim
+1507,AAEC_169,professor should concern about preparing class,Claim
+1508,AAEC_169,professors should pay more attention on how to teach students rather than conduct research,Claim
+1509,AAEC_169,"The professors’ duty is to nurture students, and prepare excellent courses",Premise
+1510,AAEC_169,"If professors spend a lot of time on research, he will cut the time on preparing courses is reduced, which may decrease the quality of classes",Premise
+1511,AAEC_169,The reason why people enter a university is that they want to learn cutting-edged technologies,Premise
+1512,AAEC_169,professors should provide well-preparation courses to convey the state-of-art knowledge for college and university students,Premise
+1513,AAEC_169,"if professors are busy in doing research, ignoring preparing appropriate courses for students, it would ruin the reputation of universities",Premise
+1514,AAEC_169,"Students are unsatisfied with the unprepared course, and the enrollment of universities may decline",Premise
+1515,AAEC_169,Many students would not choose these kinds of universities to study,Premise
+1516,AAEC_169,hardly can professors find assistants to help with projects,Premise
+1517,AAEC_169,"spending more time to nurture excellent students is more consequential to professors, rather than research",Claim
+1518,AAEC_169,Some students enjoy taking part in some research,Premise
+1519,AAEC_169,"Through to use the equipment and invent their own work, they may get more experience in the process of research",Premise
+1520,AAEC_169,"electronic students always invent new machines such as robots, MP3 and remote control car",Premise
+1521,AAEC_169,They can manage the electric theory in practical skills,Premise
+1522,AAEC_169,And some students will be rewarded by investing new inventions,Premise
+1523,AAEC_169,"only under specific circumstance, when students master all of the systematic knowledge, can they accomplish research",Premise
+1524,AAEC_169,This is requires professors provide high quality courses,Premise
+1525,AAEC_169,It is adverse to the whole academic field,Premise
+1526,AAEC_172,I would prefer to live in an apartment in the community rather than in the university dormitories,MajorClaim
+1527,AAEC_172,the advantages of living in an apartment outshine those of living in a dormitory,MajorClaim
+1528,AAEC_172,an apartment provides a lot more freedom than a dormitory,Claim
+1529,AAEC_172,"While in a dormitory you have to obey preset rules, in the apartment you set your own rules",Premise
+1530,AAEC_172,You are free to have visits at any time or to be left alone if you want,Premise
+1531,AAEC_172,An apartment offers more privacy,Premise
+1532,AAEC_172,you can choose to have your own room instead of sharing with another student,Premise
+1533,AAEC_172,you also get more space than you would in a dormitory,Premise
+1534,AAEC_172,an apartment is more expensive,Claim
+1535,AAEC_172,you could rent the extra rooms in the apartment to other people and rent would be a lot cheaper,Premise
+1536,AAEC_172,"Transportation is another issue, you have to go to and return from the university everyday",Premise
+1537,AAEC_172,"You could choose to use public transportation, a cheaper option, or to have a car",Premise
+1538,AAEC_172,"The car is an expensive option, but also offers freedom of schedule and destination",Premise
+1539,AAEC_172,the studying conditions are better in an apartment,Claim
+1540,AAEC_172,you don't have all the noise and distractions that you often have in dormitories,Premise
+1541,AAEC_172,A lot of students often complain about their roommate playing music too loud or bringing friends over at inappropriate times,Premise
+1542,AAEC_172,you would be able to concentrate better,Premise
+1543,AAEC_172,in an apartment you don't have a roommate,Premise
+1544,AAEC_172,you won't have this problem,Premise
+1545,AAEC_172,"you won't have a problem if you are the one who wants to play music, bring friends over, or study late at night",Premise
+1546,AAEC_172,You set your own schedules,Premise
+1547,AAEC_172,"living in a dormitory, and being surrounded by students also has some advantages, like being able to get help with any academic issues from them",Premise
+1548,AAEC_180,groups or organizations are a vital part for us in plenty of aspects in different ages and in different backgrounds,MajorClaim
+1549,AAEC_180,groups provide a place for people to gain experiences or achieve goals,MajorClaim
+1550,AAEC_180,almost of us live in the environment of groups,Claim
+1551,AAEC_180,"the groups play an essential role in the process of socialization, from children to adults",Claim
+1552,AAEC_180,"We begin taking part in groups or organizations during the early days of life, and especially most people continue their social participation in all through life",Premise
+1553,AAEC_180,"By making teamwork, the children in schools may learn to how to get along with others",Premise
+1554,AAEC_180,"As university students, it is likely for them to join student organization of their major in order to expand their experiences or communicate with others",Premise
+1555,AAEC_180,"After graduating from schools, employees might go to business associations for various business resources and benefits",Premise
+1556,AAEC_180,"By participating in an organization, it is a positive way for people to obtain some experiences on a particular purpose",Claim
+1557,AAEC_180,"A solid group can be a suited environment, which provides people to improve themselves or broaden their horizons",Premise
+1558,AAEC_180,"as a student majoring in mass media, I have taken part in mass media student group for a year",Premise
+1559,AAEC_180,"When being in the department of art, I have not only learned how to do a project, but also known some famous artists during the term",Premise
+1560,AAEC_180,it is advantage which increase an opportunity on my resume for the sake of getting a better job,Premise
+1561,AAEC_180,groups and organizations would lead people to take action or achieve their goal,Claim
+1562,AAEC_180,"Tzu Chi, a non-profit Buddhism organization in Taiwan, is famous for contributing to the social and community services, and medical care",Premise
+1563,AAEC_180,They bring hopes and inspire others with their generous spirit,Premise
+1564,AAEC_180,"For accomplishing their missions, the charity should gather people who are volunteers and sponsors for those difficult tasks",Premise
+1565,AAEC_180,they could have chance to help the people in need from all over the world,Premise
+1566,AAEC_180,they lit the light for the poor and victims,Premise
+1567,AAEC_180,"humans are a part of the society, and the society includes a wide variety of groups",Premise
+1568,AAEC_180,there are various charities in the world,Premise
+1569,AAEC_182,individuals should pay their college tuition,MajorClaim
+1570,AAEC_182,"it would cost too much, the college education is a personal's choice, and there are many ways to fund a college education",Claim
+1571,AAEC_182,the individual should finance his or her education,MajorClaim
+1572,AAEC_182,it would cause too much cost from taxpayers and the government,Claim
+1573,AAEC_182,it would affect all taxpayers whether or not they benefit from the use of the funds,Premise
+1574,AAEC_182,making college education free would cost too much,Claim
+1575,AAEC_182,"It would divert public funds from other needs such as law enforcement, infrastructure and so forth",Premise
+1576,AAEC_182,"There are many other needs which should come first, such as providing health care to all American, or improving public schools",Premise
+1577,AAEC_182,it would cause to raise our taxes again and again to fund college education,Premise
+1578,AAEC_182,those people should make the financial investment in their own choice; not the government,Claim
+1579,AAEC_182,it is a personal choice to go to a college,Premise
+1580,AAEC_182,Not everyone wants to go to a college,Premise
+1581,AAEC_182,"People who want to make more money, and live a better life than other people decide to take a college education",Premise
+1582,AAEC_182,there are many ways to fund a college education,Claim
+1583,AAEC_182,"People who cannot afford to pay their tuition benefit from the scholarship, financial aids, and other funds",Premise
+1584,AAEC_182,the government already helps pay college expense through indirect means,Premise
+1585,AAEC_182,"They often provide services such as fire departments, medical assistance, and police protection for the schools and their students",Premise
+1586,AAEC_182,They also provide funds for academic research,Premise
+1587,AAEC_182,"While the money is not given to individual students, these contributions are not trivial",Premise
+1588,AAEC_182,it is a personal choice,Claim
+1589,AAEC_187,people who learn a foreign language in the country in which it is spoken have a deeper understanding of different language skills than those who learn the same languages in their own countries,MajorClaim
+1590,AAEC_187,advantages of learning language in the country in which is spoken outweigh the advantages of the other way of learning of a new language,MajorClaim
+1591,AAEC_187,"he can learn most useful idioms, proverbs and so many other things which the former person, person 'A', does not have access to",Claim
+1592,AAEC_187,"when a new learner wants to learn a new language in the country in which it is spoken, he has the opportunity to communicate with natives",Premise
+1593,AAEC_187,He may find native friends and may participate in groups where members are people from the foreign country,Premise
+1594,AAEC_187,it leads to better understanding of language essential skills,Premise
+1595,AAEC_187,He also has access to the most up-to-date language,Premise
+1596,AAEC_187,There are lots of evidences show that communication is the most important factor in learning a new language,Premise
+1597,AAEC_187,"When you are exposed to an environment where everybody talks to you in the new language you want to learn and expects you express words from the same language, you are forced to learn it as soon and good as possible",Claim
+1598,AAEC_187,he can set aside enough time and energy dedicated to learning the language,Premise
+1599,AAEC_187,Person 'A' who learns a non-native language in his country may receive benefit from a step-by-step teaching method,Claim
+1600,AAEC_187,he is not jumping into the foreign country,Premise
+1601,AAEC_187,"all these people most likely have learned the language, more or less, in the same way",Premise
+1602,AAEC_187,all the learners are probably from the same country,Premise
+1603,AAEC_187,"if I wanted to learn a new language and had enough money to afford the travel, I would definitely make the second choice",Premise
+1604,AAEC_192,other prefer to be surrounded by a large number of friends,MajorClaim
+1605,AAEC_192,spending time with a large number of friends can add more to one's life,MajorClaim
+1606,AAEC_192,staying in contact with a large number of friends gives the opportunity to learn more from the others' experiences,Claim
+1607,AAEC_192,"among a large number of people there could be someone who practices a particular sport, or plays an instrument or likes traveling very much and from their experiences you can be attracted to try something new that you had never considered before",Premise
+1608,AAEC_192,a large number of friends can help you to consider all the possible solutions to a problem and to make you more open-minded,Claim
+1609,AAEC_192,"if you happen to face a problem and ask them for advice, your friends you will see that issue from their different point of views and accordingly they will help you to consider better all advantages and disadvantages",Premise
+1610,AAEC_192,"When you have just few close friends, on one hand you develop a more intimate relationship with them and you feel you can trust them more",Claim
+1611,AAEC_192,"they often will give you viewpoints not so different from yours, adding less to your experience",Premise
+1612,AAEC_192,"while differences give the opportunity to learn, they can also mean that sometimes it can be difficult to reach an agreement",Claim
+1613,AAEC_192,This would not happen or at least would happen rarely if one decides to spend time with one or two close friends,Premise
+1614,AAEC_192,in this case it is more likely that interests and preferences are the same,Premise
+1615,AAEC_193,The use of public transportation is the best way to conserve natural resources gradually run out,Claim
+1616,AAEC_193,Cars depend on oil and gasoline to move,Premise
+1617,AAEC_193,"If people use too many private cars, the oil and gasoline nonrenewable will run out quickly",Premise
+1618,AAEC_193,"Instead of using many private cars, people can use public transportation, such as bus, train, subway, each one can get far more people and less oil and gasoline are used up per person",Premise
+1619,AAEC_193,The use of public transportation helps in reducing the air pollution,Claim
+1620,AAEC_193,"Cars use oil and gasoline and send out gas such as carbon dioxide, heat and so on",Premise
+1621,AAEC_193,They cause pollution and make the Earth warmer,Premise
+1622,AAEC_193,"The more cars are driven, the more pollution will be put into air",Premise
+1623,AAEC_193,"If we use the public transportation, less cars will be used and less pollution will be emitted",Premise
+1624,AAEC_193,"The atmosphere, surrounding us, will be protected and help us more healthy",Premise
+1625,AAEC_193,The use of public transportation make us live more sociable,Claim
+1626,AAEC_193,"When we drive a private car, we are alone or only our family members that we already know and lost the opportunity to make friends with others or to see that we are a part of this society",Premise
+1627,AAEC_193,"When using public transportation, we have a chance to meet more people and more chances to discovery new aspects of life",Premise
+1628,AAEC_193,"Using public transportation has a lot of advantages for the modern society facing a lot of problems: the environmental population, the isolation in life, the depletion of natural resources",MajorClaim
+1629,AAEC_193,The development of public transportation is the most essential thing for a developed society,MajorClaim
+1630,AAEC_193,"Public transportation keeps society from the depletion of natural resources, the air pollution, the loss of a sense of community",Claim
+1631,AAEC_199,I prefer to study individually,MajorClaim
+1632,AAEC_199,"it helps me to concentrate more, and it helps me to build my personality",Claim
+1633,AAEC_199,I agree with the idea of studying a lone,MajorClaim
+1634,AAEC_199,it helps me to focus more and establish my personality,Claim
+1635,AAEC_199,Studying alone helps us to focus more in our lessons,Claim
+1636,AAEC_199,I am a type of person who cannot comprehend my subjects unless I am alone,Premise
+1637,AAEC_199,"I can prepare my schedules, guidelines, exercises and go over them all",Premise
+1638,AAEC_199,"we have a lot of subjects which require us to sit and study alone such as math, reading, and drawing",Premise
+1639,AAEC_199,I can take advantage of every minute without wasting by studying alone,Premise
+1640,AAEC_199,we are building our personalities when we study alone,Claim
+1641,AAEC_199,answering our homework alone encourages us to be more responsible and independent,Premise
+1642,AAEC_199,it motivates us to be accurate in our work in the future,Premise
+1643,AAEC_199,"when I fix my study plan with a specific time and finish it on time, it improves my ability in the future to become more precise and careful",Premise
+1644,AAEC_202,the co-workers should believe in fellowship,Claim
+1645,AAEC_202,This helps them to enjoy their work life while building up very strong personal relationships,Premise
+1646,AAEC_202,you spend most of your day at office,Premise
+1647,AAEC_202,"If you have a good company in office, it is certainly a blessing",Premise
+1648,AAEC_202,"a good co-worker needs to have three most important characteristics such as cooperation, trustworthiness, and fellowship",MajorClaim
+1649,AAEC_202,The co-workers should be cooperative with one another,Premise
+1650,AAEC_202,The co-workers need to trust each other,Claim
+1651,AAEC_202,"If they do not cooperate, there will be lots of disputes",Premise
+1652,AAEC_202,They should not act on suspicion,Premise
+1653,AAEC_202,he always left office sharp on time without giving any consideration whether the work has been finished or not,Premise
+1654,AAEC_202,I once had a co-worker who was too family conscious,Premise
+1655,AAEC_202,"Most of the time, I had to do his work in order to protect him from getting caught to the supervisor who was a very authoritative person",Premise
+1656,AAEC_202,one day I wanted to be off early because I had to take my mother to the doctor,Premise
+1657,AAEC_202,"When I requested my co-worker to give a helping hand to finish my work early, he turned down my request giving a silly excuse",Premise
+1658,AAEC_202,From that day onwards I did not offer him any support and finally he was transferred from our department to a distant location as a punishment for his irresponsibility,Premise
+1659,AAEC_202,if the co-workers do not corporate with each other that would be devastating in a work environment,Claim
+1660,AAEC_202,This is a very important aspect in the work environment,Premise
+1661,AAEC_202,I came across a situation once such that one of my subordinates used to suspect his co-worker for carrying tales to me,Premise
+1662,AAEC_202,To a certain extent his suspicion was valid as his co-worker made several attempts to highlight the drawbacks of him,Premise
+1663,AAEC_202,I never encourage tale carriers as a principle and therefore his co-worker gave up talking ill against him with me,Premise
+1664,AAEC_202,But this mistrust continued and created very unpleasant situations for everybody in my department,Premise
+1665,AAEC_204,traditional learning still has many benefits to the students,MajorClaim
+1666,AAEC_204,online classes have many advantages,Claim
+1667,AAEC_204,I prefer traditional learning classes,MajorClaim
+1668,AAEC_204,the participant with the others like classmates or professors is still an important factor in studying,Claim
+1669,AAEC_204,Working in group leads to more discussion and more opinion among the class,Premise
+1670,AAEC_204,the discussion class results in expanded children vision and their respect to others roommate's ideas,Premise
+1671,AAEC_204,Unlike the distance learning that children have few opportunities to discuss with their friends,Premise
+1672,AAEC_204,classroom learning provides other activities than studying,Claim
+1673,AAEC_204,"During student's free time, they have a number of activities that they can join, such as playing sports, going to lab, or going to library",Premise
+1674,AAEC_204,These activities lead to more interact with their friends,Premise
+1675,AAEC_204,Connection with friends improves their IQ abilities,Premise
+1676,AAEC_204,they have a chance to learn about their societies,Premise
+1677,AAEC_204,the online course keeps the children at their home only,Premise
+1678,AAEC_204,"in school, there are professors that guided you during you had a problem or needed an advice",Claim
+1679,AAEC_204,The professor provides good answers to you,Premise
+1680,AAEC_204,"They do not mind helping you, and they never leave you alone when you got a problem",Premise
+1681,AAEC_204,"in distance learning, these aspects of the professor had reduced their important",Premise
+1682,AAEC_204,The professor has been assigned to teach only,Premise
+1683,AAEC_204,there will be a long response from the teachers when children ask them a question,Premise
+1684,AAEC_211,schools should not remove these subjects,MajorClaim
+1685,AAEC_211,non-academic subjects are as essential as academic subjects for a student’s development,Claim
+1686,AAEC_211,"from the health point of view, schools should not only deliver academic subjects",Premise
+1687,AAEC_211,"If physical education is removed from the syllabus, there will be considerable negative effects on students’ health",Premise
+1688,AAEC_211,"after studying and sitting in the classroom for the whole morning, it is better for students to do some outdoor activities, such as stretching, jogging and playing ball games, in order to improve their learning ability during the afternoon classes",Premise
+1689,AAEC_211,"Removing physical classes from school education will not only be harmful to young people’s health, it will also decrease their learning capability",Claim
+1690,AAEC_211,school education should not only focus on the academic development of a student,Claim
+1691,AAEC_211,it is much more crucial to teach them how to be independent and live a good life,Premise
+1692,AAEC_211,"Success in life should be the ultimate goal of a student, which requires more than academic knowledge, but also practical life skills such as cooking, good communication skills and teamwork spirit",Premise
+1693,AAEC_211,schools are responsible for developing their students into well-rounded people,Premise
+1694,AAEC_211,It is more important for a person to success in life than to success only academically,Premise
+1695,AAEC_211,students can learn practical skills after school hours from their parents,Claim
+1696,AAEC_211,it is not a good idea,Premise
+1697,AAEC_211,most young people would rather watch TV or play computer games after school instead of learning life skills from their parents,Premise
+1698,AAEC_211,parents are usually too busy with their daily jobs to teach their children the life skills,Premise
+1699,AAEC_211,"non-academic subjects should be completely removed, I strongly disagree with that",MajorClaim
+1700,AAEC_212,"I would follow the new customs, if I migrated to another country",MajorClaim
+1701,AAEC_212,the immigrants should follow the customs in the new country,MajorClaim
+1702,AAEC_212,"it will be easier for people to assimilate into a new country, if they follow the new customs",Claim
+1703,AAEC_212,"When people migrate to a new country, they are likely to suffer the culture shock, because of the difference between two cultures",Premise
+1704,AAEC_212,The custom is just a form of the culture and following the custom is a good way to know more about this culture,Premise
+1705,AAEC_212,"if one wore in white and went to common Viharas to observe a rather longer-than-usual, full-length Buddhist sutra in Buddha's Birthday in India, he or she would learn something about Indian religion and culture",Premise
+1706,AAEC_212,"people understand the culture, and then they adapt to the new country",Premise
+1707,AAEC_212,keeping own customs stably might cause discrimination,Claim
+1708,AAEC_212,"When people insist to keep their own customs and refuse to accept the new one, they regard themselves as a special group in the new country",Premise
+1709,AAEC_212,The local people may also regard them as a special group as well and separate them from the main-stream society,Premise
+1710,AAEC_212,One example of this is that the Chinese immigrants in Indonesia in 1969,Premise
+1711,AAEC_212,They formed Chinatown and kept Chinese language and customs in it,Premise
+1712,AAEC_212,"While the Indonesians stopped working at 4:00 pm and went home for rest, Chinese immigrants were still working",Premise
+1713,AAEC_212,"being much richer than local people, they faced the discrimination",Premise
+1714,AAEC_212,Their houses and private cars were buried by local people,Premise
+1715,AAEC_212,"the locals were jealous of Chinese people, who had so much wealth, which should have been theirs",Premise
+1716,AAEC_212,"If the Chinese immigrants had followed the local customs and assimilated into Indonesia, they would not have been regards as a group of Chinese and discrimination might have been alleviated",Premise
+1717,AAEC_218,childhood is the happiest time of a person's life,MajorClaim
+1718,AAEC_218,in childhood most people are happier than in adulthood,Claim
+1719,AAEC_218,"They do not have to worry about bills, jobs, how would their life be in the future",Premise
+1720,AAEC_218,"They just worry about two things: to have fun, learn and be happy",Premise
+1721,AAEC_218,"A child's daily life is school, playing and sleeping",Premise
+1722,AAEC_218,when I was young I just came home from school and then I would took my bike or soccer ball and go out and play with my friends in my neighborhood,Premise
+1723,AAEC_218,"I did not have to worry about costs and other things, I just had fun and learned",Premise
+1724,AAEC_218,people are most creative when they were children,Claim
+1725,AAEC_218,children imagine new things and games just to have fun and be happy,Premise
+1726,AAEC_218,childhood is the period where people go to school and learn,Premise
+1727,AAEC_218,school memories are one of the best memories in a person's life,Claim
+1728,AAEC_218,"There you learn, to find your first love, to make new long-lasting friendships and of-course you will have a lot of fun",Premise
+1729,AAEC_218,my father's best moments in his life are in his school years,Premise
+1730,AAEC_218,he is still in-touch with some of his classmates and sometimes they get together and share their childhood memories,Premise
+1731,AAEC_218,"childhood is, indeed, the most happiest moments in a person's life",MajorClaim
+1732,AAEC_220,staying with the parents for longer time does more benefits than disadvantages to the young adult,MajorClaim
+1733,AAEC_220,staying longer with parents is a better choice,MajorClaim
+1734,AAEC_220,"living with parents longer brings about memories with parents, less cost, and advice from parents",Claim
+1735,AAEC_220,the young adult can have more experience with his parents,Premise
+1736,AAEC_220,undergoing with parents is worthwhile,Claim
+1737,AAEC_220,The young adult has to try to create memories with his dad and mom in the early age,Premise
+1738,AAEC_220,"When having a job, it is of low possibilities to work in his hometown",Premise
+1739,AAEC_220,"If he lives with his parents for longer time, they have more chances to share the feelings, exercise, and travel together",Premise
+1740,AAEC_220,All memories become priceless treasure as time passes by,Premise
+1741,AAEC_220,he may have to rent a house and the rental would become a burden for parents,Premise
+1742,AAEC_220,another daily expense is also the considerable outgoings,Premise
+1743,AAEC_220,Spending much money may not result in what the parents expect their children to be,Premise
+1744,AAEC_220,"the parents can save money, if their children live with them longer",Claim
+1745,AAEC_220,living at home costs less than living outside,Premise
+1746,AAEC_220,Learning to be independent means that the young adult needs to leave home,Premise
+1747,AAEC_220,the young adult needs father and mother's suggestions,Premise
+1748,AAEC_220,"When in dilemma, the parents can comfort him and give him a big hand",Premise
+1749,AAEC_220,They are the people who are most familiar with him can give a suitable advice and lead him to the right way,Premise
+1750,AAEC_220,"If the parents do not help him immediately, he would have to suffer more pain",Premise
+1751,AAEC_220,"taking advice from parents, the young adult can go through obstacles easily",Claim
+1752,AAEC_221,the zoo is invaluable for human beings,MajorClaim
+1753,AAEC_221,It is very crucial for learning,Claim
+1754,AAEC_221,It helps animals out of extinction,Claim
+1755,AAEC_221,it is a interesting travel location,Claim
+1756,AAEC_221,the zoo gives humans new knowledge,Claim
+1757,AAEC_221,the zoo is the important place for innate learning,Premise
+1758,AAEC_221,The zoo also let students have a chance to learning biology practically,Premise
+1759,AAEC_221,They are able to observe animals' behaviors and features,Premise
+1760,AAEC_221,practical learning help students relax from a boring lecture class,Premise
+1761,AAEC_221,researchers need the zoo to pick up some examples of animals for their researches,Premise
+1762,AAEC_221,it has diverse species of animals,Premise
+1763,AAEC_221,the zoo preserves a large number of rare animals and provides them safe habitats,Claim
+1764,AAEC_221,"In the zoo, there is not so harmful as a forest",Premise
+1765,AAEC_221,"They, fed by zookeepers, do not need to find food themselves",Premise
+1766,AAEC_221,we can do artificial insemenation to maintain nearly extinct wildlife,Premise
+1767,AAEC_221,"because of all weird, acute, and beautiful animals in the zoo, it can be a great tourist attraction",Premise
+1768,AAEC_221,There are a lot of tourists who seek to see those animals closely,Premise
+1769,AAEC_221,"If the zoo has a large number of both national and foreign tourists, it will receive a great deal of money",Premise
+1770,AAEC_221,It benefits to a certain country,Claim
+1771,AAEC_221,"That also make money flow, and then economics become better",Premise
+1772,AAEC_221,"the zoo not only saves animals in danger of extinction, but also helps people around the world have better lives",Claim
+1773,AAEC_221,the zoo is so useful for the earth,MajorClaim
+1774,AAEC_227,spending the budget for space exploration is an important activity to save living of humanity in the future,MajorClaim
+1775,AAEC_227,spending budget for space exploring is not the waste budget,MajorClaim
+1776,AAEC_227,it may helps to save civilization of humanity,Claim
+1777,AAEC_227,Many governments believe that space exploration is an activity that wastes the budget,Premise
+1778,AAEC_227,the essential challenge of humanity in the future would be the discovery of a new place for the living,Premise
+1779,AAEC_227,it is very significant to find a new place for living in other planets,Claim
+1780,AAEC_227,"In during history, our planet is threatening by many of other planets or stars and it is an enormous danger for living of humanity",Premise
+1781,AAEC_227,"In 20th century, although human being succeeded to achieve out of space by means of new technologies such as rockets, but finding a new place for living in another planet is impossible until now",Premise
+1782,AAEC_227,"In the future, many countries will try to prevent attach of other countries by using and invention new missiles",Premise
+1783,AAEC_227,space exploration will use as a military power for many countries,Claim
+1784,AAEC_227,Both countries tried to send man to the moon and show their power to each other,Premise
+1785,AAEC_227,"In the past, the space race happened between the United Stated and the Soviet Union",Premise
+1786,AAEC_227,Space exploration has used as a tools for military power in the cold war,Premise
+1787,AAEC_229,friendship is more important than mistake by a friend,MajorClaim
+1788,AAEC_229,mistake is terrible,Claim
+1789,AAEC_229,a mistake does not last for a long time but a friendship lasts forever,Premise
+1790,AAEC_229,Anybody does not remember mistakes,Premise
+1791,AAEC_229,"If someone remembers mistake, he or she has a closed mind",Premise
+1792,AAEC_229,mistakes will be forgotten quickly,Premise
+1793,AAEC_229,my friend Lee made a mistake that he broke my precious gift,Premise
+1794,AAEC_229,"I forgot about it just after two days, and I felt at peace with him",Premise
+1795,AAEC_229,mistake is more forgettable than friendship,Claim
+1796,AAEC_229,a friend is a gift of our life,Premise
+1797,AAEC_229,"when the mistake friend made was not a big problem, we need to understand friend and forgive it",Premise
+1798,AAEC_229,"According to a research, 85% of people answered that a best gift is a friend",Premise
+1799,AAEC_229,"if a friend makes very a big mistake, we will need to end a friendship",Premise
+1800,AAEC_229,"if you end a friendship whenever your friend makes a mistake, there will be no friends around you",Premise
+1801,AAEC_229,Everybody makes mistake,Claim
+1802,AAEC_229,a mistake can not brake friendship if it is not a big,MajorClaim
+1803,AAEC_229,friendship is forever and gift our life,Claim
+1804,AAEC_234,standardized tests are valuable option for educational system as long as it would help teachers to know if the students are really getting knowledge,MajorClaim
+1805,AAEC_234,schools which obligate their students to take standardized tests are right,MajorClaim
+1806,AAEC_234,these schools can qualitatively check if they are giving an appropriate education to their students,Claim
+1807,AAEC_234,exams could be the only way for teachers to see the real abilities of those students,Premise
+1808,AAEC_234,standardized tests are preferable,Claim
+1809,AAEC_234,"some students are not so active on the lessons, cause they are already familiar with the issue",Premise
+1810,AAEC_234,many teachers rely only on the exam results while grading the class,Premise
+1811,AAEC_234,the usage of standardized tests is the superior option for them,Premise
+1812,AAEC_234,some students may get used to simply rewriting solved problems from the blackboard,Premise
+1813,AAEC_234,they will never try to solve problems on their own,Premise
+1814,AAEC_234,standardized tests offer them such chance,Premise
+1815,AAEC_234,"schools should require students to take standardized tests, as long as this option helps to both sides",Claim
+1816,AAEC_234,standardized tests can be good chance for students to apply their knowledge on practice,Premise
+1817,AAEC_234,requirement to take standardized tests is the right choice,Claim
+1818,AAEC_234,in this case teachers can compare the level of knowledge of different students,Premise
+1819,AAEC_234,"In any class there will be students who will show low academic performance, so teachers could work with them more intensively",Premise
+1820,AAEC_234,standardized tests are required over those who don’t,Premise
+1821,AAEC_234,if the teacher would know the level of each student he would fairly share his time to all of them,Premise
+1822,AAEC_234,they help teachers to fairly grade the students,Premise
+1823,AAEC_240,some tough experiences people met before will be helpful in their life path,MajorClaim
+1824,AAEC_240,experiences of difficulties teach them how to keep a nice mood and have confidence all the time,Claim
+1825,AAEC_240,"hardship makes people realize how to cherish and compliment the common but wonderful little things happened in their life such as, a shining weather, a delicious breakfast and etc",Premise
+1826,AAEC_240,People who have such nice spirit usually know how to find the true love in their life instead of being seduced by greed as to lose themselves in the end,Premise
+1827,AAEC_240,they are conscious of what to do and how to do when fierce crisis happens,Premise
+1828,AAEC_240,they already have such experiences of overcoming some difficulties,Premise
+1829,AAEC_240,Those people are more likely to achieve their ambitions in their career,Premise
+1830,AAEC_240,they are aware of how to lead people to reach success despite what kind of difficulties are getting in their way,Premise
+1831,AAEC_240,people who experienced lots of difficulties will be calmer when they are in troubles,Claim
+1832,AAEC_240,most tough experiences in people's life path will be a priceless treasure to them,MajorClaim
+1833,AAEC_241,life in a city is much better than life in the countryside,MajorClaim
+1834,AAEC_241,in the city there is much better education system,Claim
+1835,AAEC_241,the schools and the universities have well equipped classes and the famous professors would like to work in such places,Premise
+1836,AAEC_241,city provides more work opportunities than the countryside,Claim
+1837,AAEC_241,"There are not only more jobs, but they are also well-paid",Premise
+1838,AAEC_241,living in a city is more expensive,Premise
+1839,AAEC_241,incomes are higher,Premise
+1840,AAEC_241,"in the urban areas there are also more citizens what means, that the culture diversity is huge",Claim
+1841,AAEC_241,"Meeting and knowing new people's tradition is an unforgettable experience, which could influence on one's previous habits",Premise
+1842,AAEC_241,the city has well-organised lines of transport,Premise
+1843,AAEC_241,The buses and trains are more frequent than in the countryside,Premise
+1844,AAEC_241,the city provides better communication,Claim
+1845,AAEC_241,"in the countryside there are many places to rest, because of its location",Claim
+1846,AAEC_241,peaceful and close to the nature areas could help to avoid worries and sadness,Premise
+1847,AAEC_241,living in the city is much better nowadays,MajorClaim
+1848,AAEC_243,"I prefer e-mail due to 3 reasons: convenience, honest expression and fluency in communicating",MajorClaim
+1849,AAEC_243,e-mail has been a great way of communication,Claim
+1850,AAEC_243,You can talk to others from thousands mile,Premise
+1851,AAEC_243,"if you are in Vietnam and another person is in the US - half of the Earth, no matter how far it is, you can keep contact",Premise
+1852,AAEC_243,We will never have to worry if our mails will be sent to the right address,Premise
+1853,AAEC_243,"If the address is wrong, then you will know right away",Premise
+1854,AAEC_243,e-mail doesn't take too much time: just a click,Premise
+1855,AAEC_243,e-mail will be a good tool to help me speak out,Premise
+1856,AAEC_243,writing e-mail helps people express honestly,Claim
+1857,AAEC_243,the face-to-face conversations make them feel stupid,Premise
+1858,AAEC_243,"Sometimes, their ideas are not expressed as exactly as they expect",Premise
+1859,AAEC_243,"I want to talk to my friend about a ticklish problem like her behavior, it's hard for me to face her and explain what she should do",Premise
+1860,AAEC_243,She will just read my e-mail instead of listening to my voice which can make her annoyed,Premise
+1861,AAEC_243,I don't have to worry about any other thing can make my opinion become unpersuasive,Premise
+1862,AAEC_243,E-mail helps me arrange my idea perfectly and make it persuasive,Claim
+1863,AAEC_243,every communication needs fluency,Premise
+1864,AAEC_243,people can understand each other exactly and remember it for a long time,Premise
+1865,AAEC_243,Voice email or face-to-face conversations sometimes make reserve people feel not very confident,Premise
+1866,AAEC_243,"when I face my parents, I can't speak out every idea and express consecutively",Premise
+1867,AAEC_243,"They may stop me, speak something against it and that makes me forget what I want to say",Premise
+1868,AAEC_243,Anyone can meet this problem once in any conversation,Premise
+1869,AAEC_243,e-mail is the greatest way for major people to use,MajorClaim
+1870,AAEC_243,Its convenience saves our time,Claim
+1871,AAEC_245,communicating by e-mails or voice mails is better,MajorClaim
+1872,AAEC_245,In this case it is not so difficult to write an e-mail or to leave a voice mail,Premise
+1873,AAEC_245,even shy people feel themselves more confident,Premise
+1874,AAEC_245,communicating by e-mail is easy,Claim
+1875,AAEC_245,Many people have problems with calling a person that they are not acquainted with,Premise
+1876,AAEC_245,I might not have time to call a person or to meet with him or her in an appropriate time,Premise
+1877,AAEC_245,for me it is better to leave a voice mail,Premise
+1878,AAEC_245,I get home at about midnight and I still need to answer some questions and to solve some routine problems,Premise
+1879,AAEC_245,I work and study at the university and I don't have spare time during the day,Premise
+1880,AAEC_245,you can write an e-mail at any time of the day,Claim
+1881,AAEC_245,you can change the word order or you can choose more appropriate style to sound more polite,Premise
+1882,AAEC_245,When you speak face-to-face you are not as able to control every word as you are when you write an e-mail,Premise
+1883,AAEC_245,when you write an e-mail you have enough time to think carefully about what you are writing and how it would be better to express yourself,Claim
+1884,AAEC_245,there is no chance to disturb people by sending them an e-mail,Claim
+1885,AAEC_245,You should not worry about interrupting an important conversation or some other business,Premise
+1886,AAEC_245,I would prefer to answer it by means of internet or voice mail,MajorClaim
+1887,AAEC_252,children should learn music and art in a young age,MajorClaim
+1888,AAEC_252,they do contribute several merits to them,Claim
+1889,AAEC_252,young age is the perfect time for children to learn music and art,MajorClaim
+1890,AAEC_252,Music and art can accompany a spirit as long as they are given the chance to enter his/her life,Claim
+1891,AAEC_252,they are given more freedom and their imagination has not yet been killed due to reality circumstances,Premise
+1892,AAEC_252,Children are privileged to have these abilities,Premise
+1893,AAEC_252,it's very suitable for children to develop senses of music and art when they are young,Claim
+1894,AAEC_252,Children absorb things quickly and they bear exact the ability needed in music and art-imagination,Premise
+1895,AAEC_252,Music and art are not like math or language which has more strict rules,Premise
+1896,AAEC_252,"They are more abstract, requiring creativity and imagination to be enriched",Premise
+1897,AAEC_252,"Even if their performances are just some simple drawings and melodies, music and art still bring out children's joy of flying in imagination",Premise
+1898,AAEC_252,"even if children are not going to be great musicians or artists, learning music and art is still worthy",Claim
+1899,AAEC_252,music and art are life-long cultivation worthy of investing,Premise
+1900,AAEC_252,They teach us how to appreciate beauty and express feelings in a creative way,Premise
+1901,AAEC_252,They are essential to our spiritual life,Premise
+1902,AAEC_252,it can nourish your temper and serve as a leisure,Premise
+1903,AAEC_252,parents shouldn't put so much stress on children,Claim
+1904,AAEC_252,learning too many skills seems to be a burden for them,Premise
+1905,AAEC_252,it depends on how you value these learning activities to be like,Premise
+1906,AAEC_252,"If parents push their 5 years old child to play piano 8 hours a day just like a professional performer, that might be too much",Premise
+1907,AAEC_252,"In a child stage, music and art are more like an open door to introduce the art world than training area to acquire specific skills",Premise
+1908,AAEC_252,it will not be such pressure on children,Premise
+1909,AAEC_252,"they are indeed valuable to people not only in their young stage, but in every stage",Claim
+1910,AAEC_255,there will be a decrease in cars use in the future,MajorClaim
+1911,AAEC_255,the car use will definitely decrease in twenty years,MajorClaim
+1912,AAEC_255,the public transportation has improved,Premise
+1913,AAEC_255,it is much convenience to take a subway or a bus,Claim
+1914,AAEC_255,I live in a city which always have a jam in the morning and doesn't have enough parking lots for the cars,Premise
+1915,AAEC_255,with the stations increased people are willing to take a public transportation than drive on their own,Premise
+1916,AAEC_255,"with the risen of the aware to the environment, people will think more about whether to drive on their own or not",Claim
+1917,AAEC_255,a driving car can make a lot of different pollutions to the world,Premise
+1918,AAEC_255,"instead of driving each one's car, if we put forty people in a bus, it will solve the traffic jam by decrease the cars use and also reduce the air pollution for the city",Premise
+1919,AAEC_255,a personal car uses is in need,Claim
+1920,AAEC_255,a public transportation can't meet every place,Premise
+1921,AAEC_255,it may be true when you want to go to some countryside or some other inconvenience places,Premise
+1922,AAEC_255,"no matter you are going to somewhere for a trip or you just simply live in some suburbs and so on, it always have some other ways that you can do, you can ride a bike, or even walk on your feet",Premise
+1923,AAEC_255,"It not only helps you to reduce the car use, but also good to your health",Premise
+1924,AAEC_255,this won't be a problem at all,Premise
+1925,AAEC_259,working at home is worse and less efficient than working in the office,MajorClaim
+1926,AAEC_259,working in the office is obviously better than working at home in terms of efficiency,MajorClaim
+1927,AAEC_259,"Think about the big project that a group is working on, if any group member has new idea about the project, he/she can assemble his/her colleges right away and discuss",Premise
+1928,AAEC_259,They can either get help from colleges or discuss about the work together,Premise
+1929,AAEC_259,It's more efficient and straight-forward than talking in the phone,Premise
+1930,AAEC_259,"if one’s computer or Internet has any breakdown, he/she can call the MIS staff to fix",Premise
+1931,AAEC_259,"while working in the office, people can interact with their colleges instantly",Claim
+1932,AAEC_259,working at home has many disadvantages that will no doubt lower the efficiency of works,Claim
+1933,AAEC_259,people are easily distracted while working at home,Premise
+1934,AAEC_259,It's hard to concentrate on work if people can grab the TV remote or some junk foods right away,Premise
+1935,AAEC_259,"while people are working at home, there will be no one supervising them, thus raises the chance of loafing",Premise
+1936,AAEC_259,"people who work at home are more likely to miss the important events happening in the office, like some announcements from the boss",Premise
+1937,AAEC_259,It not only has the advantage of working with colleges but also it provides a real working atmosphere that can never be grasped if people choose to work at home,Claim
+1938,AAEC_265,both the ability to relate well to people and studying hard in school are important for success in a future job,MajorClaim
+1939,AAEC_265,each of them has its own benefits,Claim
+1940,AAEC_265,we should notice to both of them,MajorClaim
+1941,AAEC_265,studying hard in school is an important factor to succeed in a job,Claim
+1942,AAEC_265,"If we study them hard, we will have the chance of doing our job better and quicker in the future",Premise
+1943,AAEC_265,We need to know and learn about the theoritical basis of our future job,Premise
+1944,AAEC_265,"In school, we are able to identify skills required for our future job and work on mastering and learning them",Premise
+1945,AAEC_265,"if someone wants to become a good industrial engineer, he should study his technical courses very well so that he will be able to utilize them well in his future job",Premise
+1946,AAEC_265,relating well to people is also another important factor,Claim
+1947,AAEC_265,One of the other factors for success in a future job is effective commuincation,Premise
+1948,AAEC_265,"By relating well to people, we are likely to have a lot of friends",Premise
+1949,AAEC_265,we will have a wide network of communication,Premise
+1950,AAEC_265,Commuincation can bring many benefits,Premise
+1951,AAEC_265,"if you need help with getting a job, by commuincating with people offering jobs whom you treat well",Premise
+1952,AAEC_265,"they respect you as well, you can achieve your goal",Premise
+1953,AAEC_265,"if you are a salesman in a store or any other place, by relating well to your customers, you will increase the chance of their coming back again and becoming your regular customers",Premise
+1954,AAEC_265,This can be done in school,Premise
+1955,AAEC_266,the advertising is not the main cause of unhealthy eating habits,MajorClaim
+1956,AAEC_266,advertising is not the primary reason of unhealthy eating habits,MajorClaim
+1957,AAEC_266,advertising might lead to healthier eating customs due to the growing awareness of living under a better lifestyle,Claim
+1958,AAEC_266,The key to forming a healthy eating pattern lies in people's concept of wholesome diets and self-control,Premise
+1959,AAEC_266,"advertising always makes the products so tempting, regardless of whether they might bring negative effects on the human body",Premise
+1960,AAEC_266,advertising is not the only information source for people,Premise
+1961,AAEC_266,"People can still acquire different viewpoints about foods from other sources, like news or magazines",Premise
+1962,AAEC_266,"As long as people are clear about how to maintain a healthy body and they persistently keep track of their eating habits, they can successfully prevent themselves from those temptations",Premise
+1963,AAEC_266,It will be not persuasive if people just blame the advertising sector of a fast-food company for making them so fat and not reassess their own behaviors,Premise
+1964,AAEC_266,advertising is not entirely decisive on personal eating habit,Claim
+1965,AAEC_266,advertising may even bring healthier eating habits to the people,Claim
+1966,AAEC_266,"in the era when people are becoming conscious of a healthier lifestyle, some companies are actually aiming at this rising trend and start to promote healthy foods",Premise
+1967,AAEC_266,Think about the recently popular organic foods that are claimed to grow in an environment without pesticide and those crude foods in which less salt or less sugar are added,Premise
+1968,AAEC_266,These are the main traits that advertising is hitting on and the overall results are good,Premise
+1969,AAEC_266,the advertising industry bolsters people's awareness of having a healthy lifestyle,Premise
+1970,AAEC_266,There are the build-up of the concept about healthy eating habits and self-control that really matter,Claim
+1971,AAEC_277,learning facts has more subsequent advantages for students' future lives,MajorClaim
+1972,AAEC_277,"when students learn facts more in school, they would be ready for facing problems in their own life after their graduations",Premise
+1973,AAEC_277,more information about facts would make students more familiar with the real life other that only their concepts,Premise
+1974,AAEC_277,they would prepare to encounter their life out of school to solve their problems better,Claim
+1975,AAEC_277,"if they deal more with facts, they can realize social situations effectively and so improve their social communication in everyday life",Premise
+1976,AAEC_277,it would improve students' social behavior,Claim
+1977,AAEC_277,"If students only rely on concepts and ideas theorically, they would not realize human's mind very well",Premise
+1978,AAEC_277,They should understand objects more that concepts to obtain the ability of analyzing matters well,Premise
+1979,AAEC_277,It can prevent person to progress and thrive in every position,Premise
+1980,AAEC_277,"when a student understands a fact and its consequences, he or she can encounter it more confidently",Claim
+1981,AAEC_277,concerns and anxieties are very destructive in everybody's life,Premise
+1982,AAEC_277,these way students are teached to control their fears and concerns in facing facts,Premise
+1983,AAEC_277,learning facts is more beneficial for students in both social and individual life,MajorClaim
+1984,AAEC_277,Students would improve their social positions and encounter their problems in positive ways and also intend in the more confidence manner and etc,Claim
+1985,AAEC_278,these activities have the same efficient role in students' lives,MajorClaim
+1986,AAEC_278,sports and social activities should obtain analogous concern and money,MajorClaim
+1987,AAEC_278,They bring a lot of advantages and benefits for students and also affect their future in a positive way,Claim
+1988,AAEC_278,sports are necessary for students to acquire their energy and health,Claim
+1989,AAEC_278,I decided to go to gym to recuperate and it responded very well,Premise
+1990,AAEC_278,"After that exam, I felt depressed and exhausted",Premise
+1991,AAEC_278,last month I had very difficult exam that I forced to study for one week back to back,Premise
+1992,AAEC_278,"besides the good body shape, sports have very vital effects on human's healthfulness",Premise
+1993,AAEC_278,our body and moral health depend to physical activities directly,Premise
+1994,AAEC_278,social activities have same rights to receive monetary support,Claim
+1995,AAEC_278,"besides the academic knowledge, the awareness of social behavior is an important factor for human's life",Premise
+1996,AAEC_278,students should be prepared to present in society after their graduation,Premise
+1997,AAEC_278,social activities can help them to be familiar with other's mind and different environment,Premise
+1998,AAEC_278,social groups and classes are significant factors to prepare students to contribute in discussion and encounter real social environment,Premise
+1999,AAEC_278,they bring about students to be happier and to have more fun and entertainments,Claim
+2000,AAEC_278,"If we follow just one wing of my life i.e., studying as a student, after some whiles it would be boring and we wouldn't have any motivation",Premise
+2001,AAEC_278,Such activities can help us to pick up with other students and have more friends,Premise
+2002,AAEC_278,more friends and new experience inspire the feeling of happiness and excitement in me,Premise
+2003,AAEC_287,Going to another place to learn language is better choice,MajorClaim
+2004,AAEC_287,learning language from foreign country is better than learning language in home country,MajorClaim
+2005,AAEC_287,I have to improve myself to communicate with other people,Claim
+2006,AAEC_287,in foreign country I could have a chance to speak foreign language with my friends,Claim
+2007,AAEC_287,Learning foreign language form another country is better choice for me to study language,MajorClaim
+2008,AAEC_287,"everyone around me speaks foreign language, and then I have to improve myself to communicate with people",Premise
+2009,AAEC_287,"If I could not communicate with other people, I could not even buy food to sacrifice my hunger",Premise
+2010,AAEC_287,This environment makes me want to develop myself to be able to communicate with people that speak foreign language,Premise
+2011,AAEC_287,going to another country to learn language is a good environment to stimulate people to learn language,Claim
+2012,AAEC_287,having friend that speaks another language is help people to professional in that language faster,Claim
+2013,AAEC_287,"English school in outside my home country, there are many people that come from different places and from different languages",Premise
+2014,AAEC_287,The only language that I could talk to make friends is English language,Premise
+2015,AAEC_287,I could talk with my friend without worrying about speaking wrong,Premise
+2016,AAEC_287,This reason makes me have a progress in foreign language faster,Premise
+2017,AAEC_289,students should be asked to evaluate their teachers,MajorClaim
+2018,AAEC_289,school should ask students to evaluate their teachers,MajorClaim
+2019,AAEC_289,teachers could improve their performance,Claim
+2020,AAEC_289,there are benefits to ask students to evaluate their teachers,MajorClaim
+2021,AAEC_289,schools are also improve their quality,Claim
+2022,AAEC_289,they have high performance teachers,Premise
+2023,AAEC_289,students are easy to understand their subjects,Premise
+2024,AAEC_289,evaluating from students could improve teachers' performance,Claim
+2025,AAEC_289,Evaluating teachers made by students could improve teachers' performance,Premise
+2026,AAEC_289,evaluation made by students is similar to feedback from customer that business owners need to know in order to improve their product,Premise
+2027,AAEC_289,Students might complain about their teachers spoke too fast that students could not catch up on information,Premise
+2028,AAEC_289,teachers could improve themselves by speaking slower to make sure that students could get all information that they want to give,Premise
+2029,AAEC_289,school have teachers who are always improve their quality from evaluation made by students,Premise
+2030,AAEC_289,in many cooperation such as Microsoft that could produce many great products,Premise
+2031,AAEC_289,they have employees whose performance are very high,Premise
+2032,AAEC_289,Schools could produce intellectual students,Premise
+2033,AAEC_289,Teachers could augment their quality,Premise
+2034,AAEC_289,"When school gather teachers that have great performance, school are gaining higher quality",Premise
+2035,AAEC_289,this evaluation from students could improve schools' quality,Claim
+2036,AAEC_289,teachers are always adapt the way they teach in order to make students easy to understand their subjects,Premise
+2037,AAEC_289,students could comprehend their subject easily,Premise
+2038,AAEC_289,"students, who study from great schools which have great performance teacher, graduate with great knowledge to survive in next steps of life",Premise
+2039,AAEC_289,people who get the most advantage from evaluation is students,Claim
+2040,AAEC_289,Students could study in class that have teachers who have experienced and greater performance,Premise
+2041,AAEC_301,a person should keep trying for his goals,MajorClaim
+2042,AAEC_301,one should not give up,MajorClaim
+2043,AAEC_301,"Anyone who wants to achieve the goal should acknowledge that his effort and experience from suffering helps him understand his true potential and increase his strength, and ultimately, it will prompt him to be ready for overcoming the greater challenge in his life",Claim
+2044,AAEC_301,I realized the true potential of my body and mind as I decided to train myself hard,Premise
+2045,AAEC_301,"Even if I were not to win this medal, I acknowledged the great amount of my endeavor as I could keep my tired legs running",Premise
+2046,AAEC_301,committing to our goal helps creating personal worth,Claim
+2047,AAEC_301,I remembered how I was suffered in the first round when I was last person who touched the line,Premise
+2048,AAEC_301,"I did not give up, and believed that I would be better in the next round",Premise
+2049,AAEC_301,I knew how to improve myself,Premise
+2050,AAEC_301,"I had been a loser for a thousand time before the first winning, and suffering from losing in each competition makes me stronger",Premise
+2051,AAEC_301,one who learns the great difficulty will become stronger,Claim
+2052,AAEC_301,the responsibility is worthy of carrying,Claim
+2053,AAEC_301,"When the distance is longer and harder to achieve, a runner who can go beyond his limit will proud of himself",Premise
+2054,AAEC_301,He can feel the sweetness of triumph,Premise
+2055,AAEC_301,he did not stop pursing his goal,Premise
+2056,AAEC_301,"we, as an average people, might feel that the responsibility to our goal is too heavy to carry on",Premise
+2057,AAEC_301,the true reward is to have the dignity,Claim
+2058,AAEC_306,the convenience it brings is more,MajorClaim
+2059,AAEC_306,technology may make people's life complicated in some aspects,Claim
+2060,AAEC_306,"With a private car, you can reach the destination in another city just sitting in the vehicle",Premise
+2061,AAEC_306,"if you would like to have a trip across the ocean, a plane can carry you there in only a few hours, which is hard to imagine in the ancient times",Premise
+2062,AAEC_306,"when it comes to the field of transportation, there is no doubt that the technology in automobile has made people's life simpler",Claim
+2063,AAEC_306,"In the past, teachers have to write what they want to convey to students on the chalkboard, resulting in a great waste of time and the fatigue of teachers",Premise
+2064,AAEC_306,"With the advent of iPads in e-learning, paper books become unnecessary, so does the blackboards",Premise
+2065,AAEC_306,"all the knowledge and information are stored in the iPads, with a single click, and they would appear right before your eyes at once",Premise
+2066,AAEC_306,technology also makes teaching simpler,Claim
+2067,AAEC_306,"the cell phone, which used to be simply a tool to deliver messages to your contacts in a distance, now are playing a role more than just a phone in social communications",Premise
+2068,AAEC_306,"folks have to check their Facebooks, Twitters, and Forums accounts every minute, which add too much pressure to them",Premise
+2069,AAEC_306,"games on their phone exert a tremendous fascination on teenagers, leading to a large problem that they got addicted to their phones",Premise
+2070,AAEC_306,making their life more complicated and tired,Premise
+2071,AAEC_306,technology may make people's life more complicated,Claim
+2072,AAEC_306,technology may make people's life complicated in some cases,Claim
+2073,AAEC_306,the convenience it brings in people's are significant,MajorClaim
+2074,AAEC_310,"Trying to learn skills, working in two places in a week and gaining more tasks are the reasons which take into account as the most important causes of my choice",Claim
+2075,AAEC_310,Working fast yet risky has a place near the ideal goal,MajorClaim
+2076,AAEC_310,people should work faster even more risky,MajorClaim
+2077,AAEC_310,"Gaining more skills by study, having more than one job, and handling more tasks are the benefits of it which overweighs its disadvantages",Claim
+2078,AAEC_310,Attending in some classes which try to increase the skills of employees can be considered as an absolutely effective parameter,Premise
+2079,AAEC_310,"If people learn how should increase their speed at work by studying, they can stares in their workplace",Premise
+2080,AAEC_310,I have a friend who was working so slowly,Premise
+2081,AAEC_310,He has been threatened by his boss who was going to fire him,Premise
+2082,AAEC_310,My friend went to a course where he learned how should work rapidly and now he is working,Premise
+2083,AAEC_310,"if persons work rapidly, they will have more chance to study",Claim
+2084,AAEC_310,If they work just in one organization they cannot earn enough money,Premise
+2085,AAEC_310,This fact pushes them to work faster and faster,Premise
+2086,AAEC_310,applying to study abroad needs a lot of money,Premise
+2087,AAEC_310,I am working in two organization to gain more salary,Premise
+2088,AAEC_310,people prone to work in two or three firms in a week,Claim
+2089,AAEC_310,the expenses have been increased,Premise
+2090,AAEC_310,"The more money, the more chances",Premise
+2091,AAEC_310,"If you show in your workplace that you are the one who can work more than other even carelessly, your boss will assign you more tasks",Premise
+2092,AAEC_310,"If you do them fast too, the first acknowledgement of your boss encourages you to work harder",Premise
+2093,AAEC_310,It turns you to a person who has skill of working without hesitation,Premise
+2094,AAEC_310,"Even if we ignore this result, by the same token, you can get higher position and more money",Premise
+2095,AAEC_310,people who work slowly can no longer handle more tasks,Claim
+2096,AAEC_316,What government should take into consideration at the first place should not be historic and traditional building preservation but new building construction,MajorClaim
+2097,AAEC_316,new building construction hold the right to gain more money from government,MajorClaim
+2098,AAEC_316,"If the price of housing grows continuously, a comfortable place to live in will be a luxury to the middle class and the low class",Premise
+2099,AAEC_316,"ordinary people, especially the younger generation, will fall into a certain pattern - work, pay bills for housing, work; and I am sure that it will increase people's dissatisfaction of the government",Premise
+2100,AAEC_316,"when they are working, the fair of losing their accommodation always lingers, which will limit their efficiency",Premise
+2101,AAEC_316,government should spend money on people to rescue them from this,Premise
+2102,AAEC_316,"only a government of the people, by the people, for the people will finally last; people's cohesiveness will be promoted",Premise
+2103,AAEC_316,Building more accommodating constructions meets people's basic need,Claim
+2104,AAEC_316,People cannot live a harmonious life if citizens do not have a decent place to live in,Premise
+2105,AAEC_316,new building construction deserves more governmental investment,Claim
+2106,AAEC_316,it requires far more resource compare to old building preservation,Premise
+2107,AAEC_316,"Build a new building has following prerequisites, land that has been sold by the government via formal procedures, a reliable construction company and tremendous amount of labor",Premise
+2108,AAEC_316,hundreds of problems would occur during the construction,Premise
+2109,AAEC_316,only government can cope with it by utilizing its enormous resource like dollars and effectiveness,Premise
+2110,AAEC_322,The historic buildings show the history of our ancestors,Claim
+2111,AAEC_322,they can develop tourism industries by attracting tourists,Claim
+2112,AAEC_322,we should preserve historic buildings in the city,MajorClaim
+2113,AAEC_322,They can benefit us financially by developing other industries,Claim
+2114,AAEC_322,"they are the symbols of our nations, which can show the historical culture of our previous ancestors",Claim
+2115,AAEC_322,"Historic buildings answer many questions, which are mysterious about our previous ancestors; thereby no one can determine the price of the historic buildings",Claim
+2116,AAEC_322,They show the history of nations and previous generations who lived in the city,Premise
+2117,AAEC_322,They show the lifestyle of people who lived in thousands of years ago,Premise
+2118,AAEC_322,"They show us how they survive, or how they defend themselves etc",Premise
+2119,AAEC_322,"By investigating about their structures, we can understand how much they knew about the architecture of building",Premise
+2120,AAEC_322,"historic buildings are important treasures, which provide an area to learn valuable lessons",Premise
+2121,AAEC_322,It is a valuable opportunities for any city having historic buildings to show them to new visitors,Premise
+2122,AAEC_322,It is interesting for most people to know about the way people live in thousands years ago,Premise
+2123,AAEC_322,Another advantage of historic buildings is their capabilities to attract more tourists to the city,Claim
+2124,AAEC_322,Historic building can develop other industries such as restaurants or other food industries and handicrafts shops and so on,Premise
+2125,AAEC_322,"It is important for any city to replace old buildings with new ones, but these revolutions should not include historic buildings",MajorClaim
+2126,AAEC_328,boys and girls should study together,MajorClaim
+2127,AAEC_328,they have a chance to know each other and learn how to behave with an opposite sex,Claim
+2128,AAEC_328,"By attending to the same school, students can learn how to view the opposite gender in classes as a friend or a classmate",Claim
+2129,AAEC_328,a boy would know how to speak with a girl in every situation and vice versa,Premise
+2130,AAEC_328,"They would know how to ask her in order to cooperate with his study, how communicate with girls in a group, etc",Premise
+2131,AAEC_328,"when they study together and help each other, they exercise the the real life as they age",Premise
+2132,AAEC_328,attending both girls and boys in a same school cause many disadvantages for them,Premise
+2133,AAEC_328,their thoughts deviate from the studies,Premise
+2134,AAEC_328,outdoors relationships may expand and it may accompany with sexual relationship,Premise
+2135,AAEC_328,"School is a small society for students, which prepares them for the future life",Premise
+2136,AAEC_328,they will study increasingly,Premise
+2137,AAEC_328,Boys and girls will try to show their capabilities and abilities in the class,Premise
+2138,AAEC_328,Boys do not like to seem weak in front of girls and vice versa,Premise
+2139,AAEC_328,the productivity of the class will be increased,Premise
+2140,AAEC_328,attending in the school having boys and girls might be beneficial for both to increase their motivation to study better,Claim
+2141,AAEC_328,attending boys and girls in a same school would bring many advantages,MajorClaim
+2142,AAEC_328,Taking part in the study groups would increase student's motivation to study more,Claim
+2143,AAEC_328,"they would be able to know the opposite gender, which help them to be prepared for the adult life where they almost will live or work together",Claim
+2144,AAEC_331,"we should do our parts to do what ever it takes to protect old buildings, letting next generations still have a chance to look at them",MajorClaim
+2145,AAEC_331,they are significant symbols of a city,Premise
+2146,AAEC_331,Old buildings are reminders of a city's culture and complexity,Premise
+2147,AAEC_331,"By seeing historic buildings -- whether related to something famous or recognizably dramatic, people are able to witness the aesthetic and cultural history of an area",Premise
+2148,AAEC_331,"when somebody mentions Beijing, China's capital city, you will immediately have Capital Palace come to appear in your mind",Premise
+2149,AAEC_331,"it is the most remarkable sign of the city, and also it is the inevitable history of Beijing, even the entire China",Premise
+2150,AAEC_331,Historic buildings have intrinsic values,Claim
+2151,AAEC_331,"Depending on the study of Capital Palace, researchers have a comprehensive understanding of the history and the culture",Premise
+2152,AAEC_331,"The city is occupied with an abundance of modern houses and and high buildings which make it crowded, and no rooms for people to relax themselves",Premise
+2153,AAEC_331,"the warmth of the materials, the heart pine, marble, or the old brick, all those old buildings features call back of our inner peace",Premise
+2154,AAEC_331,Lying under the roof of a historic building or sitting on the desk fill with history are both easy ways to forget life's little annoyance and feel peaceful,Premise
+2155,AAEC_331,"historic buildings make our lives more colorful, provide places for citizens to relax bodies and minds",Claim
+2156,AAEC_331,"There are many historic buildings, such as Beijing Place, Shanghai Artist Museum, they are all able to support themselves financially by charging tens of thousands of tourists",Premise
+2157,AAEC_331,"Our governments will be happy with those efficient consequences, and a majority of cities also can imitate this economical cycle",Premise
+2158,AAEC_331,historic buildings can be a source of maintenance fees,Claim
+2159,AAEC_331,government should spend money on preservation of old buildings,MajorClaim
+2160,AAEC_331,There is no chance to renovate to save a history site once it's gone,Premise
+2161,AAEC_331,the city which I enjoy the most is a combination of history and modernity,Claim
+2162,AAEC_331,the preservation of old buildings is a one-way street,Premise
+2163,AAEC_331,This reality brings us to light the importance of locating and saving old buildings of historic significance,Premise
+2164,AAEC_335,IT discoveries are likely to have more disadvantages than benefits and people should know how to use their developments properly,MajorClaim
+2165,AAEC_335,All this inventions will try to take control of the Earth,Claim
+2166,AAEC_335,"Scientists believe that one day people will face their developments, for instance robots, and they will not succeed to control them",Premise
+2167,AAEC_335,"before centeries, there were not washing machines, which clean your clothes, while a person do another job",Premise
+2168,AAEC_335,nowadays technology is entering into our society really quick,Claim
+2169,AAEC_335,"scientists develop robots, which help people cope with their problems or just invent coffee machines, engines with integrated computers and etc",Premise
+2170,AAEC_335,connecting people by email is easy and fast,Claim
+2171,AAEC_335,"World Wide Web offers humanity to access to information, which they want to know for less than 10 seconds",Claim
+2172,AAEC_341,the importance of traditions should be valued and paid attention to,MajorClaim
+2173,AAEC_341,technology takes convenience to humankind,Premise
+2174,AAEC_341,"it also contributes to unhealthy behaviors of life, like sedentary lifestyle",Premise
+2175,AAEC_341,"Traditional skills and lifestyles play important role in modern society, in terms of healthcare, environmental protection and cultural inherit",Claim
+2176,AAEC_341,traditional ways of life is a great complimentary for modern life and highlight the importance of work life balance,Premise
+2177,AAEC_341,traditional skills rely little on fossil energy,Premise
+2178,AAEC_341,"it is more environmentally-friendly, which should be promoted to reduce the threat of climate change",Premise
+2179,AAEC_341,those tradition-related things convey traditional culture and values,Premise
+2180,AAEC_341,These are important foundation of modern civilization,Premise
+2181,AAEC_341,Protection of tradition can provide the possibility to better understand ancient culture and utilize them to tackle modern problems,Premise
+2182,AAEC_341,protecting traditions consume too much financial budget compared with the incoming it takes,Claim
+2183,AAEC_341,this kind of business bring limited contribution to government finance,Premise
+2184,AAEC_341,the expense is trivial compared with the potential value of traditions,Premise
+2185,AAEC_341,"the government authorities and education institutes should work closely together to promote the traditional skills and ways of life, so as to make people to realize the value of them",Claim
+2186,AAEC_341,"protection of tradition is not only important for the entire society currently, but also contributes to the next generation",MajorClaim
+2187,AAEC_348,"they have other critical obligations to take, in order to make our society function in an ordered way",MajorClaim
+2188,AAEC_348,"it is the most important source of government's revenue, which is mainly used to serve all citizens",Premise
+2189,AAEC_348,a large proportion of the tax is spent on national defence and in maintaining social stability,Premise
+2190,AAEC_348,every one can work and live in a peaceful environment,Premise
+2191,AAEC_348,"The tax is also used to pay the salaries of workers working in public service sectors, such as teachers and police officers",Premise
+2192,AAEC_348,these workers do not produce profit directly,Premise
+2193,AAEC_348,what they do is for the well-being of the whole society,Premise
+2194,AAEC_348,all people who are able to work should pay tax to the government,Claim
+2195,AAEC_348,citizens have other important responsibilities to fulfil apart from paying tax,Claim
+2196,AAEC_348,"there are impoverished or disabled people in every society, needing help and support from others",Premise
+2197,AAEC_348,the government can provide some fund to ease their difficulties,Premise
+2198,AAEC_348,such financial help is usually far from enough,Premise
+2199,AAEC_348,"aids from more capable or wealthier citizens are particularly crucial, which are a great complement to government support",Premise
+2200,AAEC_348,Another responsibility all citizens should take is to maintain social stability together with the police force,Premise
+2201,AAEC_348,"There are criminals in every society, and the number of policemen the government can hire is limited",Premise
+2202,AAEC_348,"it is quite necessary for the local residents to take actions and ensure the safety of the communities, by doing things like reporting suspicious activities to the police department",Premise
+2203,AAEC_352,computer assists children to use vast resources available over internet to study effectively as well as develop some basic skills which help them in future careers,Claim
+2204,AAEC_352,It is disagreed that computer can affect children in a negative way if they use a computer on a daily basis,MajorClaim
+2205,AAEC_352,computer is a boon to children,MajorClaim
+2206,AAEC_352,computer impacts children on a positive note,Claim
+2207,AAEC_352,through computer children can access internet to gather knowledge on the subjects they are studying or they are interested about,Premise
+2208,AAEC_352,"The best thing about internet is the availability of information in the form of text, image or video related to almost everything",Premise
+2209,AAEC_352,students preparing for delivering speech on a certain topic can browse through internet to learn each and every minute details of the subject matter,Premise
+2210,AAEC_352,It's hard to get everything at a same place unless children are not familiar with computers,Premise
+2211,AAEC_352,it's clear that computer has a positive effect on the children,Claim
+2212,AAEC_352,"computers enable people to prepare presentations, draw complex graphs and pictures, document thesis in a simple though efficient way",Premise
+2213,AAEC_352,"When children are allowed to play around with computer from a very early age, they get acquainted with the previously mentioned skills and become expert before facing professional world",Premise
+2214,AAEC_352,"students who used to prepare Microsoft PowerPoint presentation for their school projects, get an edge over others at an early stage of their career",Premise
+2215,AAEC_355,it is important for children to be taught with a secondary language as early as kindergarten,MajorClaim
+2216,AAEC_355,"if this endeavour is properly implemented by schools, this will most likely lead to improvement of learning ability among children",MajorClaim
+2217,AAEC_355,teachers think that foreign language most likely leads to confusion for children who are yet to start learning,Premise
+2218,AAEC_355,"the teacher should be well-trained in the use of this specific language, so quality education will be delivered",Premise
+2219,AAEC_355,Learning at school must be convenient for them if they speak in a way that they are used to,Premise
+2220,AAEC_355,children might not be really comfortable with the use of a language other than their native tongue when they are in their kindergarten years,Claim
+2221,AAEC_355,"kids are amazing learners, and the best time to hone them is in their younger years",Premise
+2222,AAEC_355,The introduction of foreign language will be new to them,Premise
+2223,AAEC_355,their curiosity will drive them to learn and comprehend,Premise
+2224,AAEC_355,grasping a new language will be natural to them,Premise
+2225,AAEC_355,the positive impact of this strategy is beneficial to both learners and teachers,Premise
+2226,AAEC_355,Teachers will not find it difficult to make students learn such new concept in their teenage years,Premise
+2227,AAEC_355,the advantages of early introduction of foreign language outweigh its disadvantages,Claim
+2228,AAEC_359,international tourism not only causes tension but also leads to understanding between people from different culture,MajorClaim
+2229,AAEC_359,most people will be trying to understand each other after they have conflict or debates,Claim
+2230,AAEC_359,international tourism leads to both tension and understanding between people from different culture,MajorClaim
+2231,AAEC_359,people are looking for the solution such as understanding each other while they encounter the conflicts caused by international tourism,Claim
+2232,AAEC_359,those local residents have to clean the place frequently,Premise
+2233,AAEC_359,some people leave the rubbish after visiting the attractions,Premise
+2234,AAEC_359,tourists may offend the local people due to their different culture background,Premise
+2235,AAEC_359,Indians don't eat beef,Premise
+2236,AAEC_359,they worship cows,Premise
+2237,AAEC_359,"if tourists want to respect the tradition, they will not order any beef in the local restaurant",Premise
+2238,AAEC_359,some behaviors of the tourists are not welcome in the local area,Claim
+2239,AAEC_359,tourists are given the brochures about the local traditions and customs before they visit the place,Premise
+2240,AAEC_359,the possibility of the conflicts is reduced because the understanding between both parties,Premise
+2241,AAEC_359,the tour guide are willing to help tourists to understand the culture from other countries,Premise
+2242,AAEC_359,"in order to avoid the conflicts between foreigners and locals, people are trying to understand different culture and find solutions",Claim
+2243,AAEC_359,the new batch of tourists will have a tidy and neat environment,Premise
+2244,AAEC_364,traditional skills and ways are always valuable and will last forever,MajorClaim
+2245,AAEC_364,technology has brought many benefits,Claim
+2246,AAEC_364,They make differences between countries,Premise
+2247,AAEC_364,"Every country has unique tradtions which show their creation, intelligence",Premise
+2248,AAEC_364,people feel pround of their country,Premise
+2249,AAEC_364,they keep reserving conventions,Premise
+2250,AAEC_364,ways to build a house in every country are different and they distinguish between countries,Premise
+2251,AAEC_364,traditional skills and ways belong to value of culture,Claim
+2252,AAEC_364,Lot of people like to use traditional things because if their quality and durability,Premise
+2253,AAEC_364,vases are made by hand would be used more,Premise
+2254,AAEC_364,there are plenty of works that using traditional way is unique method,Premise
+2255,AAEC_364,making cone hats from leaves have to use hand,Premise
+2256,AAEC_364,"Not only because there is no machine for the work, but also it looks more beautiful when it is made by hand, so resulting in greater value economy",Premise
+2257,AAEC_364,in some cases that traditional way can not replace by a new technology,Claim
+2258,AAEC_364,Traditional skills and ways of life will help youngsters study and know more history,Claim
+2259,AAEC_364,Methods which their ancestors used in the past will be displayed again for new generations,Premise
+2260,AAEC_364,they might create somethings that are useful for life,Premise
+2261,AAEC_373,it is no evidence about the reduction of crime rates due to the death penalty,MajorClaim
+2262,AAEC_373,death penalty neither controls the violent in society nor creates a violent culture,Claim
+2263,AAEC_373,"Crimes kill someone which is illegal; nevertheless, the government use law to punish them, which is the same way they sinned but in a legal one",Premise
+2264,AAEC_373,the criminal is repeated second time,Premise
+2265,AAEC_373,capital punishment is a form of revenge which creates violent culture,Premise
+2266,AAEC_373,the rights of life are the basic and vital rights of a human being,Premise
+2267,AAEC_373,No one has the right to take the life of a human; even if he committed murder,Premise
+2268,AAEC_373,"If you kill a criminal, you become a criminal",Premise
+2269,AAEC_373,nobody has the right to take another human life,Claim
+2270,AAEC_373,crimes seem to increase due to the capital punishment,Premise
+2271,AAEC_373,"if we think that killing is the best way to solve the problem, it is neither unethical nor immoral",Premise
+2272,AAEC_373,"If they kill someone and end their life by dead without paying for their sins, it is so easy for them",Premise
+2273,AAEC_373,They do not undergo any pain or misery,Premise
+2274,AAEC_373,Criminals should be punished for their misdeeds,Premise
+2275,AAEC_373,"with some of serious criminals, capital punishment is an easy way out",Claim
+2276,AAEC_373,The world should consider clearly about polishing the law of the dead penalty,MajorClaim
+2277,AAEC_373,"capital punishment is a form of legalized revenge, it is an easy way for serious crimes, and nobody has rights to take others life",Premise
+2278,AAEC_373,it neither demines crimes of violence nor be essential to control violence in society,Claim
+2279,AAEC_373,rehabilitation and education is also a better way in order to prevent or minimize offensive acts,Premise
+2280,AAEC_373,Why do not punish them by doing something meaningful for the country- it is better,Premise
+2281,AAEC_373,"some industries such as mining, oil and gas extraction, reclamation, etc, needs many labors",Premise
+2282,AAEC_373,"it is regarded as the ""legalized revenge"" to victims' family",Premise
+2283,AAEC_382,the richness as well as convenience of technology are two main factors that contribute to the students' progress,MajorClaim
+2284,AAEC_382,it expedites data availability and accelarates students' learning process,Claim
+2285,AAEC_382,I have to consent to the use of technology in education,MajorClaim
+2286,AAEC_382,"technology was introduced, student have been exposed to a wide range of information, which neccessarily broaden their minds",Claim
+2287,AAEC_382,"The internet, for example, provide knowledge in the form of news, radio talks, tapes or reseachs on any particular fields",Premise
+2288,AAEC_382,"There, the students can not only ascertain concerned subjects but they can also get access to relevant issues and discuss with people worldwide",Premise
+2289,AAEC_382,students will develop their skills at a greater pace,Premise
+2290,AAEC_382,"The modern world provides learners with the mp3, the mobile phone or the laptop that help them, especially language learners, listen to recordings everywhre or read documents anytime",Premise
+2291,AAEC_382,"the internet again, is an inexhaustible resource of visual aids, such as educational games, sounds or images with which students may absorb abstract concepts taught at school more briskly and thoroughly",Premise
+2292,AAEC_382,Another point that students may benefit from technology is the shortened time for learning,Claim
+2293,AAEC_386,the classmates should be regarded as the most important influence on individual achievements,MajorClaim
+2294,AAEC_386,classmates are unrivalled by the children's parents,MajorClaim
+2295,AAEC_386,"they provide tremendous incentive and horizon expansion, two crucial commodities leading to a successful presentation at school",Claim
+2296,AAEC_386,"In high school, for instance, an individual cannot resist studying painstakingly through day and night when the others who are astoundingly ambitious and set sights on prestigious universities around the globe are doing the same",Premise
+2297,AAEC_386,"From a psychological perspective, the feeling of being subordinate to their peers exert enormous pressure on the children, which subsequently transforms into some sort of stimulants and boosts the children's academic performances",Premise
+2298,AAEC_386,the classmates themselves creat a competitive atmoshphere which incent the children,Claim
+2299,AAEC_386,"students share even more time together than with their parents, explaining a great deal of wisdom they absorb from each others",Premise
+2300,AAEC_386,"it can be, for example, lessons on the class, social skills or general etiquettes that are sometimes overlooked by parents",Premise
+2301,AAEC_386,"Sharing the same age, children are at their most comfort to exchange ideas, to query and interpret abstract concepts without fear of parental punishments, resulting in deeper comprehension",Premise
+2302,AAEC_386,"when it comes to knowledge and the acquisition of such, classmates are second to none",Claim
+2303,AAEC_393,"such details should be strictly censored, if not banned altogether",MajorClaim
+2304,AAEC_393,"a great deal of crime coverage is rather biased, exaggerated or fraudulent, which only result to terrorize communities and leave law-aiding people increasingly apprehensive of about crimes",Claim
+2305,AAEC_393,the press provide the public with criminal content in order to increase newspaper circulation and TV rating,Premise
+2306,AAEC_393,"These days the primary purpose of journalists covering the details of criminal acts is, more often than that, to boost newspaper circulations and TV ratings",Premise
+2307,AAEC_393,"without the prevention on criminal details, the unlawful behavior would be more and more severe and the social harmony would be broken",Claim
+2308,AAEC_393,"This may help those who are in the process of panning a criminal act perfect their plans, avoid the pitfalls and make themselves harder to be tracked down by the police",Premise
+2309,AAEC_393,"detailed reports of crimes exposured on the press may provide the potential criminals with instructive learning materials, which would be hard to obtain otherwise",Premise
+2310,AAEC_393,they have already suffered greatly for what they have experienced,Premise
+2311,AAEC_393,"Without their consent, this could only add to theses innocent people's mental suffering and they may do some extreme actions",Premise
+2312,AAEC_393,particular coverage of heinous crimes may further traumatize the victims of crimes,Claim
+2313,AAEC_393,any descriptions of crimes should not go unchecked as any longer,MajorClaim
+2314,AAEC_393,"as they may be false, may further drive up the already-high crime rate and may bring even more suffering to the victims of crimes",Claim
+2315,AAEC_398,many different characters exist between male and female students,Claim
+2316,AAEC_398,"it is necessary for universities to respect the individual choice of subject due to the diversity of boys and girls, and we ca not forcedly put the same numbers of males and females into every subject",MajorClaim
+2317,AAEC_398,"Most of male students tend to use their left brain to think and act, and they are more rational and logical than girls in many cases",Premise
+2318,AAEC_398,there are more male scientists and engineers in comparison with females around the world,Premise
+2319,AAEC_398,"Many boys are interested in science and technology, while a number of girls like to learn literature, education and arts",Premise
+2320,AAEC_398,"girls are more likely to prefer some jobs related to emotion and communication, such as teacher, singer and interpreter",Premise
+2321,AAEC_398,"girls differ from boys in mind and behaviour to a large extent, and they both have better ability in the specific aspect",Premise
+2322,AAEC_398,boys and girls have the diversity in psychological modes and individuality,Claim
+2323,AAEC_398,"a girl, who is interested in literature, is arranged into an engineering department",Premise
+2324,AAEC_398,it can have a negative affect on these students to require them to choose a subject in equal proportion of gender,Claim
+2325,AAEC_398,that does not conform to students' personality traits and mental development,Premise
+2326,AAEC_398,universities should encourage more girls to choose science subjects and more boys to study the humanities,Claim
+2327,AAEC_398,this could avoid imbalance of gender in some subjects,Premise
+2328,AAEC_398,It would affect students' mental health to study in the environment of single gender,Premise
+2329,AAEC_398,she is unlikely to focus on her subject,Premise
+2330,AAEC_398,this also can block the girl's future development and career prospect,Premise
