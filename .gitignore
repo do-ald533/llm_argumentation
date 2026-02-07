@@ -8,3 +8,33 @@ wheels/
 
 # Virtual environments
 .venv
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+
+# Data outputs
+data/
+*.csv
+
+# Backup files
+*.bak
+*.backup
+
+# OS
+.DS_Store
+Thumbs.db

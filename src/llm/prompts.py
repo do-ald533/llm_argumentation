@@ -1,12 +1,42 @@
-## Task 1: Identify argumentative components
-def argumentative_components (text):
+"""
+Prompt templates for LLM-based argumentation structuring tasks.
+
+This module contains all prompt generation functions used throughout the pipeline.
+Each function returns a formatted prompt string for specific argumentation analysis tasks.
+
+Organization:
+- Task 1: Component Identification
+- Task 2: Component Correction & Decomposition  
+- Task 3: Conclusion Identification
+- Task 4: Premise-Conclusion Relations
+- Task 5: Missing Premise Detection
+- Task 6: Convergent Premises & Implicit Premises
+- Task 7: Counterargument Analysis
+- Task 8: Premise Evaluation
+"""
+
+
+# =============================================================================
+# TASK 1: COMPONENT IDENTIFICATION
+# =============================================================================
+
+def argumentative_components(text):
+    """
+    Generate prompt to identify argumentative components in text.
+    
+    Args:
+        text: Input text to analyze
+        
+    Returns:
+        Formatted prompt string
+    """
     prompt = f'''An argument consists of premises that support or challenge a conclusion that is not self-evident. To reconstruct the argumentative structure of a text, the first step is to identify its argumentative components, which include both premises and conclusions.
 
 Below are examples in which the argumentative components have been extracted from a short passage.
 
 Example 1
 Text:
-“The death penalty would only be sustained as a legitimate resource if it were fair. It is not fair. Therefore, it should be abolished. It is not fair because it presupposes discriminatory mechanisms. After all, a non-white murderer of a white victim will be much more likely sent to execution than the reverse.”
+"The death penalty would only be sustained as a legitimate resource if it were fair. It is not fair. Therefore, it should be abolished. It is not fair because it presupposes discriminatory mechanisms. After all, a non-white murderer of a white victim will be much more likely sent to execution than the reverse."
 Argumentative Components:
 1 - The death penalty would only be sustained as a legitimate resource if it were fair.
 2 - It is not fair.
@@ -16,7 +46,7 @@ Argumentative Components:
 
 Example 2
 Text:
-“Intelligence gathered by this and other governments leaves no doubt that the Iraq regime continues to possess and conceal some of the most lethal weapons ever devised. This regime has already used weapons of mass destruction against Iraq's neighbors and against Iraq's people. The regime has a history of reckless aggression in the Middle East. It has a deep hatred of America and our friends. And it has aided trained and harbored terrorists including operatives of al Qaeda. The danger is clear: using chemical biological or one day nuclear weapons obtained with the help of Iraq the terrorists could fulfill their stated ambitions and kill thousands or hundreds of thousands of innocent people in our country or any other.”
+"Intelligence gathered by this and other governments leaves no doubt that the Iraq regime continues to possess and conceal some of the most lethal weapons ever devised. This regime has already used weapons of mass destruction against Iraq's neighbors and against Iraq's people. The regime has a history of reckless aggression in the Middle East. It has a deep hatred of America and our friends. And it has aided trained and harbored terrorists including operatives of al Qaeda. The danger is clear: using chemical biological or one day nuclear weapons obtained with the help of Iraq the terrorists could fulfill their stated ambitions and kill thousands or hundreds of thousands of innocent people in our country or any other."
 Argumentative Components:
 1 - This regime has already used weapons of mass destruction against Iraq's neighbors and against Iraq's people.
 2 - The regime has a history of reckless aggression in the Middle East.
@@ -37,13 +67,23 @@ Text: {text}
 
 Argumentative Components:
 '''
-# All argumentative components should be independent sentences. Replace pronouns and demonstratives with the terms or phrases they refer to / their referents. Use brackets to indicate the completion.  
-
     return prompt
 
 
-## Task 2: Correct the argumentative components (Argumentative Decomposition)
+# =============================================================================
+# TASK 2: COMPONENT CORRECTION & DECOMPOSITION
+# =============================================================================
+
 def components_corrected(argument: str) -> str:
+    """
+    Generate prompt to decompose complex components into simpler ones.
+    
+    Args:
+        argument: Single sentence to potentially split
+        
+    Returns:
+        Formatted prompt string
+    """
     prompt = f'''
         You will receive **one sentence** at a time.  
         Your job is to decide whether it contains **more than one independent argumentative component** (premises or conclusions that could each stand alone as a full sentence).
@@ -66,7 +106,7 @@ def components_corrected(argument: str) -> str:
         ──────────────────────────────────────────────
         The connector forms part of a single, embedded claim—for example:
 
-        * Necessary-condition phrases like **“only if”**, **“provided that”**, **“as long as”**  
+        * Necessary-condition phrases like **"only if"**, **"provided that"**, **"as long as"**  
         * Relative clauses, temporal modifiers, infinitive phrases, etc., that do not read as standalone statements.
 
         Heuristic: after deleting the connector, if either fragment **cannot** be read as a complete English sentence conveying its own argument, treat the whole thing as **one component** and output **0**.
@@ -113,11 +153,20 @@ def components_corrected(argument: str) -> str:
 
         Now analyse the following sentence: {argument}
 '''
-    
     return prompt
 
 
 def rewrite_sentence(text, arg_components):
+    """
+    Generate prompt to summarize/clarify argumentative components.
+    
+    Args:
+        text: Original text
+        arg_components: List of numbered components
+        
+    Returns:
+        Formatted prompt string
+    """
     prompt = f'''
         # Prompt: Summarize Argumentative Components for Clarity
 
@@ -196,43 +245,20 @@ def rewrite_sentence(text, arg_components):
 
         **Return only the revised list of components, keeping their numbering.**
     '''
-
-    return prompt
-
-def merge_components_cycle(text, arg_components, dict_components, component_ids):
-
-    # Explicitly show which ones to merge, using their text
-    components_to_merge = "\n".join(f"{i} - {dict_components[i]}" for i in component_ids)
-
-    prompt = f'''
-        You are given a **text** and a list of **argumentative components** extracted from it.
-
-        Each component is numbered like this:
-        <number> - <component text>
-
-        Your task is to **merge the components with numbers {component_ids}** into a single, clear sentence that keeps the main ideas of both.
-
-        The merged sentence should:
-        - Combine the key points from both components,
-        - Be assertive and self-contained,
-        - Be suitable for use in an argument graph.
-
-        **Text:**  
-        {text}
-
-        **All Argumentative Components:**  
-        {arg_components}
-
-        **Components to merge:**  
-        {components_to_merge}
-
-        **What is the merged version of components {component_ids}?**  
-        Return only the new merged component text. Do not include numbering or any explanation.
-'''
     return prompt
 
 
 def merge_components(text, arg_components):
+    """
+    Generate prompt to identify components that should be merged.
+    
+    Args:
+        text: Original text
+        arg_components: List of numbered components
+        
+    Returns:
+        Formatted prompt string
+    """
     prompt = f'''
         You are given a **text** and a **list of argumentative components** extracted from it. Each component is numbered and formatted as:  
         `<number> - <text>`
@@ -249,7 +275,7 @@ def merge_components(text, arg_components):
 
         - They **express the same idea using different words** (semantic paraphrases).  
         - They are **logically connected** and part of the **same reasoning unit**, such as:
-            - A conditional and its antecedent/consequent (e.g., “If p, then q” and “p”).  
+            - A conditional and its antecedent/consequent (e.g., "If p, then q" and "p").  
             - Two pieces of evidence or steps supporting the **same claim**.  
             - A general assertion and its rephrased or elaborated form.
 
@@ -314,26 +340,82 @@ def merge_components(text, arg_components):
     return prompt
 
 
-## Task 3: Identify the conclusion of the argument (Conclusion Identification)
+def merge_components_cycle(text, arg_components, dict_components, component_ids):
+    """
+    Generate prompt to merge specific components (used for cycle resolution).
+    
+    Args:
+        text: Original text
+        arg_components: List of all numbered components
+        dict_components: Dictionary mapping component IDs to text
+        component_ids: List of component IDs to merge
+        
+    Returns:
+        Formatted prompt string
+    """
+    components_to_merge = "\n".join(f"{i} - {dict_components[i]}" for i in component_ids)
+
+    prompt = f'''
+        You are given a **text** and a list of **argumentative components** extracted from it.
+
+        Each component is numbered like this:
+        <number> - <component text>
+
+        Your task is to **merge the components with numbers {component_ids}** into a single, clear sentence that keeps the main ideas of both.
+
+        The merged sentence should:
+        - Combine the key points from both components,
+        - Be assertive and self-contained,
+        - Be suitable for use in an argument graph.
+
+        **Text:**  
+        {text}
+
+        **All Argumentative Components:**  
+        {arg_components}
+
+        **Components to merge:**  
+        {components_to_merge}
+
+        **What is the merged version of components {component_ids}?**  
+        Return only the new merged component text. Do not include numbering or any explanation.
+'''
+    return prompt
+
+
+# =============================================================================
+# TASK 3: CONCLUSION IDENTIFICATION
+# =============================================================================
+
 def argumentative_conclusion(text, arguments):
-    prompt = f'''You are given a short argumentative passage plus a list of its numbered statements (called “components”). Your task is to find the main conclusion of the argument.
+    """
+    Generate prompt to identify the main conclusion of an argument.
+    
+    Args:
+        text: Original text
+        arguments: List of numbered components
+        
+    Returns:
+        Formatted prompt string
+    """
+    prompt = f'''You are given a short argumentative passage plus a list of its numbered statements (called "components"). Your task is to find the main conclusion of the argument.
 
 • The main conclusion is the statement that the other components are offered to prove or justify.
 • The main conclusion itself is not used to support any further claim.
 
 How to decide (internal reasoning, do not print):
 
-- Ask “What is the author ultimately trying to convince the reader of?”
+- Ask "What is the author ultimately trying to convince the reader of?"
 
 - Check which statement is supported by at least one other component but does not itself support anything further.
 
-- Prefer normative/ evaluative claims (“should”, “best”, “therefore we must…”) over purely descriptive ones when both are present.
+- Prefer normative/ evaluative claims ("should", "best", "therefore we must…") over purely descriptive ones when both are present.
 
 Worked examples
 Example 1
 
 Text
-“If we increase funding for early childhood education, we will see long-term improvements in academic performance, because early learning builds foundational skills that support later success.”
+"If we increase funding for early childhood education, we will see long-term improvements in academic performance, because early learning builds foundational skills that support later success."
 
 Components
 1 - Early learning builds foundational skills that support later success.
@@ -346,7 +428,7 @@ CONCLUSION: 2
 Example 2
 
 Text
-“Plastic pollution is a major threat to marine life. Many species are dying from ingestion or entanglement. Therefore, stricter regulations on plastic waste are necessary.”
+"Plastic pollution is a major threat to marine life. Many species are dying from ingestion or entanglement. Therefore, stricter regulations on plastic waste are necessary."
 
 Components
 1 - Plastic pollution is a major threat to marine life.
@@ -371,9 +453,24 @@ Your answer:
     return prompt
 
 
-## Task 4: Identify premise and conclusion relations (Premise Relation)
-def premise_identification(conclusion, text, arg_components, dict_components, links):
+# =============================================================================
+# TASK 4: PREMISE-CONCLUSION RELATIONS
+# =============================================================================
 
+def premise_identification(conclusion, text, arg_components, dict_components, links):
+    """
+    Generate prompt to identify direct premise relations (legacy format).
+    
+    Args:
+        conclusion: Conclusion component ID
+        text: Original text
+        arg_components: List of numbered components
+        dict_components: Dictionary mapping IDs to text
+        links: Existing identified links
+        
+    Returns:
+        Formatted prompt string
+    """
     instruction = f'''Identify the premises that directly support or attack an argumentative component. By direct link, I understand that the support or attack is not mediated by other premises.
 
 Consider the following example:
@@ -387,7 +484,7 @@ Argumentative components:
 
 Links: 2 > 3 (i.e., component 2 directly supports component 3).
 
-Important: Component 2 (“Being more dedicated to the tasks helps when it comes to solving the exercises in the exam”) directly supports component 3 ("Students who do well in exams get better jobs"). Component 1 is also part of the supporting set of 3, but only indirectly (i.e., 1 directly supports 2, which in turn supports 3).
+Important: Component 2 ("Being more dedicated to the tasks helps when it comes to solving the exercises in the exam") directly supports component 3 ("Students who do well in exams get better jobs"). Component 1 is also part of the supporting set of 3, but only indirectly (i.e., 1 directly supports 2, which in turn supports 3).
 
 Now, consider the following argument:
 
@@ -418,31 +515,22 @@ Example: '5 + 9 + 2 > 10' means that components 5, 9, and 2 together support com
 If no premise supports or attacks the conclusion, answer with number '0'.
 
 ''' 
-
     return instruction
 
+
 def premise_support(conclusion_number, text, arg_components, dict_components):
-
-    # Identify which argumentative components (premises) **directly support** a given target component.
-
-    # Parameters
-    # ----------
-    # conclusion_number : int
-    #     The index (1‑based) of the target component.
-    # text : str
-    #     The full original text that contains all components.
-    # arg_components : str
-    #     The numbered list of components exactly as they appear in *text* (one per line).
-    # dict_components : Dict[int, str]
-    #     A mapping from component number to its raw string.
-
-    # Returns
-    # -------
-    # str
-    #     A single instruction string to send to the LLM.  The model must
-    #     reply **only** with "Answer: <numbers>" where <numbers> is a comma‑separated
-    #     list of integers in ascending order, or 0 if no supporters exist.
-
+    """
+    Generate prompt to identify premises that directly support a conclusion.
+    
+    Args:
+        conclusion_number: Target component ID
+        text: Original text
+        arg_components: List of numbered components
+        dict_components: Dictionary mapping IDs to text
+        
+    Returns:
+        Formatted prompt string
+    """
     instruction = f"""
         You will be given a short argumentative text and its numbered components.  Your job is to decide
         **which components directly support** a specified target component.
@@ -552,30 +640,22 @@ def premise_support(conclusion_number, text, arg_components, dict_components):
 
         Answer:
 """
-
     return instruction
 
+
 def premise_attack(conclusion_number, text, arg_components, dict_components):
-    # Identify which argumentative components (premises) directly attack a given target component.
-
-    # Parameters
-    # ----------
-    # conclusion_number : int
-    #     The index (1-based) of the target component to be tested for attacks.
-    # text : str
-    #     The full original text that contains all argumentative components.
-    # arg_components : str
-    #     The numbered list of components exactly as they appear in *text* (one per line).
-    # dict_components : Dict[int, str]
-    #     A mapping from component number to its raw string, e.g. {1: "...", 2: "..."}
-
-    # Returns
-    # -------
-    # str
-    #     A single string that becomes the model instruction.  The LLM must reply **only** with
-    #     "Answer: <numbers>" where <numbers> is a comma-separated list of integers – or 0 if
-    #     no attacks are found.
-
+    """
+    Generate prompt to identify premises that directly attack a conclusion.
+    
+    Args:
+        conclusion_number: Target component ID
+        text: Original text
+        arg_components: List of numbered components
+        dict_components: Dictionary mapping IDs to text
+        
+    Returns:
+        Formatted prompt string
+    """
     instruction = f"""
         You will be given a list of argumentative components. Your task is to identify *which* components
         **directly attack** a given target component.
@@ -683,12 +763,26 @@ def premise_attack(conclusion_number, text, arg_components, dict_components):
 
         Answer:
     """
-
     return instruction
 
-## Task 5: Check unvisited premises (Check Unvisited Premises)
-def missing_premise_support(premise, text, arg_components, dict_components):
 
+# =============================================================================
+# TASK 5: MISSING PREMISE DETECTION
+# =============================================================================
+
+def missing_premise_support(premise, text, arg_components, dict_components):
+    """
+    Generate prompt to find which components are supported by a given premise.
+    
+    Args:
+        premise: Premise component ID
+        text: Original text
+        arg_components: List of numbered components
+        dict_components: Dictionary mapping IDs to text
+        
+    Returns:
+        Formatted prompt string
+    """
     instruction = f'''
         You are given a short argumentative text and a list of numbered components (each expressing a claim). Your task is to identify which components are directly supported by a given premise.
 
@@ -697,7 +791,7 @@ def missing_premise_support(premise, text, arg_components, dict_components):
         Important Rules:
         - Only consider direct support (no attacks, no indirect relations).
         - A component cannot support itself.
-        - For each other component, ask: “Does this component receive direct support from the premise, without needing other components to bridge the reasoning?”
+        - For each other component, ask: "Does this component receive direct support from the premise, without needing other components to bridge the reasoning?"
 
         Example 1
         Text:
@@ -747,7 +841,7 @@ def missing_premise_support(premise, text, arg_components, dict_components):
 
         Your task:
         - Consider all components except the premise.
-        - For each, ask: “Is this component directly supported by the premise?”
+        - For each, ask: "Is this component directly supported by the premise?"
         - Include only those that are directly supported.
         - If the premise supports no component directly, return 0.
 
@@ -758,11 +852,22 @@ def missing_premise_support(premise, text, arg_components, dict_components):
         Premise component: {premise} - "{dict_components[premise]}"
         Answer:
 '''
-
     return instruction
 
-def missing_premise_attack(premise, text, arg_components, dict_components):
 
+def missing_premise_attack(premise, text, arg_components, dict_components):
+    """
+    Generate prompt to find which components are attacked by a given premise.
+    
+    Args:
+        premise: Premise component ID
+        text: Original text
+        arg_components: List of numbered components
+        dict_components: Dictionary mapping IDs to text
+        
+    Returns:
+        Formatted prompt string
+    """
     instruction = f'''
         You are given a short argumentative text and a list of numbered components (each expressing a claim). Your task is to identify which components are directly attacked by a given premise.
 
@@ -771,7 +876,7 @@ def missing_premise_attack(premise, text, arg_components, dict_components):
         Important Rules:
         - Only consider direct attacks (no support, no indirect attacks).
         - A component cannot attack itself.
-        - For each other component, ask: “Is this component directly challenged or contradicted by the premise, without relying on other components?”
+        - For each other component, ask: "Is this component directly challenged or contradicted by the premise, without relying on other components?"
 
         Example 1
         Text:
@@ -784,7 +889,7 @@ def missing_premise_attack(premise, text, arg_components, dict_components):
 
         Target component: 1
         Answer: 2
-        Explanation: Component 2 directly undermines component 1 by introducing a negative consequence. Component 3 mitigates 2 but doesn’t directly address 1.
+        Explanation: Component 2 directly undermines component 1 by introducing a negative consequence. Component 3 mitigates 2 but doesn't directly address 1.
 
         Example 2
         Text:
@@ -797,7 +902,7 @@ def missing_premise_attack(premise, text, arg_components, dict_components):
 
         Target component: 1
         Answer: 2
-        Explanation: Component 2 directly challenges the value of component 1 by suggesting a drawback. Component 3 elaborates on 2, so it’s not a direct attack on 1.
+        Explanation: Component 2 directly challenges the value of component 1 by suggesting a drawback. Component 3 elaborates on 2, so it's not a direct attack on 1.
 
         Example 3
         Text:
@@ -819,7 +924,7 @@ def missing_premise_attack(premise, text, arg_components, dict_components):
 
         Target component: 1
         Answer: 2
-        Explanation: Component 2 directly undermines component 1 by suggesting a consequence that challenges its benefit. Although it’s not phrased as a strong disagreement, it logically contradicts the idea that extended hours improve performance. Component 3 supports 2, but does not directly address 1.
+        Explanation: Component 2 directly undermines component 1 by suggesting a consequence that challenges its benefit. Although it's not phrased as a strong disagreement, it logically contradicts the idea that extended hours improve performance. Component 3 supports 2, but does not directly address 1.
 
         Now, apply this logic to the following case:
         Text:
@@ -830,7 +935,7 @@ def missing_premise_attack(premise, text, arg_components, dict_components):
 
         Your task:
         - Consider all components except the premise.
-        - For each, ask: “Is this component directly attacked by the premise?”
+        - For each, ask: "Is this component directly attacked by the premise?"
         - Include only those that are directly attacked.
         - If the premise does not attack any component directly, return 0.
 
@@ -841,12 +946,120 @@ def missing_premise_attack(premise, text, arg_components, dict_components):
         Premise component: {premise} - "{dict_components[premise]}"
         Answer:
 '''
-
     return instruction
 
-## Task 6: Convergent premises
-def convergent_premises_support(conclusion, text, arg_components, dict_components, premises):
 
+def missing_premise_conclusion(conclusion, text, arg_components, dict_components):
+    """
+    Generate prompt to find premises that support a conclusion (alternative format).
+    
+    Args:
+        conclusion: Conclusion component ID
+        text: Original text
+        arg_components: List of numbered components
+        dict_components: Dictionary mapping IDs to text
+        
+    Returns:
+        Formatted prompt string
+    """
+    instruction = f'''
+        You are given a short argumentative text and a list of numbered components (each expressing a claim). Your task is to identify which components directly support a given target component.
+
+        A direct support occurs when a component gives a reason or justification for the target without depending on any other component.
+        
+        Important Rules:
+        - No component can support itself.
+        - You must consider each component one by one and ask: "Does this component give a direct justification for the target component, without relying on other components?"
+        - Only include components that directly support the target.
+        - Do not include components that:
+            - Attack or contradict the target
+            - Rely on other components to make their point
+            - Are unrelated
+            - Are the target itself
+        - If no component directly supports the target, return 0.
+
+
+        Example 1
+        Text:
+        Raising the minimum wage improves workers' quality of life. Higher income allows people to afford better housing. Better housing conditions can improve mental health.
+
+        Components:
+        1 - Raising the minimum wage improves workers' quality of life.
+        2 - Higher income allows people to afford better housing.
+        3 - Better housing conditions can improve mental health.
+
+        Target component: 1
+        Answer: 2
+        Explanation: Component 2 directly supports 1. Component 3 supports 2, not 1.
+
+        Example 2
+        Text:
+        Schools should ban phones during class. Phones distract students from learning. Many students use phones to cheat during exams.
+
+        Components:
+        1 - Schools should ban phones during class.
+        2 - Phones distract students from learning.
+        3 - Many students use phones to cheat during exams.
+
+        Target component: 1
+        Answer: 2, 3
+        Explanation: Both 2 and 3 give independent reasons supporting 1.
+
+        Example 3
+        Text:
+        Improving public transport can reduce car usage. Better public transport means shorter commute times. Shorter commutes lead to more productive workers.
+
+        Components:
+        1 - Improving public transport can reduce car usage.
+        2 - Better public transport means shorter commute times.
+        3 - Shorter commutes lead to more productive workers.
+
+        Target component: 1
+        Answer: 0
+        Explanation: Neither 2 nor 3 directly support the idea that public transport reduces car usage. They describe other benefits.
+
+
+        Now, apply this logic to the following case:
+        Text:
+        {text}
+
+        Components:
+        {arg_components}
+
+        Your task:
+        - Consider each component except the target.
+        - For each one, ask: "Does this component directly support the target by offering a justification that doesn't depend on other components?"
+        - Include only the components that meet this condition.
+        - If no component directly supports the target, return 0.
+
+        Output Format:
+        Answer: <numbers>
+        (e.g., Answer: 2 or Answer: 3, 4 or Answer: 0)
+
+        Premise component: {conclusion} - "{dict_components[conclusion]}"
+        Answer:
+'''
+    return instruction
+
+
+# =============================================================================
+# TASK 6: CONVERGENT PREMISES & IMPLICIT PREMISES
+# =============================================================================
+
+def convergent_premises_support(conclusion, text, arg_components, dict_components, premises):
+    """
+    Generate prompt to identify convergent premises that jointly support a conclusion.
+    
+    Args:
+        conclusion: Conclusion component ID
+        text: Original text
+        arg_components: List of numbered components
+        dict_components: Dictionary mapping IDs to text
+        premises: List of premise component IDs
+        
+    Returns:
+        Formatted prompt string
+    """
     instruction = f'''
     You are given a short argumentative text and a list of numbered components (each expressing a claim). Your task is to identify which premises work together in a **convergent way to support** a given conclusion.
 
@@ -855,7 +1068,7 @@ def convergent_premises_support(conclusion, text, arg_components, dict_component
     Important Rules:
     - Focus **only** on convergent supports (not independent or separate supports).
     - A component cannot support itself.
-    - For each premise, ask: “Does this premise help support the conclusion in a way that depends on the presence of other premises?”
+    - For each premise, ask: "Does this premise help support the conclusion in a way that depends on the presence of other premises?"
     - Include *only* premises that are part of a convergent supporting structure.
 
     ### Examples
@@ -949,10 +1162,410 @@ def convergent_premises_support(conclusion, text, arg_components, dict_component
     Premises: {premises}
     Answer:
     '''
-
     return instruction
 
+
+def convergent_premises_attack(conclusion, text, arg_components, dict_components, premises):
+    """
+    Generate prompt to identify convergent premises that jointly attack a conclusion.
+    
+    Args:
+        conclusion: Conclusion component ID
+        text: Original text
+        arg_components: List of numbered components
+        dict_components: Dictionary mapping IDs to text
+        premises: List of premise component IDs
+        
+    Returns:
+        Formatted prompt string
+    """
+    instruction = f'''
+        You are given a short argumentative text and a list of numbered components (each expressing a claim).  
+        Your task is to identify which premises work together in a **convergent way to attack** a given conclusion (or other designated claim).
+
+        A *convergent attack* occurs when multiple premises combine to undermine the conclusion.  
+        None of the premises alone is strong enough to refute the conclusion, but taken together they form a compelling counter-argument.
+
+        Important Rules:
+        - Focus **only** on convergent attacks (not independent or separate objections).
+        - A component cannot attack itself.
+        - For each premise ask: "Does this premise weaken the conclusion in a way that depends on the presence of other premises?"
+        - Include *only* premises that are part of a convergent attacking structure.
+
+        ### Examples
+
+        **Example 1**
+
+        Text:  
+        The project's proponents claim the new dam will supply cheap electricity. Therefore, the government should approve its construction.
+
+        Components:  
+        1. The dam site sits on a major fault line classified as high-risk for earthquakes.  
+        2. Recent seismic studies show the fault line has become more active over the past decade.  
+        3. Therefore, the government should approve the dam's construction.
+
+        Conclusion component: 3  
+
+        Explanation: Premise 1 notes earthquake risk; premise 2 reinforces that risk with fresh data. Either alone gives only a tentative reason to hesitate, but together they present a strong safety objection that undermines the approval decision.
+
+        **Example 2**
+
+        Text:  
+        The city council should privatize waste collection because it will reduce costs.
+
+        Components:  
+        1. A neighboring city privatized waste collection and saw costs rise by 15 %.  
+        2. A recent audit shows the council's current waste service already operates at lower cost than private bids.  
+        3. Therefore, the city council should privatize waste collection.
+
+        Conclusion component: 3  
+        
+        Explanation: Premise 1 (cost increased elsewhere) and premise 2 (current service is cheaper) each independently undercut the cost-saving claim. They do not rely on one another, so there is no convergent attack set.
+
+        **Example 3**
+
+        Text:  
+        Our town should host a large music festival next summer; it will boost tourism and generate revenue for local businesses.
+
+        Components:  
+        1. The town has only 500 hotel rooms, but last year's smaller festival attracted 8,000 visitors.  
+        2. The nearest emergency hospital is 45 km away and would be overloaded by a sudden influx.  
+        3. Hosting a large festival will boost tourism and revenue.  
+        4. Therefore, the town should host a large music festival next summer.
+
+        Conclusion component: 4  
+        
+        Explanation: Insufficient accommodation (1) plus inadequate emergency facilities (2) together create a compelling logistical and safety objection; neither premise alone fully demonstrates how unprepared the town is.
+
+        **Example 4**
+
+        Text:  
+        We should legalize night hunting of wild boar to control their population.
+
+        Components:  
+        1. Thermal-imaging rifles used at night have a high rate of misidentifying targets.  
+        2. Wildlife-agency data show that 18 % of night-hunting incidents injure protected species.  
+        3. Local hospitals report a spike in accidental firearm injuries during the current night-hunting trial period.  
+        4. Therefore, we should legalize night hunting of wild boar.
+
+        Conclusion component: 4  
+
+        Explanation: Premise 1 (identification errors), premise 2 (harm to protected species), and premise 3 (human injury data) interlock: together they indicate that night hunting is dangerous to both wildlife and people. Each premise alone signals a risk, but only in combination do they present a robust case against legalization.
+
+        Now, apply this logic to the following case:
+
+        Text:  
+        {text}
+
+        Components:  
+        {arg_components}
+
+        Your task:  
+        - Consider **only** the premises that attack the given conclusion.  
+        - Identify the ones that work together to undermine it in a convergent way.  
+        - Exclude premises that attack the conclusion independently.  
+        - If no convergent attack exists, return 0.
+
+        Output Format:
+        Answer: <numbers>
+        (e.g., Answer: 2, 3 or Answer: 0)
+
+        Conclusion component: {conclusion} - "{dict_components[conclusion]}"
+        Premises: {premises}
+        Answer:
+    '''
+    return instruction
+
+
+def build_relevant_links(prem_ids, concl_id, relation_type):
+    """
+    Helper function to format relevant links text.
+    
+    Args:
+        prem_ids: List of premise component IDs
+        concl_id: Conclusion component ID
+        relation_type: Either 'support' or 'attack'
+        
+    Returns:
+        Formatted string describing the relation
+    """
+    if len(prem_ids) == 1:
+        prem_text = f"{prem_ids[0]}"
+    else:
+        prem_text = ", ".join(map(str, prem_ids[:-1])) + " and " + str(prem_ids[-1])
+
+    return f"{prem_text} {relation_type} {concl_id}"
+
+
+def implicit_prompt_support(text, arg_components, prem_ids, concl_id):
+    """
+    Generate prompt to identify implicit premises in support relations.
+    
+    Args:
+        text: Original text
+        arg_components: List of numbered components
+        prem_ids: List of premise component IDs
+        concl_id: Conclusion component ID
+        
+    Returns:
+        Formatted prompt string
+    """
+    implicit_premises = f'''
+        An argument often contains implicit premises. These premises are assumed in the conversation without being explicitly stated. They are essential to the argument's validity, because they provide the necessary support for the conclusion to follow.
+
+        Your task is that of recovering the implicit premises connected to explicit arguments. Do that only when, without them, the conclusion would not logically follow from the stated premise(s).
+        
+        ---
+        **Example 1:**
+
+        Text:
+        These letters attributed to Nestor show a classical rhetorical style. We know that Nestor never attended a literary writing course. Therefore, Nestor could not have been so refined as to write such letters.
+
+        Explicit Components:
+        1 - These letters attributed to Nestor show a classical rhetorical style.
+        2 - We know that Nestor never attended a literary writing course.
+        3 - Nestor could not have been so refined as to write such letters.
+
+        Explicit Relation under Analysis:
+        1 and 2 jointly support 3
+
+        Implicit Components:
+        1 - Only those who have attended a literary writing course write with a classical rhetorical style.
+        2 - Those who write letters in a classical rhetorical style are refined.
+
+        ---
+        **Example 2: (No Implicit Premises)**
+
+        Text:
+        People who get regular exercise sleep better. I go jogging three times a week. Therefore, I sleep better than before.
+
+        Explicit Components:
+        1 - People who get regular exercise sleep better.
+        2 - I go jogging three times a week.
+        3 - I sleep better than before.
+
+        Explicit Relation:
+        1 and 2 jointly support 3
+
+        Implicit Components:
+        0
+
+        ---
+        **Example 3:**
+
+        Text:
+        Our city has high summer temperatures, and the nearest public swimming pool is far away. Therefore, the city should build a local pool.
+
+        Explicit Components:
+        1 - The city has high summer temperatures.
+        2 - The nearest public swimming pool is far away.
+        3 - Therefore, the city should build a local pool.
+
+        Explicit Relation:
+        1 and 2 jointly support 3
+
+        Implicit Components:
+        1 - High temperatures combined with lack of nearby pools create a significant need for local swimming options.
+
+        ---
+        **Example 4:**
+
+        Text:
+        It is interesting to note that art critics write more about works they do not appreciate than about those they do. Therefore, art critics write more about works that do not meet their criteria of value. Consequently, art critics write about works that are not great works of art. Now, if art criticism has formative value, then art critics should write about works that are great works of art. You can already imagine the conclusion.
+
+        Explicit Components:
+        1 - Art critics write more about works they do not appreciate than about those they do.
+        2 - Art critics write more about works that do not meet their criteria of value. 
+        3 - Art critics write about works that are not great works of art. 
+        4 - If art criticism has formative value, then art critics should write about works that are great works of art.
+
+        Explicit Relation:
+        2 supports 3
+
+        Implicit Components:
+        1 - Works that do not meet the critics' criteria of evaluation are not great works of art.
+
+        ---
+
+        Now apply the same logic to the following case.
+
+        **Text:**
+        {text}
+
+        **Explicit Components:**
+        {arg_components}
+
+        **Premise Number:** {prem_ids}
+        **Conclusion Number:** {prem_ids}
+
+        ---
+
+        **Task:**
+        Write any implicit premise(s) that are *both*:
+        (a) necessary to link the given premise(s) to the conclusion, and  
+        (b) not already expressed in any explicit component.
+
+        **Quality criteria (duplication check)**  
+        ✓ *Novelty*: The statement must add new content not found in any explicit component.  
+        ✓ *Necessity*: Removing the statement would break the inference.  
+        ✗ *No paraphrases or repetitions*: If a candidate merely rephrases or restates what's already there, omit it.
+
+        **Output rules**  
+        1. Number starting at 1 (independent of explicit numbers).  
+        2. Separate multiple implicit premises with semicolons (;).  
+        3. If none are needed, output exactly **0**.  
+        4. Focus **only** on the premise(s) and conclusion mentioned in the relation. Ignore other components.
+
+        ---
+        Output format (one line):
+        Answer: <implicit premises>  (e.g., Answer: 1 - Implicit sentence one; 2 - Implicit sentence two)
+        or
+        Answer: 0
+        '''
+    return implicit_premises
+
+
+def implicit_prompt_attack(text, arg_components, prem_ids, concl_id):
+    """
+    Generate prompt to identify implicit premises in attack relations.
+    
+    Args:
+        text: Original text
+        arg_components: List of numbered components
+        prem_ids: List of premise component IDs
+        concl_id: Conclusion component ID
+        
+    Returns:
+        Formatted prompt string
+    """
+    implicit_premises = f'''
+        An argument often contains implicit premises. These premises are assumed in the conversation without being explicitly stated. They are essential to the argument's validity, because they provide necessary support for claims — or explain how a claim defeats another.
+
+        Sometimes a single premise attacks a conclusion; sometimes multiple premises work together (convergently) to attack a conclusion. In both cases, implicit premises may be necessary.
+
+        ---
+        **Example 1: (Independent Attack)**
+
+        Text:
+        Some people claim meditation improves mental health, but multiple scientific studies show no measurable improvement. Therefore, meditation does not improve mental health.
+
+        Explicit Components:
+        1 - Some people claim meditation improves mental health.
+        2 - Multiple scientific studies show no measurable improvement.
+        3 - Meditation does not improve mental health.
+
+        Explicit Relation:
+        2 attacks 1
+
+        Implicit Components:
+        4 - Scientific studies are a more reliable source of truth than personal claims.
+
+        ---
+        **Example 2: (No Implicit Premises in Attack)**
+
+        Text:
+        Eating chocolate late at night makes it harder to fall asleep. Thus, you should avoid chocolate before bedtime.
+
+        Explicit Components:
+        1 - Eating chocolate late at night makes it harder to fall asleep.
+        2 - You should avoid chocolate before bedtime.
+
+        Explicit Relation:
+        1 supports 2
+
+        (There is no attack relation in this case.)
+
+        Implicit Components:
+        0
+
+        ---
+        **Example 3: (Convergent Attack)**
+
+        Text:
+        A company claims their new smartphone battery lasts all day. However, independent tests show it lasts only 6 hours, and hundreds of users report needing to recharge by mid-afternoon. Therefore, the company's claim is false.
+
+        Explicit Components:
+        1 - Independent tests show the battery lasts only 6 hours.
+        2 - Users report needing to recharge by mid-afternoon.
+        3 - The company's claim that the battery lasts all day.
+
+        Explicit Relation:
+        1 and 2 jointly attack 3
+
+        Implicit Components:
+        4 - A battery that lasts only 6 hours does not count as "lasting all day".
+
+        ---
+        **Example 4: (Convergent Attack with No New Implicit Premises)**
+
+        Text:
+        An online school advertises "guaranteed job placement after graduation." However, surveys show only 30% of graduates find jobs within six months. Financial audits show the school spends almost nothing on career services.
+
+        Explicit Components:
+        1 - Only 30% of graduates find jobs within six months.
+        2 - The school spends almost nothing on career services.
+        3 - "Guaranteed job placement" claim.
+
+        Explicit Relation:
+        1 and 2 jointly attack 3
+
+        Implicit Components:
+        0
+
+        ---
+
+        Now apply the same logic to the following case.
+
+        ---
+        **Text:**
+        {text}
+
+        **Explicit Components:**
+        {arg_components}
+
+        **Premise Number:** {prem_ids}
+        **Conclusion Number:** {prem_ids}
+
+        ---
+
+        **Task:**
+        Identify any implicit premises that are necessary to explain **how the premise(s) attack the conclusion**.
+
+        **Instructions:**
+        1. If implicit premises are needed, write each one in the format:  
+        `<number> - <text>`, starting with number 1.
+        2. Separate multiple implicit premises with semicolons (;).
+        3. If no implicit premises are needed, answer only with the number `0`.
+        4. Focus **only** on the premise(s) and conclusion mentioned in the relation. Ignore other components.
+
+        ---
+        Output format (one line):
+        Answer: <implicit premises>  (e.g., Answer: 1 - Implicit sentence one; 2 - Implicit sentence two)
+        or
+        Answer: 0
+        '''
+    return implicit_premises
+
+
+# =============================================================================
+# TASK 7: COUNTERARGUMENT ANALYSIS
+# =============================================================================
+
 def get_counterarguments(text, arg_components, premises, target, relations_text, arg_components_attack):
+    """
+    Generate prompt to distinguish direct attacks from inference attacks.
+    
+    Args:
+        text: Original text
+        arg_components: List of numbered components
+        premises: Attacking premise(s)
+        target: Target component being attacked
+        relations_text: Existing relations involving the target
+        arg_components_attack: Formatted list of attack relations
+        
+    Returns:
+        Formatted prompt string
+    """
     instruction = f"""
         You are given an argumentative text and a list of its components (e.g., premises and conclusions), along with an existing attack relation.
 
@@ -1075,442 +1688,33 @@ def get_counterarguments(text, arg_components, premises, target, relations_text,
         Indicate your final answer with ANSWER:
 
 """
-
     return instruction
 
 
-def convergent_premises_attack(conclusion, text, arg_components, dict_components, premises):
+# =============================================================================
+# TASK 8: PREMISE EVALUATION
+# =============================================================================
 
-    instruction = f'''
-        You are given a short argumentative text and a list of numbered components (each expressing a claim).  
-        Your task is to identify which premises work together in a **convergent way to attack** a given conclusion (or other designated claim).
-
-        A *convergent attack* occurs when multiple premises combine to undermine the conclusion.  
-        None of the premises alone is strong enough to refute the conclusion, but taken together they form a compelling counter-argument.
-
-        Important Rules:
-        - Focus **only** on convergent attacks (not independent or separate objections).
-        - A component cannot attack itself.
-        - For each premise ask: “Does this premise weaken the conclusion in a way that depends on the presence of other premises?”
-        - Include *only* premises that are part of a convergent attacking structure.
-
-        ### Examples
-
-        **Example 1**
-
-        Text:  
-        The project's proponents claim the new dam will supply cheap electricity. Therefore, the government should approve its construction.
-
-        Components:  
-        1. The dam site sits on a major fault line classified as high-risk for earthquakes.  
-        2. Recent seismic studies show the fault line has become more active over the past decade.  
-        3. Therefore, the government should approve the dam's construction.
-
-        Conclusion component: 3  
-
-        Explanation: Premise 1 notes earthquake risk; premise 2 reinforces that risk with fresh data. Either alone gives only a tentative reason to hesitate, but together they present a strong safety objection that undermines the approval decision.
-
-        **Example 2**
-
-        Text:  
-        The city council should privatize waste collection because it will reduce costs.
-
-        Components:  
-        1. A neighboring city privatized waste collection and saw costs rise by 15 %.  
-        2. A recent audit shows the council's current waste service already operates at lower cost than private bids.  
-        3. Therefore, the city council should privatize waste collection.
-
-        Conclusion component: 3  
-        
-        Explanation: Premise 1 (cost increased elsewhere) and premise 2 (current service is cheaper) each independently undercut the cost-saving claim. They do not rely on one another, so there is no convergent attack set.
-
-        **Example 3**
-
-        Text:  
-        Our town should host a large music festival next summer; it will boost tourism and generate revenue for local businesses.
-
-        Components:  
-        1. The town has only 500 hotel rooms, but last year's smaller festival attracted 8,000 visitors.  
-        2. The nearest emergency hospital is 45 km away and would be overloaded by a sudden influx.  
-        3. Hosting a large festival will boost tourism and revenue.  
-        4. Therefore, the town should host a large music festival next summer.
-
-        Conclusion component: 4  
-        
-        Explanation: Insufficient accommodation (1) plus inadequate emergency facilities (2) together create a compelling logistical and safety objection; neither premise alone fully demonstrates how unprepared the town is.
-
-        **Example 4**
-
-        Text:  
-        We should legalize night hunting of wild boar to control their population.
-
-        Components:  
-        1. Thermal-imaging rifles used at night have a high rate of misidentifying targets.  
-        2. Wildlife-agency data show that 18 % of night-hunting incidents injure protected species.  
-        3. Local hospitals report a spike in accidental firearm injuries during the current night-hunting trial period.  
-        4. Therefore, we should legalize night hunting of wild boar.
-
-        Conclusion component: 4  
-
-        Explanation: Premise 1 (identification errors), premise 2 (harm to protected species), and premise 3 (human injury data) interlock: together they indicate that night hunting is dangerous to both wildlife and people. Each premise alone signals a risk, but only in combination do they present a robust case against legalization.
-
-        Now, apply this logic to the following case:
-
-        Text:  
-        {text}
-
-        Components:  
-        {arg_components}
-
-        Your task:  
-        - Consider **only** the premises that attack the given conclusion.  
-        - Identify the ones that work together to undermine it in a convergent way.  
-        - Exclude premises that attack the conclusion independently.  
-        - If no convergent attack exists, return 0.
-
-        Output Format:
-        Answer: <numbers>
-        (e.g., Answer: 2, 3 or Answer: 0)
-
-        Conclusion component: {conclusion} - "{dict_components[conclusion]}"
-        Premises: {premises}
-        Answer:
-    '''
-
-    return instruction
-
-def missing_premise_conclusion(conclusion, text, arg_components, dict_components):
-
-    instruction = f'''
-        You are given a short argumentative text and a list of numbered components (each expressing a claim). Your task is to identify which components directly support a given target component.
-
-        A direct support occurs when a component gives a reason or justification for the target without depending on any other component.
-        
-        Important Rules:
-        - No component can support itself.
-        - You must consider each component one by one and ask: “Does this component give a direct justification for the target component, without relying on other components?”
-        - Only include components that directly support the target.
-        - Do not include components that:
-            - Attack or contradict the target
-            - Rely on other components to make their point
-            - Are unrelated
-            - Are the target itself
-        - If no component directly supports the target, return 0.
-
-
-        Example 1
-        Text:
-        Raising the minimum wage improves workers’ quality of life. Higher income allows people to afford better housing. Better housing conditions can improve mental health.
-
-        Components:
-        1 - Raising the minimum wage improves workers’ quality of life.
-        2 - Higher income allows people to afford better housing.
-        3 - Better housing conditions can improve mental health.
-
-        Target component: 1
-        Answer: 2
-        Explanation: Component 2 directly supports 1. Component 3 supports 2, not 1.
-
-        Example 2
-        Text:
-        Schools should ban phones during class. Phones distract students from learning. Many students use phones to cheat during exams.
-
-        Components:
-        1 - Schools should ban phones during class.
-        2 - Phones distract students from learning.
-        3 - Many students use phones to cheat during exams.
-
-        Target component: 1
-        Answer: 2, 3
-        Explanation: Both 2 and 3 give independent reasons supporting 1.
-
-        Example 3
-        Text:
-        Improving public transport can reduce car usage. Better public transport means shorter commute times. Shorter commutes lead to more productive workers.
-
-        Components:
-        1 - Improving public transport can reduce car usage.
-        2 - Better public transport means shorter commute times.
-        3 - Shorter commutes lead to more productive workers.
-
-        Target component: 1
-        Answer: 0
-        Explanation: Neither 2 nor 3 directly support the idea that public transport reduces car usage. They describe other benefits.
-
-
-        Now, apply this logic to the following case:
-        Text:
-        {text}
-
-        Components:
-        {arg_components}
-
-        Your task:
-        - Consider each component except the target.
-        - For each one, ask: “Does this component directly support the target by offering a justification that doesn’t depend on other components?”
-        - Include only the components that meet this condition.
-        - If no component directly supports the target, return 0.
-
-        Output Format:
-        Answer: <numbers>
-        (e.g., Answer: 2 or Answer: 3, 4 or Answer: 0)
-
-        Premise component: {conclusion} - "{dict_components[conclusion]}"
-        Answer:
-'''
-
-    return instruction
-
-## Task 6: Implicit Premises
-def build_relevant_links(prem_ids, concl_id, relation_type):
-    """
-    Creates the 'relevant_links' text dynamically.
-    prem_ids: list of premise IDs (could be 1 or many)
-    concl_id: ID of the conclusion
-    relation_type: 'support' or 'attack'
-    """
-    if len(prem_ids) == 1:
-        prem_text = f"{prem_ids[0]}"
-    else:
-        prem_text = ", ".join(map(str, prem_ids[:-1])) + " and " + str(prem_ids[-1])
-
-    return f"{prem_text} {relation_type} {concl_id}"
-
-def implicit_prompt_support(text, arg_components, prem_ids, concl_id):
-    
-    implicit_premises = f'''
-        An argument often contains implicit premises. These premises are assumed in the conversation without being explicitly stated. They are essential to the argument's validity, because they provide the necessary support for the conclusion to follow.
-
-        Your task is that of recovering the implicit premises connected to explicit arguments. Do that only when, without them, the conclusion would not logically follow from the stated premise(s).
-        
-        ---
-        **Example 1:**
-
-        Text:
-        These letters attributed to Nestor show a classical rhetorical style. We know that Nestor never attended a literary writing course. Therefore, Nestor could not have been so refined as to write such letters.
-
-        Explicit Components:
-        1 - These letters attributed to Nestor show a classical rhetorical style.
-        2 - We know that Nestor never attended a literary writing course.
-        3 - Nestor could not have been so refined as to write such letters.
-
-        Explicit Relation under Analysis:
-        1 and 2 jointly support 3
-
-        Implicit Components:
-        1 - Only those who have attended a literary writing course write with a classical rhetorical style.
-        2 - Those who write letters in a classical rhetorical style are refined.
-
-        ---
-        **Example 2: (No Implicit Premises)**
-
-        Text:
-        People who get regular exercise sleep better. I go jogging three times a week. Therefore, I sleep better than before.
-
-        Explicit Components:
-        1 - People who get regular exercise sleep better.
-        2 - I go jogging three times a week.
-        3 - I sleep better than before.
-
-        Explicit Relation:
-        1 and 2 jointly support 3
-
-        Implicit Components:
-        0
-
-        ---
-        **Example 3:**
-
-        Text:
-        Our city has high summer temperatures, and the nearest public swimming pool is far away. Therefore, the city should build a local pool.
-
-        Explicit Components:
-        1 - The city has high summer temperatures.
-        2 - The nearest public swimming pool is far away.
-        3 - Therefore, the city should build a local pool.
-
-        Explicit Relation:
-        1 and 2 jointly support 3
-
-        Implicit Components:
-        1 - High temperatures combined with lack of nearby pools create a significant need for local swimming options.
-
-        ---
-        **Example 4:**
-
-        Text:
-        It is interesting to note that art critics write more about works they do not appreciate than about those they do. Therefore, art critics write more about works that do not meet their criteria of value. Consequently, art critics write about works that are not great works of art. Now, if art criticism has formative value, then art critics should write about works that are great works of art. You can already imagine the conclusion.
-
-        Explicit Components:
-        1 - Art critics write more about works they do not appreciate than about those they do.
-        2 - Art critics write more about works that do not meet their criteria of value. 
-        3 - Art critics write about works that are not great works of art. 
-        4 - If art criticism has formative value, then art critics should write about works that are great works of art.
-
-        Explicit Relation:
-        2 supports 3
-
-        Implicit Components:
-        1 - Works that do not meet the critics' criteria of evaluation are not great works of art.
-
-        ---
-
-        Now apply the same logic to the following case.
-
-        **Text:**
-        {text}
-
-        **Explicit Components:**
-        {arg_components}
-
-        **Premise Number:** {prem_ids}
-        **Conclusion Number:** {prem_ids}
-
-        ---
-
-        **Task:**
-        Write any implicit premise(s) that are *both*:
-        (a) necessary to link the given premise(s) to the conclusion, and  
-        (b) not already expressed in any explicit component.
-
-        **Quality criteria (duplication check)**  
-        ✓ *Novelty*: The statement must add new content not found in any explicit component.  
-        ✓ *Necessity*: Removing the statement would break the inference.  
-        ✗ *No paraphrases or repetitions*: If a candidate merely rephrases or restates what’s already there, omit it.
-
-        **Output rules**  
-        1. Number starting at 1 (independent of explicit numbers).  
-        2. Separate multiple implicit premises with semicolons (;).  
-        3. If none are needed, output exactly **0**.  
-        4. Focus **only** on the premise(s) and conclusion mentioned in the relation. Ignore other components.
-
-        ---
-        Output format (one line):
-        Answer: <implicit premises>  (e.g., Answer: 1 - Implicit sentence one; 2 - Implicit sentence two)
-        or
-        Answer: 0
-        '''
-    return implicit_premises
-
-def implicit_prompt_attack(text, arg_components, prem_ids, concl_id):
-    
-    implicit_premises = f'''
-        An argument often contains implicit premises. These premises are assumed in the conversation without being explicitly stated. They are essential to the argument's validity, because they provide necessary support for claims — or explain how a claim defeats another.
-
-        Sometimes a single premise attacks a conclusion; sometimes multiple premises work together (convergently) to attack a conclusion. In both cases, implicit premises may be necessary.
-
-        ---
-        **Example 1: (Independent Attack)**
-
-        Text:
-        Some people claim meditation improves mental health, but multiple scientific studies show no measurable improvement. Therefore, meditation does not improve mental health.
-
-        Explicit Components:
-        1 - Some people claim meditation improves mental health.
-        2 - Multiple scientific studies show no measurable improvement.
-        3 - Meditation does not improve mental health.
-
-        Explicit Relation:
-        2 attacks 1
-
-        Implicit Components:
-        4 - Scientific studies are a more reliable source of truth than personal claims.
-
-        ---
-        **Example 2: (No Implicit Premises in Attack)**
-
-        Text:
-        Eating chocolate late at night makes it harder to fall asleep. Thus, you should avoid chocolate before bedtime.
-
-        Explicit Components:
-        1 - Eating chocolate late at night makes it harder to fall asleep.
-        2 - You should avoid chocolate before bedtime.
-
-        Explicit Relation:
-        1 supports 2
-
-        (There is no attack relation in this case.)
-
-        Implicit Components:
-        0
-
-        ---
-        **Example 3: (Convergent Attack)**
-
-        Text:
-        A company claims their new smartphone battery lasts all day. However, independent tests show it lasts only 6 hours, and hundreds of users report needing to recharge by mid-afternoon. Therefore, the company's claim is false.
-
-        Explicit Components:
-        1 - Independent tests show the battery lasts only 6 hours.
-        2 - Users report needing to recharge by mid-afternoon.
-        3 - The company's claim that the battery lasts all day.
-
-        Explicit Relation:
-        1 and 2 jointly attack 3
-
-        Implicit Components:
-        4 - A battery that lasts only 6 hours does not count as "lasting all day".
-
-        ---
-        **Example 4: (Convergent Attack with No New Implicit Premises)**
-
-        Text:
-        An online school advertises "guaranteed job placement after graduation." However, surveys show only 30% of graduates find jobs within six months. Financial audits show the school spends almost nothing on career services.
-
-        Explicit Components:
-        1 - Only 30% of graduates find jobs within six months.
-        2 - The school spends almost nothing on career services.
-        3 - "Guaranteed job placement" claim.
-
-        Explicit Relation:
-        1 and 2 jointly attack 3
-
-        Implicit Components:
-        0
-
-        ---
-
-        Now apply the same logic to the following case.
-
-        ---
-        **Text:**
-        {text}
-
-        **Explicit Components:**
-        {arg_components}
-
-        **Premise Number:** {prem_ids}
-        **Conclusion Number:** {prem_ids}
-
-        ---
-
-        **Task:**
-        Identify any implicit premises that are necessary to explain **how the premise(s) attack the conclusion**.
-
-        **Instructions:**
-        1. If implicit premises are needed, write each one in the format:  
-        `<number> - <text>`, starting with number 1.
-        2. Separate multiple implicit premises with semicolons (;).
-        3. If no implicit premises are needed, answer only with the number `0`.
-        4. Focus **only** on the premise(s) and conclusion mentioned in the relation. Ignore other components.
-
-        ---
-        Output format (one line):
-        Answer: <implicit premises>  (e.g., Answer: 1 - Implicit sentence one; 2 - Implicit sentence two)
-        or
-        Answer: 0
-        '''
-    return implicit_premises
-
-# Premise evaluation
 def evaluation_text(text, arg_components, links, idx, premise):
-
+    """
+    Generate prompt to evaluate premise quality (acceptability, relevance, sufficiency).
+    
+    Args:
+        text: Original text
+        arg_components: List of numbered components
+        links: List of identified links
+        idx: Index of the link to evaluate
+        premise: Premise component being evaluated
+        
+    Returns:
+        Formatted prompt string
+    """
     eval_prompt = f'''
     An argument is made up of premises that support or attack a conclusion; premises that, in turn, can be supported or attacked by others. To evaluate the quality of an argument, we need to assess the premises it is composed of and how they relate to the conclusion.
     A premise can be evaluated according to three aspects: acceptability, relevance, and sufficiency.
     1 - Acceptability: whether the premises appear as acceptable to the interlocutors. This criterion, in turn, is divided into three main points: A - Are the premises true or probable?; B - What source are they based on: scientific knowledge, common sense, personal report, etc..; C - Within the context in which the argumentation is inserted, can the premise be considered controversial?
-    2 - Relevance: whether the premises are related to the content of the conclusion, in a way that contributes to its support or refutation. For example, consider the text: “I think the inspection done by the engineer on the cracks in the house was not sufficient to determine the cause. After all, he did not bother to visit the construction next door, to assess the impact generated. His measurements were also quite imprecise. Moreover, the service was quite expensive.” In this argument, the last sentence (“the service was quite expensive”) states that the price of the inspection was high. Although one can question the price charged, the fact that the inspection is expensive is not relevant to the establishment of the point presented in the conclusion, namely, the non-detection of the cause of the problem.
-    3 - Sufficiency: whether the elements presented in the premise are enough to support the conclusion in view. Consider the following example: “Mr. X is the president of the country. Mr. Y is from party Y. The most powerful man in the country is from party Y.” The premises listed are insufficient to ensure the conclusion: the president is not necessarily the most powerful person in a country; the most important person in a country may be an opposition leader, a businessman, or some other person.
+    2 - Relevance: whether the premises are related to the content of the conclusion, in a way that contributes to its support or refutation. For example, consider the text: "I think the inspection done by the engineer on the cracks in the house was not sufficient to determine the cause. After all, he did not bother to visit the construction next door, to assess the impact generated. His measurements were also quite imprecise. Moreover, the service was quite expensive." In this argument, the last sentence ("the service was quite expensive") states that the price of the inspection was high. Although one can question the price charged, the fact that the inspection is expensive is not relevant to the establishment of the point presented in the conclusion, namely, the non-detection of the cause of the problem.
+    3 - Sufficiency: whether the elements presented in the premise are enough to support the conclusion in view. Consider the following example: "Mr. X is the president of the country. Mr. Y is from party Y. The most powerful man in the country is from party Y." The premises listed are insufficient to ensure the conclusion: the president is not necessarily the most powerful person in a country; the most important person in a country may be an opposition leader, a businessman, or some other person.
 
     Now, consider the following argument:
 
@@ -1537,12 +1741,23 @@ def evaluation_text(text, arg_components, links, idx, premise):
     *Summary*: <text>
 
     '''
-
     return eval_prompt
 
-# Prompt to test premise relation one-by-one
-def individual_premise(text, arg_components, dict_components, premise, conclusion):
 
+def individual_premise(text, arg_components, dict_components, premise, conclusion):
+    """
+    Generate prompt to test individual premise-conclusion relation.
+    
+    Args:
+        text: Original text
+        arg_components: List of numbered components
+        dict_components: Dictionary mapping IDs to text
+        premise: Premise component ID
+        conclusion: Conclusion component ID
+        
+    Returns:
+        Formatted prompt string
+    """
     instruction = f'''Consider the following argument:
 
 Text: {text}
@@ -1558,6 +1773,4 @@ Additional instruction:
 2 - Consider only the direct relation between the premise and the conclusion; i.e., not mediated by other premises.
 
     '''
-
     return instruction
-    

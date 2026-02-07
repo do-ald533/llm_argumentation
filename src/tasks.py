@@ -2,7 +2,7 @@ from collections import defaultdict
 import networkx as nx
 from copy import deepcopy
 from src.utils import generate_completion, components_dict, renumber_and_insert, create_arg_components, merge_argumentative_components, extract_answer, add_implicit_sentences, update_convergent_results, extract_last_answer, eliminate_and_insert, renumber_all
-from src.prompts import argumentative_components, components_corrected, merge_components, rewrite_sentence, argumentative_conclusion, premise_support, premise_attack, missing_premise_support, missing_premise_attack, convergent_premises_support, convergent_premises_attack, merge_components_cycle, implicit_prompt_support, implicit_prompt_attack, get_counterarguments
+from llm.prompts import argumentative_components, components_corrected, merge_components, rewrite_sentence, argumentative_conclusion, premise_support, premise_attack, missing_premise_support, missing_premise_attack, convergent_premises_support, convergent_premises_attack, merge_components_cycle, implicit_prompt_support, implicit_prompt_attack, get_counterarguments
 
 ## Task 1: Identify argumentative components
 def task_identify_components(model, text, tokenizer):

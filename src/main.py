@@ -1,82 +1,71 @@
-import pandas as pd
+"""Main entry point for the argumentation structuring pipeline."""
 import sys
-from src.utils import create_graph, filter_and_renumber
-from src.tasks import task_identify_components, task_correct_components, task_merge_components, task_rewrite_sentences, task_extract_conclusion, task_identify_relations, task_missing_links, task_convergent_premises, task_implicit_premises, task_counterarguments, task_create_acyclic_graph
-import json
+import argparse
+from pathlib import Path
 
-def executar_pipeline(argument_name, text, model_name="gpt-4.1", output_path="graph.png"):
+# Add src to path for direct execution
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
-    counterarguments = None
-    print("Text received:", text)
-    
-    model = model_name
-    tokenizer = None
+from src.config import config
+from src.pipeline import ArgumentationPipeline
+from src.logging_config import setup_logging
 
-    ## Task 1: Argument Mining
-    dict_components, arg_components = task_identify_components(model, text, tokenizer)
-    print("Task: Identify Components", arg_components)
 
-    # Task 4: Conclusion Identification
-    conclusion_number = task_extract_conclusion(model, tokenizer, text, arg_components)
-    print('Task: Conclusion:', conclusion_number)
-
-    ## Task 5: Premise Relation
-    links, visited, not_in_set = task_identify_relations(model, tokenizer, text, arg_components, dict_components, conclusion_number)
-
-    print('Visited:', visited)
-    print("Final Links: ", links)
-    print(f'Not in set: {not_in_set}')
-
-    ## Task 6: Check Unvisited Premises
-    dict_components, new_arg_components, links, conclusion_number = task_missing_links(model, tokenizer, text, arg_components, dict_components, not_in_set, links, conclusion_number)
-    print('Task: Links with Missing Premises:', links)
-
-    # Get the number of explicit premises
-    count = len(dict_components)
-
-    ## Task 10 and 11: Argumentative Graph and Transitive Reduction
-    # Create graph
-    reduced_links, convergent_arguments = task_create_acyclic_graph(links)
-    print('Reduced links:', reduced_links)
-    print('Convergent arguments:', convergent_arguments)
-    print('Counterarguments:', counterarguments)
-    print('Conclusion number:', conclusion_number)
-    print('Dict components:', dict_components),
-
-    ## Task 12: Diagram
-    create_graph(
-        components=dict_components,
-        name=output_path,
-        count=count,
-        conclusion=conclusion_number,
-        links_with_relation=reduced_links,
-        convergent_arguments=convergent_arguments, # Create intermediate nodes for convergent premises
-        counterarguments=counterarguments # Include counterarguments
+def main():
+    """Main entry point."""
+    parser = argparse.ArgumentParser(
+        description="LLM-based Argumentation Structuring Pipeline"
     )
+    parser.add_argument(
+        "--input",
+        type=Path,
+        required=True,
+        help="Input CSV file with text_id and text_tokens columns"
+    )
+    parser.add_argument(
+        "--output-prefix",
+        type=str,
+        default="output",
+        help="Prefix for output files (default: output)"
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Limit number of texts to process (for testing)"
+    )
+    
+    args = parser.parse_args()
+    
+    # Setup logging
+    logger = setup_logging()
+    
+    # Validate input file
+    if not args.input.exists():
+        logger.error("input_file_not_found", path=str(args.input))
+        return
+    
+    # Initialize pipeline
+    logger.info("pipeline_starting", 
+                model=config.openai_model,
+                input_file=str(args.input),
+                output_dir=str(config.output_data_dir))
+    
+    pipeline = ArgumentationPipeline(config)
+    
+    # Process texts
+    try:
+        graphs = pipeline.process_csv(args.input, args.output_prefix, limit=args.limit)
+        
+        if args.limit and len(graphs) >= args.limit:
+            logger.info("processing_limit_reached", limit=args.limit, processed=len(graphs))
+    
+    except KeyboardInterrupt:
+        logger.warning("pipeline_interrupted_by_user")
+    except Exception as e:
+        logger.error("pipeline_failed", error=str(e), exc_info=True)
+        raise
 
-    # Save graph description
-    data = {
-        "dict_components": dict_components,
-        "reduced_links": reduced_links,
-        "convergent_arguments": convergent_arguments,
-        "counterarguments": counterarguments,
-        "conclusion": conclusion_number
-    }
 
-    # salvar
-    with open(f"Graphs/{argument_name}.json", "w") as f:
-        json.dump(data, f, indent=4)
-
-df = pd.read_csv("arguments.csv", sep = ';')
-
-def get_argument_text(name):
-    row = df.loc[df["name"] == name, "text"]
-    if not row.empty:
-        return row.values[0]
-    else:
-        raise ValueError(f"Argument '{name}' not found.")
-
-argument_name = sys.argv[1]  # get argument from terminal
-text = get_argument_text(argument_name)
-
-executar_pipeline(argument_name, text, model_name="gpt-5-mini", output_path=f"Diagrams/{argument_name}.png")
+if __name__ == "__main__":
+    main()

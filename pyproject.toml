@@ -1,7 +1,45 @@
 [project]
 name = "llm-argumentation-structuring"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.12"
-dependencies = []
+description = "LLM-based argumentation structuring and analysis pipeline"
+readme = "README_NEW.md"
+requires-python = ">=3.10"
+dependencies = [
+    # Core
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
+    "python-dotenv>=1.0.0",
+    
+    # LLM and AI
+    "openai>=1.10.0",
+    "langchain>=0.1.0",
+    "langchain-openai>=0.0.5",
+    "langchain-core>=0.1.0",
+    "langgraph>=0.0.20",
+    
+    # Data processing
+    "polars>=0.20.0",
+    
+    # Graph algorithms
+    "networkx>=3.0",
+    
+    # Logging
+    "structlog>=24.1.0",
+]
+
+[project.optional-dependencies]
+# Optional dependencies for legacy code and evaluation
+legacy = [
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "graphviz>=0.20.0",
+    "scikit-learn>=1.3.0",
+]
+
+# Development dependencies
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+]
