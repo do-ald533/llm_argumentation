@@ -25,6 +25,14 @@ class Config(BaseSettings):
     output_data_dir: Path = Field(default=Path("output"), description="Output directory")
     golden_standard_dir: Path = Field(default=Path("data/Golden Standard"), description="Golden standard directory")
     
+    # MLflow Configuration
+    mlflow_tracking_uri: str = Field(default="./mlruns", description="MLflow tracking URI")
+    mlflow_experiment_name: str = Field(default="argumentation-structuring", description="MLflow experiment name")
+    enable_mlflow: bool = Field(default=True, description="Enable MLflow experiment tracking")
+    
+    # Prompt versioning (for tracking)
+    prompt_version: str = Field(default="1.0", description="Version of prompts being used")
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

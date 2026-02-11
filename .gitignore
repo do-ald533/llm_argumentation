@@ -30,6 +30,12 @@ logs/
 # Data outputs
 data/
 *.csv
+output/
+
+# MLflow tracking
+mlruns/
+mlartifacts/
+.mlflow/
 
 # Backup files
 *.bak

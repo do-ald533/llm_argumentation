@@ -8,13 +8,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.config import config
 from src.pipeline import ArgumentationPipeline
-from src.logging_config import setup_logging
+from src.logging_config import setup_logging, get_logger
 
 
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description="LLM-based Argumentation Structuring Pipeline"
+        description="LLM-based Argumentation Structuring Pipeline with MLflow Tracking"
     )
     parser.add_argument(
         "--input",
@@ -34,6 +34,29 @@ def main():
         default=None,
         help="Limit number of texts to process (for testing)"
     )
+    parser.add_argument(
+        "--golden-components",
+        type=Path,
+        default=None,
+        help="Path to golden standard components CSV for evaluation"
+    )
+    parser.add_argument(
+        "--golden-relations",
+        type=Path,
+        default=None,
+        help="Path to golden standard relations CSV for evaluation"
+    )
+    parser.add_argument(
+        "--run-name",
+        type=str,
+        default=None,
+        help="Custom name for MLflow run (auto-generated if not provided)"
+    )
+    parser.add_argument(
+        "--no-mlflow",
+        action="store_true",
+        help="Disable MLflow experiment tracking"
+    )
     
     args = parser.parse_args()
     
@@ -45,20 +68,66 @@ def main():
         logger.error("input_file_not_found", path=str(args.input))
         return
     
+    # Override MLflow setting if disabled via CLI
+    if args.no_mlflow:
+        config.enable_mlflow = False
+        logger.info("mlflow_disabled_via_cli")
+    
     # Initialize pipeline
     logger.info("pipeline_starting", 
                 model=config.openai_model,
+                temperature=config.temperature,
+                prompt_version=config.prompt_version,
                 input_file=str(args.input),
-                output_dir=str(config.output_data_dir))
+                output_dir=str(config.output_data_dir),
+                mlflow_enabled=config.enable_mlflow)
     
     pipeline = ArgumentationPipeline(config)
     
+    # Auto-detect golden standard if not provided but prefix matches known datasets
+    golden_components = args.golden_components
+    golden_relations = args.golden_relations
+    
+    if not golden_components and not golden_relations:
+        # Try to auto-detect based on output prefix
+        possible_components = config.golden_standard_dir / f"components_{args.output_prefix}.csv"
+        possible_relations = config.golden_standard_dir / f"relations_{args.output_prefix}.csv"
+        
+        if possible_components.exists() and possible_relations.exists():
+            golden_components = possible_components
+            golden_relations = possible_relations
+            logger.info("golden_standard_auto_detected",
+                       components=str(golden_components),
+                       relations=str(golden_relations))
+    
     # Process texts
     try:
-        graphs = pipeline.process_csv(args.input, args.output_prefix, limit=args.limit)
+        graphs = pipeline.process_csv(
+            input_file=args.input,
+            output_prefix=args.output_prefix,
+            limit=args.limit,
+            golden_components_path=golden_components,
+            golden_relations_path=golden_relations,
+            run_name=args.run_name
+        )
         
-        if args.limit and len(graphs) >= args.limit:
-            logger.info("processing_limit_reached", limit=args.limit, processed=len(graphs))
+        logger.info("processing_complete", 
+                   total=len(graphs),
+                   output_prefix=args.output_prefix)
+        
+        # Print summary
+        print(f"\n{'='*60}")
+        print(f"Processing Complete!")
+        print(f"{'='*60}")
+        print(f"Texts processed: {len(graphs)}")
+        print(f"Output directory: {config.output_data_dir}")
+        print(f"Output files: components_{args.output_prefix}.csv, relations_{args.output_prefix}.csv")
+        
+        if config.enable_mlflow:
+            print(f"\nMLflow tracking URI: {config.mlflow_tracking_uri}")
+            print(f"View results: mlflow ui --port 5000")
+        
+        print(f"{'='*60}\n")
     
     except KeyboardInterrupt:
         logger.warning("pipeline_interrupted_by_user")

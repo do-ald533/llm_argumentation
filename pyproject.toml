@@ -25,6 +25,9 @@ dependencies = [
     
     # Logging
     "structlog>=24.1.0",
+    
+    # Experiment tracking
+    "mlflow>=2.10.0",
 ]
 
 [project.optional-dependencies]
