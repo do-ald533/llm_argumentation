@@ -61,7 +61,8 @@ class ArgumentationPipeline:
         limit: Optional[int] = None,
         golden_components_path: Optional[Path] = None,
         golden_relations_path: Optional[Path] = None,
-        run_name: Optional[str] = None
+        run_name: Optional[str] = None,
+        graph_image: bool = False
     ) -> List[ArgumentGraph]:
         """Process texts from CSV file with MLflow tracking.
         
@@ -72,6 +73,7 @@ class ArgumentationPipeline:
             golden_components_path: Path to golden standard components for evaluation
             golden_relations_path: Path to golden standard relations for evaluation
             run_name: Optional custom name for MLflow run
+            graph_image: If True, save graph images (PNG) for each text
             
         Returns:
             List of processed ArgumentGraph objects
@@ -132,6 +134,14 @@ class ArgumentationPipeline:
             try:
                 graph = self.workflow.run(text, text_id)
                 graphs.append(graph)
+                
+                # Save graph image if requested
+                if graph_image:
+                    images_dir = self.config.output_data_dir / "graphs"
+                    images_dir.mkdir(parents=True, exist_ok=True)
+                    image_path = images_dir / f"graph_{text_id}.png"
+                    graph.visualize(image_path)
+                    logger.info("graph_image_saved", text_id=text_id, path=str(image_path))
             except Exception as e:
                 logger.error("text_processing_failed", text_id=text_id, error=str(e))
                 failed_count += 1
@@ -184,9 +194,19 @@ class ArgumentationPipeline:
             if relations_path.exists():
                 mlflow.log_artifact(str(relations_path), artifact_path="outputs")
             
+            # Log graph images as artifacts if generated
+            if graph_image:
+                images_dir = self.config.output_data_dir / "graphs"
+                if images_dir.exists():
+                    for img_file in images_dir.glob("*.png"):
+                        mlflow.log_artifact(str(img_file), artifact_path="graphs")
+            
+            # Capture run_id before ending
+            run_id = mlflow.active_run().info.run_id if mlflow.active_run() else "unknown"
+            
             # End run
             mlflow.end_run()
-            logger.info("mlflow_run_complete", run_id=mlflow.active_run().info.run_id if mlflow.active_run() else "unknown")
+            logger.info("mlflow_run_complete", run_id=run_id)
         
         logger.info("pipeline_complete", 
                    processed_count=len(graphs),

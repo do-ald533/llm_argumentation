@@ -1,5 +1,5 @@
 """State definitions for the argumentation workflow."""
-from typing import TypedDict, Dict, List, Optional
+from typing import TypedDict, Dict, List, Optional, Set
 from src.models import ArgumentComponent, ArgumentRelation
 
 
@@ -12,10 +12,16 @@ class WorkflowState(TypedDict):
     text_id: str
     text: str
     
-    # Intermediate results
+    # Step 1: Identified components
     components: Dict[int, ArgumentComponent]
-    relations: List[ArgumentRelation]
+    
+    # Step 2: Conclusion
     conclusion_id: Optional[int]
+    
+    # Step 3: Relations (from recursive BFS)
+    relations: List[ArgumentRelation]
+    visited: List[int]
+    unvisited: List[int]
     
     # Metadata
     errors: List[str]

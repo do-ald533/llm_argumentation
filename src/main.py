@@ -57,6 +57,11 @@ def main():
         action="store_true",
         help="Disable MLflow experiment tracking"
     )
+    parser.add_argument(
+        "--graph-image",
+        action="store_true",
+        help="Save argumentation graph images (PNG) for each processed text"
+    )
     
     args = parser.parse_args()
     
@@ -108,7 +113,8 @@ def main():
             limit=args.limit,
             golden_components_path=golden_components,
             golden_relations_path=golden_relations,
-            run_name=args.run_name
+            run_name=args.run_name,
+            graph_image=args.graph_image
         )
         
         logger.info("processing_complete", 

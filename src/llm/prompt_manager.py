@@ -3,7 +3,7 @@
 This module contains all the prompt templates used in the pipeline.
 Keeping the original prompts from prompts.py but organizing them better.
 """
-from llm.prompts import (
+from src.llm.prompts import (
     argumentative_components,
     components_corrected,
     merge_components,

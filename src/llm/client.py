@@ -1,7 +1,4 @@
-"""LLM client wrapper using LangChain."""
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_core.output_parsers import StrOutputParser
+"""LLM client wrapper using OpenAI."""
 import openai
 from typing import Optional, Type, TypeVar
 from pydantic import BaseModel
@@ -27,7 +24,6 @@ class LLMClient:
         
         # Use native OpenAI for more control
         self.client = openai.OpenAI(api_key=config.openai_api_key)
-        self.parser = StrOutputParser()
     
     def generate(
         self,

@@ -1,12 +1,12 @@
 """Task implementations for the argumentation pipeline."""
 from .identification import IdentificationTask
-from .classification import ClassificationTask
-from .relations import RelationExtractionTask
 from .conclusion import ConclusionExtractionTask
+from .relations import RelationExtractionTask
+from .unvisited import UnvisitedPremisesTask
 
 __all__ = [
     "IdentificationTask",
-    "ClassificationTask",
+    "ConclusionExtractionTask",
     "RelationExtractionTask",
-    "ConclusionExtractionTask"
+    "UnvisitedPremisesTask"
 ]

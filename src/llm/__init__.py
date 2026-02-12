@@ -2,8 +2,6 @@
 from .client import LLMClient
 from .prompt_manager import PromptManager
 from .structured_models import (
-    BatchClassificationOutput,
-    ComponentClassification,
     BatchRelationOutput,
     RelationOutput,
     ComponentIdentificationOutput,
@@ -14,8 +12,6 @@ from .structured_models import (
 __all__ = [
     "LLMClient",
     "PromptManager",
-    "BatchClassificationOutput",
-    "ComponentClassification",
     "BatchRelationOutput",
     "RelationOutput",
     "ComponentIdentificationOutput",

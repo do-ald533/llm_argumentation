@@ -3,26 +3,6 @@ from pydantic import BaseModel, Field
 from typing import List, Literal
 
 
-class ComponentClassification(BaseModel):
-    """Classification for a single component."""
-    
-    component_id: int = Field(..., description="ID of the component")
-    label: Literal["MajorClaim", "Claim", "Premise"] = Field(
-        ...,
-        description="Classification: MajorClaim (main conclusion), Claim (sub-conclusion), or Premise (supporting evidence)"
-    )
-    reasoning: str = Field(..., description="Brief explanation for the classification")
-
-
-class BatchClassificationOutput(BaseModel):
-    """Structured output for batch component classification."""
-    
-    classifications: List[ComponentClassification] = Field(
-        ...,
-        description="List of classifications for all components"
-    )
-
-
 class RelationOutput(BaseModel):
     """A single relation between components."""
     
@@ -30,7 +10,7 @@ class RelationOutput(BaseModel):
     target_id: int = Field(..., description="ID of the target component")
     relation_type: Literal["support", "attack"] = Field(
         ...,
-        description="Type of relation: 'support' (agrees with/provides evidence for) or 'attack' (contradicts/opposes)"
+        description="Type of relation: 'support' or 'attack'"
     )
     reasoning: str = Field(..., description="Brief explanation for this relation")
 

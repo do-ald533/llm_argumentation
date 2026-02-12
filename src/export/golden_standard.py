@@ -7,6 +7,8 @@ from src.logging_config import get_logger
 
 logger = get_logger("export")
 
+SEPARATOR = ";"
+
 
 def export_to_golden_standard(
     graphs: List[ArgumentGraph],
@@ -14,6 +16,8 @@ def export_to_golden_standard(
     prefix: str = "output"
 ) -> None:
     """Export multiple argumentation graphs to golden standard CSV files.
+    
+    Uses semicolon as CSV separator.
     
     Args:
         graphs: List of ArgumentGraph objects to export
@@ -32,47 +36,27 @@ def export_to_golden_standard(
         all_relations.extend(graph.to_golden_standard_relations())
     
     # Export components
+    components_path = output_dir / f"components_{prefix}.csv"
     if all_components:
         components_df = pl.DataFrame(all_components)
-        components_path = output_dir / f"components_{prefix}.csv"
-        components_df.write_csv(components_path)
+        components_df.write_csv(components_path, separator=SEPARATOR)
         logger.info("components_exported", count=len(all_components), path=str(components_path))
+    else:
+        # Write empty CSV with headers
+        pl.DataFrame({
+            "text_id": [], "component_tokens": [], "labels": []
+        }).write_csv(components_path, separator=SEPARATOR)
+        logger.warning("no_components_to_export", path=str(components_path))
     
     # Export relations
+    relations_path = output_dir / f"relations_{prefix}.csv"
     if all_relations:
         relations_df = pl.DataFrame(all_relations)
-        relations_path = output_dir / f"relations_{prefix}.csv"
-        relations_df.write_csv(relations_path)
+        relations_df.write_csv(relations_path, separator=SEPARATOR)
         logger.info("relations_exported", count=len(all_relations), path=str(relations_path))
-
-
-def export_single_graph(
-    graph: ArgumentGraph,
-    output_dir: Path,
-    text_id: str
-) -> None:
-    """Export a single argumentation graph to CSV files.
-    
-    Args:
-        graph: ArgumentGraph to export
-        output_dir: Output directory path
-        text_id: Text identifier for filename
-    """
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Export components
-    components = graph.to_golden_standard_components()
-    if components:
-        components_df = pl.DataFrame(components)
-        components_path = output_dir / f"components_{text_id}.csv"
-        components_df.write_csv(components_path)
-        logger.info("graph_components_exported", text_id=text_id, count=len(components), path=str(components_path))
-    
-    # Export relations
-    relations = graph.to_golden_standard_relations()
-    if relations:
-        relations_df = pl.DataFrame(relations)
-        relations_path = output_dir / f"relations_{text_id}.csv"
-        relations_df.write_csv(relations_path)
-        logger.info("graph_relations_exported", text_id=text_id, count=len(relations), path=str(relations_path))
+    else:
+        # Write empty CSV with headers
+        pl.DataFrame({
+            "text_id": [], "source_tokens": [], "target_tokens": [], "labels": []
+        }).write_csv(relations_path, separator=SEPARATOR)
+        logger.warning("no_relations_to_export", path=str(relations_path))
