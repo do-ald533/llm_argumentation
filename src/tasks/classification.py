@@ -1,8 +1,8 @@
 """Task for classifying argumentative components."""
-import re
-from typing import Dict, Literal
+from typing import Dict
 from src.models import ArgumentComponent
-from src.llm import LLMClient, PromptManager
+from src.llm import LLMClient, PromptManager, BatchClassificationOutput
+from src.logging_config import get_logger
 
 
 class ClassificationTask:
@@ -16,6 +16,7 @@ class ClassificationTask:
         """
         self.llm = llm_client
         self.prompts = PromptManager()
+        self.logger = get_logger("classification")
     
     def execute(
         self,
@@ -23,7 +24,7 @@ class ClassificationTask:
         components: Dict[int, ArgumentComponent],
         conclusion_id: int
     ) -> Dict[int, ArgumentComponent]:
-        """Classify all components.
+        """Classify all components using batch structured output.
         
         Args:
             text: Original text
@@ -33,83 +34,68 @@ class ClassificationTask:
         Returns:
             Updated components dictionary with classifications
         """
-        # Format all components for context
-        all_components_str = self._format_components(components)
+        # Mark conclusion as MajorClaim
+        components[conclusion_id].label = "MajorClaim"
         
-        # Classify each component
-        for comp_id, component in components.items():
-            if comp_id == conclusion_id:
-                # Conclusion is the MajorClaim
-                component.label = "MajorClaim"
-            else:
-                # Classify using LLM
-                label = self._classify_component(
-                    text,
-                    component.text,
-                    all_components_str
-                )
-                component.label = label
+        # Get list of components to classify (excluding conclusion)
+        to_classify = {
+            comp_id: comp
+            for comp_id, comp in components.items()
+            if comp_id != conclusion_id
+        }
         
-        return components
-    
-    def _classify_component(
-        self,
-        text: str,
-        component_text: str,
-        all_components: str
-    ) -> Literal["MajorClaim", "Claim", "Premise"]:
-        """Classify a single component.
+        if not to_classify:
+            return components
         
-        Args:
-            text: Original text
-            component_text: Component to classify
-            all_components: Formatted string of all components
-            
-        Returns:
-            Classification label
-        """
-        prompt = self.prompts.component_classification(
-            text,
-            component_text,
-            all_components
-        )
-        
-        response = self.llm.generate(prompt, max_tokens=300)
-        
-        # Extract classification from response
-        label = self._extract_classification(response)
-        return label
-    
-    @staticmethod
-    def _extract_classification(response: str) -> Literal["MajorClaim", "Claim", "Premise"]:
-        """Extract classification label from LLM response.
-        
-        Args:
-            response: LLM response
-            
-        Returns:
-            Classification label (defaults to "Premise" if unclear)
-        """
-        response_lower = response.lower()
-        
-        if "majorclaim" in response_lower or "major claim" in response_lower:
-            return "MajorClaim"
-        elif "claim" in response_lower and "major" not in response_lower:
-            return "Claim"
-        else:
-            return "Premise"
-    
-    @staticmethod
-    def _format_components(components: Dict[int, ArgumentComponent]) -> str:
-        """Format components for prompt context.
-        
-        Args:
-            components: Dictionary of components
-            
-        Returns:
-            Formatted string
-        """
-        return '\n'.join(
-            f"{comp_id} - {comp.text}"
+        # Format components for prompt
+        components_list = "\n".join(
+            f"{comp_id}. {comp.text}"
             for comp_id, comp in sorted(components.items())
         )
+        
+        # Create batch classification prompt
+        prompt = f"""Classify each argumentative component as either "Claim" or "Premise".
+
+**Definitions:**
+- **Claim**: A sub-conclusion or intermediate argument that supports the main conclusion
+- **Premise**: Evidence, facts, or reasons that directly support claims
+
+**Original Text:**
+{text}
+
+**All Components:**
+{components_list}
+
+**Main Conclusion (MajorClaim):** Component {conclusion_id}
+
+**Task:** Classify each component (except {conclusion_id}) as either "Claim" or "Premise".
+
+Components to classify: {", ".join(str(cid) for cid in sorted(to_classify.keys()))}
+"""
+        
+        try:
+            # Use structured output for reliable parsing
+            result = self.llm.generate_structured(
+                prompt=prompt,
+                response_model=BatchClassificationOutput,
+                system_message="You are an expert in argumentation mining and discourse analysis.",
+            )
+            
+            # Apply classifications
+            for classification in result.classifications:
+                if classification.component_id in components:
+                    components[classification.component_id].label = classification.label
+                    self.logger.debug(
+                        "component_classified",
+                        component_id=classification.component_id,
+                        label=classification.label,
+                        reasoning=classification.reasoning
+                    )
+            
+        except Exception as e:
+            self.logger.error("batch_classification_failed", error=str(e))
+            # Fallback: mark everything as Premise
+            for comp_id in to_classify:
+                components[comp_id].label = "Premise"
+        
+        return components

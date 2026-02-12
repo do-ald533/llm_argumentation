@@ -2,7 +2,7 @@
 
 This guide explains how to use MLflow for tracking experiments with different prompts, models, and configurations.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Install MLflow
 
@@ -41,7 +41,7 @@ mlflow ui --port 5000
 
 ---
 
-## 📊 What Gets Tracked
+## What Gets Tracked
 
 ### Parameters (Logged Automatically)
 - `llm_model`: Model name (e.g., gpt-4o-mini)
@@ -72,7 +72,7 @@ mlflow ui --port 5000
 
 ---
 
-## 🎯 Common Use Cases
+## Common Use Cases
 
 ### Use Case 1: Testing Different Prompts
 

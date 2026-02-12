@@ -36,7 +36,7 @@ class ConclusionExtractionTask:
         
         # Generate prompt and get response
         prompt = self.prompts.argumentative_conclusion(text, arg_components)
-        response = self.llm.generate(prompt, max_tokens=200)
+        response = self.llm.generate(prompt)
         
         # Extract conclusion ID
         conclusion_id = self._extract_conclusion_id(response)
