@@ -129,13 +129,23 @@ class RelationExtractionTask:
         forbidden: Set[int]
     ) -> List[int]:
         """Ask LLM which components directly support the given conclusion."""
+        # Tell the LLM which components it may choose from
+        available_ids = {
+            cid for cid in dict_components
+            if cid not in forbidden and cid != conclusion_id
+        }
+        
+        if not available_ids:
+            return []
+        
         prompt = self.prompts.premise_support(
-            conclusion_id, text, arg_components, dict_components
+            conclusion_id, text, arg_components, dict_components,
+            available_ids=available_ids
         )
         response = self.llm.generate(prompt)
         raw_ids = parse_answer_ids(response)
         
-        # Filter out forbidden and invalid IDs
+        # Safety filter (should be redundant now that prompt restricts choices)
         valid_ids = [
             pid for pid in raw_ids
             if pid in dict_components and pid not in forbidden
@@ -157,13 +167,23 @@ class RelationExtractionTask:
         forbidden: Set[int]
     ) -> List[int]:
         """Ask LLM which components directly attack the given conclusion."""
+        # Tell the LLM which components it may choose from
+        available_ids = {
+            cid for cid in dict_components
+            if cid not in forbidden and cid != conclusion_id
+        }
+        
+        if not available_ids:
+            return []
+        
         prompt = self.prompts.premise_attack(
-            conclusion_id, text, arg_components, dict_components
+            conclusion_id, text, arg_components, dict_components,
+            available_ids=available_ids
         )
         response = self.llm.generate(prompt)
         raw_ids = parse_answer_ids(response)
         
-        # Filter out forbidden and invalid IDs
+        # Safety filter (should be redundant now that prompt restricts choices)
         valid_ids = [
             pid for pid in raw_ids
             if pid in dict_components and pid not in forbidden

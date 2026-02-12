@@ -166,6 +166,38 @@ class UnvisitedPremisesTask:
                         text_id=text_id,
                         relation_type=kind
                     ))
+            elif a not in merged_ids and b in merged_ids:
+                # The target was merged — redirect to conclusion
+                if a in components and conclusion_id is not None and a != conclusion_id:
+                    relations.append(ArgumentRelation(
+                        source_id=a,
+                        target_id=conclusion_id,
+                        text_id=text_id,
+                        relation_type=kind
+                    ))
+        
+        # Step 5: Final safety net — ensure no component has zero edges
+        # Any component still disconnected gets linked to the conclusion
+        connected = set()
+        for r in relations:
+            connected.add(r.source_id)
+            connected.add(r.target_id)
+        
+        for comp_id in components:
+            if comp_id not in connected and comp_id != conclusion_id:
+                self.logger.warning(
+                    "final_orphan_linked_to_conclusion",
+                    component_id=comp_id,
+                    conclusion_id=conclusion_id,
+                    text_id=text_id,
+                )
+                if conclusion_id is not None:
+                    relations.append(ArgumentRelation(
+                        source_id=comp_id,
+                        target_id=conclusion_id,
+                        text_id=text_id,
+                        relation_type="support"
+                    ))
         
         self.logger.info(
             "unvisited_complete",
