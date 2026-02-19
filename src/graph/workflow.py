@@ -30,13 +30,11 @@ class ArgumentationWorkflow:
         self.llm_client = LLMClient(config)
         self.logger = get_logger("workflow")
         
-        # Initialize tasks
         self.identification_task = IdentificationTask(self.llm_client)
         self.conclusion_task = ConclusionExtractionTask(self.llm_client)
         self.relation_task = RelationExtractionTask(self.llm_client)
         self.unvisited_task = UnvisitedPremisesTask(self.llm_client)
         
-        # Build workflow graph
         self.workflow = self._build_workflow()
     
     def _build_workflow(self) -> StateGraph:
@@ -46,14 +44,12 @@ class ArgumentationWorkflow:
         """
         workflow = StateGraph(WorkflowState)
         
-        # Add nodes
         workflow.add_node("identify_components", self._identify_components)
         workflow.add_node("extract_conclusion", self._extract_conclusion)
         workflow.add_node("extract_relations", self._extract_relations)
         workflow.add_node("check_unvisited", self._check_unvisited)
         workflow.add_node("finalize", self._finalize)
         
-        # Linear edges
         workflow.set_entry_point("identify_components")
         workflow.add_edge("identify_components", "extract_conclusion")
         workflow.add_edge("extract_conclusion", "extract_relations")
@@ -89,7 +85,6 @@ class ArgumentationWorkflow:
         
         final_state = self.workflow.invoke(initial_state)
         
-        # Build the graph
         graph = ArgumentGraph(
             text_id=final_state["text_id"],
             text=final_state["text"],
@@ -98,7 +93,6 @@ class ArgumentationWorkflow:
             conclusion_id=final_state["conclusion_id"]
         )
         
-        # Derive labels from graph structure
         graph.derive_labels()
         
         self.logger.info(
@@ -110,8 +104,6 @@ class ArgumentationWorkflow:
         )
         
         return graph
-    
-    # ── Workflow Nodes ──────────────────────────────────────────────────
     
     def _identify_components(self, state: WorkflowState) -> Dict[str, Any]:
         """Node 1: Identify argumentative components."""
@@ -235,7 +227,6 @@ class ArgumentationWorkflow:
     
     def _finalize(self, state: WorkflowState) -> Dict[str, Any]:
         """Node 5: Finalize — validate relations, enforce DAG, transitive reduction."""
-        # Build a temporary graph to clean up
         graph = ArgumentGraph(
             text_id=state["text_id"],
             text=state["text"],
@@ -244,13 +235,10 @@ class ArgumentationWorkflow:
             conclusion_id=state["conclusion_id"]
         )
         
-        # 1. Remove relations referencing deleted/invalid components
         graph.validate_relations()
         
-        # 2. Ensure acyclicity (DAG constraint)
         graph.ensure_dag()
         
-        # 3. Transitive reduction — remove redundant edges
         graph.transitive_reduction()
         
         self.logger.info(

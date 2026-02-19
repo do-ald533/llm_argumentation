@@ -25,7 +25,6 @@ class BatchProcessor:
         self.processes: List[subprocess.Popen] = []
         self.interrupted = False
         
-        # Set up signal handler
         signal.signal(signal.SIGINT, self._signal_handler)
         signal.signal(signal.SIGTERM, self._signal_handler)
     
@@ -48,10 +47,8 @@ class BatchProcessor:
                 except ProcessLookupError:
                     pass
         
-        # Wait for graceful termination
         time.sleep(2)
         
-        # Force kill if needed
         for process in self.processes:
             if process.poll() is None:
                 print(f"  Force killing process {process.pid}...")
@@ -173,13 +170,11 @@ class BatchProcessor:
         
         try:
             with ProcessPoolExecutor(max_workers=max_workers) as executor:
-                # Submit all tasks
                 future_to_batch = {
                     executor.submit(self.process_single_batch, batch_file): batch_file.stem
                     for batch_file in batch_files
                 }
                 
-                # Process results as they complete
                 for future in as_completed(future_to_batch):
                     if self.interrupted:
                         executor.shutdown(wait=False, cancel_futures=True)

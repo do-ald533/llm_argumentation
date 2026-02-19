@@ -17,16 +17,13 @@ def setup_logging(logs_dir: Path = None, log_level: str = "INFO") -> structlog.B
     Returns:
         Configured logger instance
     """
-    # Create logs directory
     if logs_dir is None:
         logs_dir = Path(__file__).parent.parent / "logs"
     logs_dir.mkdir(exist_ok=True)
     
-    # Generate log filename with timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_file = logs_dir / f"pipeline_{timestamp}.log"
     
-    # Configure standard logging
     logging.basicConfig(
         format="%(message)s",
         level=getattr(logging, log_level.upper()),
@@ -36,7 +33,6 @@ def setup_logging(logs_dir: Path = None, log_level: str = "INFO") -> structlog.B
         ],
     )
     
-    # Configure structlog
     structlog.configure(
         processors=[
             structlog.contextvars.merge_contextvars,

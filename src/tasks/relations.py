@@ -51,7 +51,6 @@ class RelationExtractionTask:
         relations: List[ArgumentRelation] = []
         visited: Set[int] = set()
         queue: deque = deque([conclusion_id])
-        # Track children of each node to compute forbidden siblings
         children: Dict[int, List[int]] = {}
         
         while queue:
@@ -61,18 +60,15 @@ class RelationExtractionTask:
                 continue
             visited.add(current)
             
-            # Compute forbidden nodes: siblings (other premises of same parent)
             forbidden: Set[int] = set()
             for parent, siblings in children.items():
                 if current in siblings:
                     forbidden = set(siblings)
                     break
-            # Also forbid all ancestors (already visited nodes)
             forbidden |= visited
             
             self.logger.debug("visiting_node", node=current, text_id=text_id)
             
-            # --- Find supporting premises ---
             support_ids = self._get_support_premises(
                 current, text, arg_components, dict_components, forbidden
             )
@@ -89,7 +85,6 @@ class RelationExtractionTask:
                         ))
                         queue.append(prem_id)
             
-            # --- Find attacking premises ---
             attack_ids = self._get_attack_premises(
                 current, text, arg_components, dict_components, forbidden
             )
@@ -106,7 +101,6 @@ class RelationExtractionTask:
                         ))
                         queue.append(prem_id)
         
-        # Determine unvisited components
         all_ids = set(components.keys())
         unvisited = sorted(all_ids - visited)
         
@@ -129,7 +123,6 @@ class RelationExtractionTask:
         forbidden: Set[int]
     ) -> List[int]:
         """Ask LLM which components directly support the given conclusion."""
-        # Tell the LLM which components it may choose from
         available_ids = {
             cid for cid in dict_components
             if cid not in forbidden and cid != conclusion_id
@@ -145,7 +138,6 @@ class RelationExtractionTask:
         response = self.llm.generate(prompt)
         raw_ids = parse_answer_ids(response)
         
-        # Safety filter (should be redundant now that prompt restricts choices)
         valid_ids = [
             pid for pid in raw_ids
             if pid in dict_components and pid not in forbidden
@@ -167,7 +159,6 @@ class RelationExtractionTask:
         forbidden: Set[int]
     ) -> List[int]:
         """Ask LLM which components directly attack the given conclusion."""
-        # Tell the LLM which components it may choose from
         available_ids = {
             cid for cid in dict_components
             if cid not in forbidden and cid != conclusion_id
@@ -183,7 +174,6 @@ class RelationExtractionTask:
         response = self.llm.generate(prompt)
         raw_ids = parse_answer_ids(response)
         
-        # Safety filter (should be redundant now that prompt restricts choices)
         valid_ids = [
             pid for pid in raw_ids
             if pid in dict_components and pid not in forbidden

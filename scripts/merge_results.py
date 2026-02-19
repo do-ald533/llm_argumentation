@@ -109,7 +109,6 @@ def merge_results(
     input_path = Path(input_dir)
     output_path = Path(output_dir)
     
-    # Create output directory if needed
     output_path.mkdir(parents=True, exist_ok=True)
     
     print("=" * 60)
@@ -120,7 +119,6 @@ def merge_results(
     print(f"Dataset prefix: {prefix}")
     print()
     
-    # Find all batch component and relation files
     component_files = find_batch_files(input_path, "components_batch_*.csv")
     relation_files = find_batch_files(input_path, "relations_batch_*.csv")
     
@@ -130,15 +128,12 @@ def merge_results(
         print(f"In directory: {input_path}")
         return
     
-    # Merge component files
     component_output = output_path / f"components_{prefix}.csv"
     component_stats = merge_csv_files(component_files, component_output)
     
-    # Merge relation files
     relation_output = output_path / f"relations_{prefix}.csv"
     relation_stats = merge_csv_files(relation_files, relation_output)
     
-    # Create merge report
     create_merge_report(output_path, prefix, component_stats, relation_stats)
     
     print()

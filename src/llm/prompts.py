@@ -16,9 +16,6 @@ Pipeline steps:
 from typing import Dict, List, Optional, Set
 
 
-# =============================================================================
-# STEP 1: COMPONENT IDENTIFICATION
-# =============================================================================
 
 def argumentative_components(text: str) -> str:
     """Generate prompt to identify argumentative components in text."""
@@ -123,9 +120,6 @@ Your answer:
     return prompt
 
 
-# =============================================================================
-# STEP 3: BFS RELATION EXTRACTION (support & attack)
-# =============================================================================
 
 def premise_support(
     conclusion_number: int,
@@ -143,7 +137,6 @@ def premise_support(
         dict_components: ID -> text mapping.
         available_ids: If given, restrict the LLM to only consider these IDs.
     """
-    # Build the availability constraint
     if available_ids:
         eligible = sorted(available_ids)
         eligible_str = ", ".join(str(i) for i in eligible)
@@ -281,7 +274,6 @@ def premise_attack(
         dict_components: ID -> text mapping.
         available_ids: If given, restrict the LLM to only consider these IDs.
     """
-    # Build the availability constraint
     if available_ids:
         eligible = sorted(available_ids)
         eligible_str = ", ".join(str(i) for i in eligible)
@@ -404,9 +396,6 @@ Answer:
     return instruction
 
 
-# =============================================================================
-# STEP 4: UNVISITED PREMISES (missing support & attack)
-# =============================================================================
 
 def missing_premise_support(
     premise: int,
@@ -596,9 +585,6 @@ Answer:
     return instruction
 
 
-# =============================================================================
-# CYCLE RESOLUTION
-# =============================================================================
 
 def merge_components_cycle(
     text: str,

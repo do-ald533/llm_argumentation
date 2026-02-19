@@ -4,17 +4,13 @@ from copy import deepcopy
 from src.utils import generate_completion, components_dict, renumber_and_insert, create_arg_components, merge_argumentative_components, extract_answer, add_implicit_sentences, update_convergent_results, extract_last_answer, eliminate_and_insert, renumber_all
 from llm.prompts import argumentative_components, components_corrected, merge_components, rewrite_sentence, argumentative_conclusion, premise_support, premise_attack, missing_premise_support, missing_premise_attack, convergent_premises_support, convergent_premises_attack, merge_components_cycle, implicit_prompt_support, implicit_prompt_attack, get_counterarguments
 
-## Task 1: Identify argumentative components
 def task_identify_components(model, text, tokenizer):
     arg_prompt = argumentative_components(text)
 
-    # Create string with the arguments
     arg_components_full = generate_completion(model, tokenizer, arg_prompt)
 
-    #Create a dictionary with the argumentative components
     dict_components = components_dict(arg_components_full)
 
-    # Create string with arguments
     arg_components = create_arg_components(dict_components)
 
     return dict_components, arg_components
@@ -52,16 +48,13 @@ def task_correct_components(components, model, tokenizer):
     for idx in sorted(components.keys(), reverse=True):
         argument = components[idx]
 
-        # ask the model whether / how to split
         corrected_prompt       = components_corrected(argument)
         corrected_component_txt = generate_completion(model, tokenizer,
                                                       corrected_prompt)
         print("New components from model:\n", corrected_component_txt)
 
-        # turn "1 - …\n2 - …" into a dict
         new_entries = components_dict(corrected_component_txt)
 
-        # if the model really produced >1 entry, insert them
         if len(new_entries) > 1:
             updated = renumber_and_insert(updated, idx, new_entries)
 
@@ -69,41 +62,30 @@ def task_correct_components(components, model, tokenizer):
     return updated, merged_string
 
 def task_merge_components(model, tokenizer, text, arg_components, dict_components):
-    # Generate prompt for merging
     merge_prompt = merge_components(text, arg_components)
 
-    # Generate merged output
     merge_full = generate_completion(model, tokenizer, merge_prompt)
 
-    # Check if there is a valid merge (not empty and not "0")
     if merge_full and merge_full.strip() != "0":
-        # Update dictionary with merged components
         dict_components = merge_argumentative_components(dict_components, merge_full)
-        # Recreate merged argumentative components string
         arg_components = create_arg_components(dict_components)
 
     return dict_components, arg_components
 
 def task_rewrite_sentences(model, tokenizer, text, arg_components):
-    # Generate prompt for rewriting
     rewritten_prompt = rewrite_sentence(text, arg_components)
 
-    # Get rewritten components
     rewritten_output = generate_completion(model, tokenizer, rewritten_prompt)
 
-    # Recreate dict from rewritten output
     dict_components = components_dict(rewritten_output)
 
     return dict_components, rewritten_output
 
 def task_extract_conclusion(model, tokenizer, text, arg_components):
-    # Generate prompt for extracting conclusion
     conclusion_prompt = argumentative_conclusion(text, arg_components)
 
-    # Generate model output for the conclusion
     conclusion_component_full = generate_completion(model, tokenizer, conclusion_prompt)
 
-    # Extract the conclusion number or label
     conclusion_number = extract_answer(conclusion_component_full, 'CONCLUSION')[0]
 
     return conclusion_number
@@ -143,14 +125,12 @@ def task_identify_relations(model, tokenizer, text, arg_components, dict_compone
             continue
         visited.add(current)
 
-        # --- Find forbidden siblings ---
         forbidden_nodes = set()
         for parent, siblings in children.items():
             if current in siblings:
                 forbidden_nodes = set(siblings)
                 break
 
-        # --- Support ---
         filtered_support_numbers = get_support_numbers(model, tokenizer, current, text, arg_components, dict_components, forbidden_nodes)
 
         if filtered_support_numbers:
@@ -161,7 +141,6 @@ def task_identify_relations(model, tokenizer, text, arg_components, dict_compone
                     links.append([[prem], current, 'support'])
                     to_be_visited.append(prem)
 
-        # --- Attack ---
         filtered_attack_numbers = get_attack_numbers(model, tokenizer, current, text, arg_components, dict_components, forbidden_nodes)
 
         if filtered_attack_numbers:
@@ -203,10 +182,8 @@ def task_missing_links(model, tokenizer, text, arg_components, dict_components, 
     temp_links = []
     cycles = set()
 
-    # Step 1: Collect links from missing components
     for premise in not_in_set:
         print('Premise not in set:', premise)
-        # Support links
         targets = get_conclusions(premise, text, arg_components, dict_components, model, tokenizer, mode='support')
         print('Support:', targets)
         if targets and targets != [0]:
@@ -214,7 +191,6 @@ def task_missing_links(model, tokenizer, text, arg_components, dict_components, 
                 temp_links.append((premise, t, 'support'))
                 print((premise, t, 'support'))
 
-        # Attack links
         targets = get_conclusions(premise, text, arg_components, dict_components, model, tokenizer, mode='attack')
         print('Attack:', targets)
         if targets and targets != [0]:
@@ -222,28 +198,23 @@ def task_missing_links(model, tokenizer, text, arg_components, dict_components, 
                 temp_links.append((premise, t, 'attack'))
                 print((premise, t, 'attack'))
 
-    # Step 2: Detect 2-node cycles
     for a, b, kind in temp_links:
         for x, y, _ in temp_links:
             if x == b and y == a:
                 cycles.add(frozenset({a, b}))
 
-    # Step 3: Handle cycles
     if cycles:
         print("⚠️ Found cycles:")
         for cycle in cycles:
             print(" → ".join(str(x) for x in cycle))
 
             component_ids = sorted(list(cycle))
-            # Eliminate and merge
             dict_components, new_id, merged_text = eliminate_cycle(
                 model, tokenizer, text, arg_components, dict_components, component_ids
             )
 
-            # Update arg_components
             arg_components = create_arg_components(dict_components)
 
-            # Ask what the merged component supports/attacks
             for mode in ('support', 'attack'):
                 targets = get_conclusions(new_id, text, arg_components, dict_components, model, tokenizer, mode=mode)
                 if targets and targets != [0]:
@@ -252,7 +223,6 @@ def task_missing_links(model, tokenizer, text, arg_components, dict_components, 
     else:
         print("✅ No cycles found.")
 
-    # Step 4: Add remaining (non-cyclic) links
     for a, b, kind in temp_links:
         if frozenset({a, b}) not in cycles:
             links.append([[a], b, kind])
@@ -309,12 +279,10 @@ def task_convergent_premises(links, text, arg_components, dict_components, model
     Returns:
         dict: A dictionary with conclusions as keys and their convergent premises per relation type.
     """
-    # Collect every premise that targets the same (conclusion, relation)
     grouped = defaultdict(list)          # key -> flat list of premise ints
     passthrough = []                     # links we won't touch
 
     for prem_list, conclusion, relation in links:
-        # Only "support" or "attack" directed at a numbered conclusion
         if relation in {"support", "attack"} and isinstance(conclusion, int):
             grouped[(conclusion, relation)].extend(prem_list)  # still singletons
         else:
@@ -323,30 +291,23 @@ def task_convergent_premises(links, text, arg_components, dict_components, model
     new_links = []
 
     for (conclusion, relation), premise_pool in grouped.items():
-        # Nothing to merge if < 2 premises
         if len(premise_pool) < 2:
             new_links.extend([[[p], conclusion, relation] for p in premise_pool])
             continue
 
-        # Ask the model which premises really form a convergent set
         convergent = get_convergent_numbers(
             model, tokenizer, text, arg_components, dict_components,
             relation, conclusion, premise_pool
         )
 
-        # If the model found a convergent set (Answer: 0 means "none")
         if convergent and convergent != [0] and len(convergent) > 1:
-            # • One combined link for the convergent group
             new_links.append([sorted(convergent), conclusion, relation])
 
-            # • Keep any leftover premises as independent links
             leftovers = set(premise_pool) - set(convergent)
             new_links.extend([[[p], conclusion, relation] for p in leftovers])
         else:
-            # No convergence – keep original single-premise links
             new_links.extend([[[p], conclusion, relation] for p in premise_pool])
 
-    # Preserve every link that never needed processing
     new_links.extend(passthrough)
 
     return new_links
@@ -371,12 +332,10 @@ def task_implicit_premises(text, arg_components, dict_components, convergent_res
     ----------------------------------------------------------------------
     """
 
-    # Iterate over a *copy* so we can mutate the original list safely
     for link in convergent_results[:]:
         explicit_premises, conclusion, relation = link
         prem_ids = list(explicit_premises)   # defensive copy
 
-        # 1. Ask LLM whether we need implicit premises
         imps_clean = get_implicit_premises(
             model, tokenizer,
             text, arg_components,
@@ -384,14 +343,9 @@ def task_implicit_premises(text, arg_components, dict_components, convergent_res
             conclusion,                  # conclusion ID
             prem_ids)
         print('Implicit premise(s):', imps_clean)
-        # 2. If none are needed, continue to next relation
         if not imps_clean or imps_clean.strip() == "0":
             continue
 
-        # 3. Otherwise, add the sentences to the component dictionary …
-        #    `add_implicit_sentences` must:
-        #      • create one new component per implicit sentence;
-        #      • return the *list* of new IDs (in creation order).
         new_ids = add_implicit_sentences(
             imps_clean,
             dict_components,
@@ -399,11 +353,9 @@ def task_implicit_premises(text, arg_components, dict_components, convergent_res
             (prem_ids, conclusion))      # current explicit link
 
         print('Original link:', link)
-        # 4. Extend the current link *in place* with those IDs …
         link[0].extend(new_ids)
         print('Link with implicit premises:', link)
 
-    # Build new arg_components list
     arg_components = create_arg_components(dict_components)
 
     return dict_components, arg_components, convergent_results
@@ -411,13 +363,11 @@ def task_implicit_premises(text, arg_components, dict_components, convergent_res
 def get_attack_relation(convergent_results, links):
         all_attacks = {}
 
-        # Process the dictionary
         for conclusion, inner_dict in convergent_results.items():
             if 'attack' in inner_dict:
                 premises = inner_dict['attack']
                 all_attacks.setdefault(conclusion, []).extend(premises)
 
-        # Process the list
         attack_relations = [relation for relation in links if relation[1] == 'attack']
         for (premise, conclusion), _ in attack_relations:
             all_attacks.setdefault(conclusion, []).append(premise)

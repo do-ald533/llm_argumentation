@@ -24,20 +24,15 @@ def export_to_golden_standard(
         output_dir: Output directory path
         prefix: Prefix for output files (default: "output")
     """
-    # Handle prefix that may contain directory path
     prefix_path = Path(prefix)
     if prefix_path.parent != Path('.'):
-        # Prefix contains directory - use it as full path
         output_dir = prefix_path.parent
         file_prefix = prefix_path.name
     else:
-        # Simple prefix - use output_dir
         output_dir = Path(output_dir)
         file_prefix = prefix
     
     output_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Collect all components and relations
     all_components = []
     all_relations = []
     
@@ -45,27 +40,23 @@ def export_to_golden_standard(
         all_components.extend(graph.to_golden_standard_components())
         all_relations.extend(graph.to_golden_standard_relations())
     
-    # Export components
     components_path = output_dir / f"components_{file_prefix}.csv"
     if all_components:
         components_df = pl.DataFrame(all_components)
         components_df.write_csv(components_path, separator=SEPARATOR)
         logger.info("components_exported", count=len(all_components), path=str(components_path))
     else:
-        # Write empty CSV with headers
         pl.DataFrame({
             "text_id": [], "component_tokens": [], "labels": []
         }).write_csv(components_path, separator=SEPARATOR)
         logger.warning("no_components_to_export", path=str(components_path))
     
-    # Export relations
     relations_path = output_dir / f"relations_{file_prefix}.csv"
     if all_relations:
         relations_df = pl.DataFrame(all_relations)
         relations_df.write_csv(relations_path, separator=SEPARATOR)
         logger.info("relations_exported", count=len(all_relations), path=str(relations_path))
     else:
-        # Write empty CSV with headers
         pl.DataFrame({
             "text_id": [], "source_tokens": [], "target_tokens": [], "labels": []
         }).write_csv(relations_path, separator=SEPARATOR)

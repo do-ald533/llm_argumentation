@@ -13,7 +13,6 @@ from src.logging_config import get_logger
 
 logger = get_logger("pipeline")
 
-# MLflow imports (optional)
 try:
     import mlflow
     MLFLOW_AVAILABLE = True
@@ -46,7 +45,6 @@ class ArgumentationPipeline:
         self.config = config
         self.workflow = ArgumentationWorkflow(config)
         
-        # Setup MLflow if enabled
         if config.enable_mlflow and MLFLOW_AVAILABLE:
             mlflow.set_tracking_uri(config.mlflow_tracking_uri)
             mlflow.set_experiment(config.mlflow_experiment_name)
@@ -80,31 +78,25 @@ class ArgumentationPipeline:
         """
         start_time = time.time()
         
-        # Load input data
         logger.info("loading_input_data", path=str(input_file))
         df = pl.read_csv(input_file)
         
         if "text_id" not in df.columns or "text_tokens" not in df.columns:
             raise ValueError("CSV must have 'text_id' and 'text_tokens' columns")
         
-        # Apply limit if specified
         if limit:
             df = df.head(limit)
         
         total_texts = len(df)
         logger.info("texts_to_process", count=total_texts)
         
-        # Start MLflow run if enabled
         mlflow_active = self.config.enable_mlflow and MLFLOW_AVAILABLE
         
         if mlflow_active:
-            # Generate run name if not provided
             if run_name is None:
                 run_name = f"{output_prefix}_{time.strftime('%Y%m%d_%H%M%S')}"
             
             mlflow.start_run(run_name=run_name)
-            
-            # Log parameters
             mlflow.log_params({
                 "llm_model": self.config.openai_model,
                 "temperature": self.config.temperature,
@@ -116,12 +108,10 @@ class ArgumentationPipeline:
                 "prompt_hash": get_prompt_hash(),
             })
             
-            # Log prompts file as artifact
             prompts_file = Path("src/llm/prompts.py")
             if prompts_file.exists():
                 mlflow.log_artifact(str(prompts_file), artifact_path="prompts")
         
-        # Process each text
         graphs = []
         failed_count = 0
         
@@ -135,7 +125,6 @@ class ArgumentationPipeline:
                 graph = self.workflow.run(text, text_id)
                 graphs.append(graph)
                 
-                # Save graph image if requested
                 if graph_image:
                     images_dir = self.config.output_data_dir / "graphs"
                     images_dir.mkdir(parents=True, exist_ok=True)
@@ -149,7 +138,6 @@ class ArgumentationPipeline:
         
         processing_time = time.time() - start_time
         
-        # Export results
         logger.info("exporting_results", prefix=output_prefix)
         
         export_to_golden_standard(
@@ -158,11 +146,8 @@ class ArgumentationPipeline:
             prefix=output_prefix
         )
         
-        # Paths to generated outputs
         components_path = self.config.output_data_dir / f"components_{output_prefix}.csv"
         relations_path = self.config.output_data_dir / f"relations_{output_prefix}.csv"
-        
-        # Evaluate if golden standard provided
         evaluation_metrics = None
         if golden_components_path and golden_relations_path:
             logger.info("evaluating_against_golden_standard")
@@ -174,9 +159,7 @@ class ArgumentationPipeline:
             )
             logger.info("evaluation_complete", metrics=str(evaluation_metrics))
         
-        # Log metrics to MLflow
         if mlflow_active:
-            # Processing metrics
             mlflow.log_metrics({
                 "texts_processed": len(graphs),
                 "texts_failed": failed_count,
@@ -184,27 +167,21 @@ class ArgumentationPipeline:
                 "avg_time_per_text": processing_time / total_texts if total_texts > 0 else 0,
             })
             
-            # Evaluation metrics (if available)
             if evaluation_metrics:
                 mlflow.log_metrics(evaluation_metrics.to_dict())
-            
-            # Log output artifacts
             if components_path.exists():
                 mlflow.log_artifact(str(components_path), artifact_path="outputs")
             if relations_path.exists():
                 mlflow.log_artifact(str(relations_path), artifact_path="outputs")
             
-            # Log graph images as artifacts if generated
             if graph_image:
                 images_dir = self.config.output_data_dir / "graphs"
                 if images_dir.exists():
                     for img_file in images_dir.glob("*.png"):
                         mlflow.log_artifact(str(img_file), artifact_path="graphs")
             
-            # Capture run_id before ending
             run_id = mlflow.active_run().info.run_id if mlflow.active_run() else "unknown"
             
-            # End run
             mlflow.end_run()
             logger.info("mlflow_run_complete", run_id=run_id)
         

@@ -3,7 +3,6 @@ import sys
 import argparse
 from pathlib import Path
 
-# Add src to path for direct execution
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.config import config
@@ -65,20 +64,16 @@ def main():
     
     args = parser.parse_args()
     
-    # Setup logging
     logger = setup_logging()
     
-    # Validate input file
     if not args.input.exists():
         logger.error("input_file_not_found", path=str(args.input))
         return
     
-    # Override MLflow setting if disabled via CLI
     if args.no_mlflow:
         config.enable_mlflow = False
         logger.info("mlflow_disabled_via_cli")
     
-    # Initialize pipeline
     logger.info("pipeline_starting", 
                 model=config.openai_model,
                 temperature=config.temperature,
@@ -89,12 +84,10 @@ def main():
     
     pipeline = ArgumentationPipeline(config)
     
-    # Auto-detect golden standard if not provided but prefix matches known datasets
     golden_components = args.golden_components
     golden_relations = args.golden_relations
     
     if not golden_components and not golden_relations:
-        # Try to auto-detect based on output prefix
         possible_components = config.golden_standard_dir / f"components_{args.output_prefix}.csv"
         possible_relations = config.golden_standard_dir / f"relations_{args.output_prefix}.csv"
         
@@ -105,7 +98,6 @@ def main():
                        components=str(golden_components),
                        relations=str(golden_relations))
     
-    # Process texts
     try:
         graphs = pipeline.process_csv(
             input_file=args.input,
@@ -121,7 +113,6 @@ def main():
                    total=len(graphs),
                    output_prefix=args.output_prefix)
         
-        # Print summary
         print(f"\n{'='*60}")
         print(f"Processing Complete!")
         print(f"{'='*60}")

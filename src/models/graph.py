@@ -83,17 +83,14 @@ class ArgumentGraph(BaseModel):
         if nx.is_directed_acyclic_graph(G):
             return
         
-        # Iteratively remove edges until acyclic
         while not nx.is_directed_acyclic_graph(G):
             try:
                 cycle = nx.find_cycle(G, orientation="original")
-                # Remove the last edge in the cycle (most likely the spurious one)
                 u, v, _ = cycle[-1]
                 G.remove_edge(u, v)
             except nx.NetworkXNoCycle:
                 break
         
-        # Rebuild relations to match the cleaned graph
         remaining_edges = set(G.edges())
         self.relations = [
             r for r in self.relations
@@ -176,7 +173,6 @@ class ArgumentGraph(BaseModel):
         if len(G.nodes) == 0:
             return
         
-        # --- Tree layout ---
         R = G.reverse()  # reverse for BFS layering (root → leaves)
         root = self.conclusion_id
         if root is None or root not in G.nodes:
@@ -185,10 +181,8 @@ class ArgumentGraph(BaseModel):
         
         pos = self._hierarchy_pos(R, root)
         
-        # Identify disconnected nodes (zero degree in original graph)
         disconnected = {n for n in G.nodes if G.degree(n) == 0}
         
-        # --- Colors ---
         node_color_map = {
             "MajorClaim": "#E74C3C",   # Red
             "Claim":      "#3498DB",   # Blue
@@ -208,7 +202,6 @@ class ArgumentGraph(BaseModel):
                 node_colors.append(node_color_map.get(label, "#BDC3C7"))
                 node_edge_colors.append("#2C3E50")
         
-        # --- Node labels: ID + truncated text ---
         node_labels = {}
         for n in G.nodes:
             text = G.nodes[n].get("text", "")
@@ -216,11 +209,9 @@ class ArgumentGraph(BaseModel):
             status = " ⊘" if n in disconnected else ""
             node_labels[n] = f"{n}{status}\n{short}"
         
-        # --- Figure ---
         fig, ax = plt.subplots(1, 1, figsize=(18, 11))
         fig.patch.set_facecolor("white")
         
-        # Draw nodes
         nx.draw_networkx_nodes(
             G, pos,
             node_color=node_colors,
@@ -235,11 +226,9 @@ class ArgumentGraph(BaseModel):
             font_size=7, font_weight="bold", ax=ax,
         )
         
-        # --- Draw edges with varying curvature to reduce overlap ---
         support_edges = [e for e in G.edges if G.edges[e].get("relation") == "support"]
         attack_edges = [e for e in G.edges if G.edges[e].get("relation") == "attack"]
         
-        # Group edges by target to fan them out
         from collections import defaultdict
         edges_by_target: dict[int, list] = defaultdict(list)
         for u, v in G.edges:

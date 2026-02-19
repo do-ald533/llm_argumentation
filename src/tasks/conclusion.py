@@ -31,19 +31,14 @@ class ConclusionExtractionTask:
         Returns:
             ID of the conclusion component
         """
-        # Format components for prompt
         arg_components = self._format_components(components)
         
-        # Generate prompt and get response
         prompt = self.prompts.argumentative_conclusion(text, arg_components)
         response = self.llm.generate(prompt)
         
-        # Extract conclusion ID
         conclusion_id = self._extract_conclusion_id(response)
         
-        # Validate conclusion ID
         if conclusion_id not in components:
-            # Fallback: use last component
             conclusion_id = max(components.keys())
         
         return conclusion_id
@@ -58,7 +53,6 @@ class ConclusionExtractionTask:
         Returns:
             Conclusion component ID
         """
-        # Look for patterns like "CONCLUSION: 5" or "Answer: 5"
         patterns = [
             r'CONCLUSION:\s*(\d+)',
             r'Answer:\s*(\d+)',
@@ -71,12 +65,11 @@ class ConclusionExtractionTask:
             if match:
                 return int(match.group(1))
         
-        # Fallback: try to find any number
         numbers = re.findall(r'\d+', response)
         if numbers:
             return int(numbers[0])
         
-        return 1  # Ultimate fallback
+        return 1
     
     @staticmethod
     def _format_components(components: Dict[int, ArgumentComponent]) -> str:

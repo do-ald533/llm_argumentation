@@ -17,7 +17,6 @@ def parse_answer_ids(response: str) -> List[int]:
     Returns:
         List of component IDs (empty if none found or answer is 0)
     """
-    # Look for "Answer: ..." pattern
     match = re.search(r'Answer:\s*(.+)', response, re.IGNORECASE)
     if match:
         answer_text = match.group(1).strip()
@@ -27,7 +26,6 @@ def parse_answer_ids(response: str) -> List[int]:
         ids = [int(n) for n in numbers]
         return [i for i in ids if i != 0]
     
-    # Fallback: try to find any numbers in the response
     numbers = re.findall(r'\d+', response)
     if numbers:
         ids = [int(n) for n in numbers]
@@ -57,7 +55,6 @@ def parse_conclusion_id(response: str) -> int:
         if match:
             return int(match.group(1))
     
-    # Fallback: first number found
     numbers = re.findall(r'\d+', response)
     if numbers:
         return int(numbers[0])

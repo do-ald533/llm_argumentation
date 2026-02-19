@@ -22,7 +22,6 @@ class LLMClient:
         self.model_name = config.openai_model
         self.logger = get_logger("llm_client")
         
-        # Use native OpenAI for more control
         self.client = openai.OpenAI(api_key=config.openai_api_key)
     
     def generate(

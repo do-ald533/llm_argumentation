@@ -11,7 +11,6 @@ logger = get_logger("evaluation")
 class EvaluationMetrics(BaseModel):
     """Container for evaluation metrics."""
     
-    # Component metrics
     component_precision: float = 0.0
     component_recall: float = 0.0
     component_f1: float = 0.0
@@ -19,7 +18,6 @@ class EvaluationMetrics(BaseModel):
     component_gold: int = 0
     component_correct: int = 0
     
-    # Relation metrics
     relation_precision: float = 0.0
     relation_recall: float = 0.0
     relation_f1: float = 0.0
@@ -27,7 +25,6 @@ class EvaluationMetrics(BaseModel):
     relation_gold: int = 0
     relation_correct: int = 0
     
-    # Overall metrics
     total_texts: int = 0
     
     def to_dict(self) -> Dict[str, Any]:
@@ -72,7 +69,6 @@ def evaluate_against_golden_standard(
     """
     metrics = EvaluationMetrics()
     
-    # Load predicted data
     try:
         pred_components = pl.read_csv(predicted_components_path)
         pred_relations = pl.read_csv(predicted_relations_path)
@@ -80,25 +76,21 @@ def evaluate_against_golden_standard(
         logger.error("failed_to_load_predictions", error=str(e))
         return metrics
     
-    # Count predicted items
     metrics.component_predicted = len(pred_components)
     metrics.relation_predicted = len(pred_relations)
     metrics.total_texts = pred_components.select("text_id").unique().height
     
-    # If no golden standard provided, return counts only
     if golden_components_path is None or golden_relations_path is None:
         logger.warning("no_golden_standard_provided", 
                       message="Only counting predictions, no comparison metrics")
         return metrics
     
-    # Check if golden standard files exist
     if not golden_components_path.exists() or not golden_relations_path.exists():
         logger.warning("golden_standard_not_found",
                       components_path=str(golden_components_path),
                       relations_path=str(golden_relations_path))
         return metrics
     
-    # Load golden standard
     try:
         gold_components = pl.read_csv(golden_components_path)
         gold_relations = pl.read_csv(golden_relations_path)
@@ -106,17 +98,13 @@ def evaluate_against_golden_standard(
         logger.error("failed_to_load_golden_standard", error=str(e))
         return metrics
     
-    # Count golden standard items
     metrics.component_gold = len(gold_components)
     metrics.relation_gold = len(gold_relations)
     
-    # Evaluate components (exact text match)
     metrics.component_correct = _count_matching_components(pred_components, gold_components)
     
-    # Evaluate relations (exact text match for source and target)
     metrics.relation_correct = _count_matching_relations(pred_relations, gold_relations)
     
-    # Calculate precision, recall, F1
     metrics.component_precision = _safe_division(metrics.component_correct, metrics.component_predicted)
     metrics.component_recall = _safe_division(metrics.component_correct, metrics.component_gold)
     metrics.component_f1 = _f1_score(metrics.component_precision, metrics.component_recall)
@@ -137,7 +125,6 @@ def _count_matching_components(predicted: pl.DataFrame, golden: pl.DataFrame) ->
     
     Matches on (text_id, component_tokens) pairs.
     """
-    # Create matching keys
     pred_keys = predicted.select([
         pl.col("text_id"),
         pl.col("component_tokens")
@@ -148,7 +135,6 @@ def _count_matching_components(predicted: pl.DataFrame, golden: pl.DataFrame) ->
         pl.col("component_tokens")
     ]).unique()
     
-    # Inner join to find matches
     matches = pred_keys.join(
         gold_keys,
         on=["text_id", "component_tokens"],
@@ -163,7 +149,6 @@ def _count_matching_relations(predicted: pl.DataFrame, golden: pl.DataFrame) -> 
     
     Matches on (text_id, source_tokens, target_tokens, labels) tuples.
     """
-    # Create matching keys
     pred_keys = predicted.select([
         pl.col("text_id"),
         pl.col("source_tokens"),
@@ -178,7 +163,6 @@ def _count_matching_relations(predicted: pl.DataFrame, golden: pl.DataFrame) -> 
         pl.col("labels")
     ]).unique()
     
-    # Inner join to find matches
     matches = pred_keys.join(
         gold_keys,
         on=["text_id", "source_tokens", "target_tokens", "labels"],

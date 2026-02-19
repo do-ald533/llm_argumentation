@@ -26,41 +26,33 @@ def create_batches(
         output_dir: Directory to save batch files
         prefix: Optional prefix for batch files (defaults to input filename)
     """
-    # Read input CSV
     df = pl.read_csv(input_csv)
     total_rows = len(df)
     
-    # Determine prefix from input filename if not provided
     if prefix is None:
         input_path = Path(input_csv)
         prefix = input_path.stem.replace("texts_", "")
     
-    # Create output directory
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
     
-    # Calculate number of batches
     num_batches = (total_rows + batch_size - 1) // batch_size
     
     print(f"Splitting {total_rows} rows into {num_batches} batches of {batch_size} rows each")
     print(f"Output directory: {output_path.absolute()}")
     print()
     
-    # Create batch files
     batch_info = []
     for i in range(num_batches):
         start_idx = i * batch_size
         end_idx = min(start_idx + batch_size, total_rows)
         batch_num = i + 1
         
-        # Extract batch data
         batch_df = df[start_idx:end_idx]
         
-        # Create batch filename with zero-padded number
         batch_filename = f"batch_{batch_num:03d}_{prefix}.csv"
         batch_path = output_path / batch_filename
         
-        # Save batch CSV
         batch_df.write_csv(batch_path)
         
         batch_info.append({
@@ -72,7 +64,6 @@ def create_batches(
         
         print(f"Created {batch_filename} ({len(batch_df)} rows)")
     
-    # Create batch index file
     index_path = output_path / f"batch_index_{prefix}.txt"
     with open(index_path, 'w') as f:
         f.write(f"Total rows: {total_rows}\n")

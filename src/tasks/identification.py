@@ -27,11 +27,9 @@ class IdentificationTask:
         Returns:
             Dictionary mapping component IDs to ArgumentComponent objects
         """
-        # Generate components using LLM
         prompt = self.prompts.argumentative_components(text)
         response = self.llm.generate(prompt)
         
-        # Parse response into components
         components = self._parse_components(response, text_id)
         
         return components
