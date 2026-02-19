@@ -1,64 +1,90 @@
 # LLM Argumentation Structuring
 
-Automatically extract and structure argumentative components from text using Large Language Models.
+Automated extraction and structuring of argumentative components from text using Large Language Models powered by LangGraph workflows.
 
-## What It Does
+## Overview
 
-Given an argumentative text, the system:
-1. Identifies argumentative components (premises, claims, conclusions)
-2. Classifies each component by type (MajorClaim, Claim, Premise)
-3. Extracts support/attack relations between components
-4. Outputs structured CSV files for analysis
+This system analyzes argumentative texts and extracts structured argumentation graphs consisting of:
+- Argumentative components (MajorClaim, Claim, Premise)
+- Relations between components (support, attack)
 
-## Requirements
+The pipeline uses GPT-4o-mini with structured outputs and a multi-stage LangGraph workflow to ensure accurate component identification and classification.
 
-- Python 3.10+
-- OpenAI API key (or DeepSeek API key)
+## How It Works
 
-## Installation
+The system processes each text through a 5-stage LangGraph workflow:
+
+1. **Identification**: Extract all argumentative components from text
+2. **Conclusion Extraction**: Identify the main conclusion/major claim
+3. **Classification**: Classify each component (MajorClaim, Claim, Premise)
+4. **Relation Extraction**: Identify support/attack relations between components
+5. **Finalization**: Combine results into structured output
+
+Each stage uses structured outputs with Pydantic models to ensure type-safe, validated results.
+
+## Quick Start
 
 ```bash
 # Install dependencies
 pip install -e .
 
-# Install MLflow for experiment tracking
-pip install mlflow
+# Create .env file with your API key
+echo "OPENAI_API_KEY=your-key-here" > .env
+
+# Process a dataset
+python -m src.main --input data/Input/texts_AAEC.csv --output-prefix AAEC
+```
+
+## Batch Processing
+
+For large datasets, use the batch processing scripts:
+
+```bash
+# Create batches of 10 texts
+python scripts/create_batches.py --input data/Input/texts_AbstRCT.csv --batch-size 10 --output-dir data/batches
+
+# Process batches (sequential or parallel)
+python scripts/process_batches.py data/batches --mode sequential
+
+# Merge results
+python scripts/merge_results.py --input-dir output/batches --output-dir output --prefix AbstRCT
 ```
 
 ## Configuration
 
-Create a `.env` file in the project root:
+Create a `.env` file:
 
 ```bash
-# Required
 OPENAI_API_KEY=your-api-key-here
-
-# Optional (defaults shown)
 OPENAI_MODEL=gpt-4o-mini
 TEMPERATURE=0.0
 ENABLE_MLFLOW=true
-PROMPT_VERSION=1.0
 ```
 
-See `.env.example` for all available options.
+## Input/Output Format
 
-## Usage
-
-### Basic Usage
-
-```bash
-python -m src.main \
-  --input data/Input/texts_AAEC.csv \
-  --output-prefix AAEC
+**Input CSV** (semicolon-separated):
+```csv
+text_id;text_tokens
+AAEC_001;"Text containing argumentative content..."
 ```
 
-This will create:
-- `output/components_AAEC.csv` - Extracted components
-- `output/relations_AAEC.csv` - Relations between components
+**Output Components CSV**:
+```csv
+text_id;component_tokens;labels
+AAEC_001;"Capital punishment should be abolished";MajorClaim
+AAEC_001;"it violates human rights";Premise
+```
 
-### With Evaluation
+**Output Relations CSV**:
+```csv
+text_id;source_tokens;target_tokens;labels
+AAEC_001;"it violates human rights";"Capital punishment should be abolished";support
+```
 
-Compare outputs against golden standard:
+## Evaluation
+
+Compare outputs against golden standards:
 
 ```bash
 python -m src.main \
@@ -68,131 +94,42 @@ python -m src.main \
   --golden-relations data/Golden\ Standard/relations_AAEC.csv
 ```
 
-### Test Run
-
-Process only first 5 texts:
-
-```bash
-python -m src.main \
-  --input data/Input/texts_AAEC.csv \
-  --output-prefix test \
-  --limit 5
-```
-
-### Disable Experiment Tracking
-
-```bash
-python -m src.main \
-  --input data/Input/texts_AAEC.csv \
-  --output-prefix AAEC \
-  --no-mlflow
-```
-
-## Input Format
-
-CSV file with two columns:
-- `text_id`: Unique identifier
-- `text_tokens`: The argumentative text to analyze
-
-Example:
-```csv
-text_id,text_tokens
-1,"Capital punishment should be abolished because it violates human rights."
-```
-
-## Output Format
-
-### Components CSV
-```csv
-text_id,component_tokens,labels
-1,"Capital punishment should be abolished",MajorClaim
-1,"it violates human rights",Premise
-```
-
-### Relations CSV
-```csv
-text_id,source_tokens,target_tokens,labels
-1,"it violates human rights","Capital punishment should be abolished",support
-```
+Metrics include precision, recall, and F1 scores for both components and relations.
 
 ## Experiment Tracking
 
-View experiment results in MLflow UI:
+MLflow automatically tracks experiments:
 
 ```bash
 mlflow ui --port 5000
-# Open http://localhost:5000
 ```
 
-MLflow tracks:
-- Parameters (model, temperature, prompt version)
-- Metrics (precision, recall, F1 scores)
-- Artifacts (prompts used, output files)
-
-See `MLFLOW_GUIDE.md` for detailed experiment tracking documentation.
+Tracked data includes:
+- Model parameters and configuration
+- Evaluation metrics
+- Input/output artifacts
+- Processing time and API calls
 
 ## Project Structure
 
 ```
 src/
 ├── main.py              # Entry point
-├── config.py            # Configuration
-├── pipeline.py          # Main pipeline
-├── graph/               # Workflow orchestration
-├── llm/                 # LLM client and prompts
-├── models/              # Data models
-├── tasks/               # Task implementations
+├── pipeline.py          # Main processing pipeline
+├── graph/               # LangGraph workflow definition
+├── llm/                 # LLM client and prompt management
+├── models/              # Pydantic data models
+├── tasks/               # Task implementations (identify, classify, extract)
 ├── evaluation/          # Evaluation metrics
 └── export/              # CSV export utilities
+scripts/
+├── create_batches.py    # Split datasets into batches
+├── process_batches.py   # Process batches sequentially/parallel
+└── merge_results.py     # Merge batch results
 ```
 
-## Key Configuration Options
+## Requirements
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `OPENAI_MODEL` | `gpt-4o-mini` | Model to use |
-| `TEMPERATURE` | `0.0` | Generation temperature |
-| `MAX_RETRIES` | `3` | API retry attempts |
-| `ENABLE_MLFLOW` | `true` | Enable experiment tracking |
-| `PROMPT_VERSION` | `1.0` | Version tag for prompts |
-
-## Common Commands
-
-```bash
-# Run on AAEC dataset
-python -m src.main --input data/Input/texts_AAEC.csv --output-prefix AAEC
-
-# Run on AbstRCT dataset
-python -m src.main --input data/Input/texts_AbstRCT.csv --output-prefix AbstRCT
-
-# Quick test with 5 texts
-python -m src.main --input data/Input/texts_AAEC.csv --output-prefix test --limit 5
-
-# Custom run name for MLflow
-python -m src.main --input data/Input/texts_AAEC.csv --output-prefix AAEC --run-name "experiment-v1"
-
-# View MLflow UI
-mlflow ui --port 5000
-```
-
-## Troubleshooting
-
-**"openai_api_key: field required"**
-- Create `.env` file with `OPENAI_API_KEY=your-key`
-
-**"No such file or directory: data/Input/texts_AAEC.csv"**
-- Ensure input file exists at specified path
-- Use absolute path or run from project root
-
-**"Rate limit exceeded"**
-- Script automatically retries with 60s delay
-- Check API quota on OpenAI dashboard
-
-## Documentation
-
-- `MLFLOW_GUIDE.md` - Detailed experiment tracking guide
-- `.vscode/PROJECT_CONTEXT.md` - Complete project documentation for future sessions
-
-## License
-
-See LICENSE file for details.
+- Python 3.10+
+- OpenAI API key
+- Dependencies listed in pyproject.toml

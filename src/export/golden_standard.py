@@ -24,7 +24,17 @@ def export_to_golden_standard(
         output_dir: Output directory path
         prefix: Prefix for output files (default: "output")
     """
-    output_dir = Path(output_dir)
+    # Handle prefix that may contain directory path
+    prefix_path = Path(prefix)
+    if prefix_path.parent != Path('.'):
+        # Prefix contains directory - use it as full path
+        output_dir = prefix_path.parent
+        file_prefix = prefix_path.name
+    else:
+        # Simple prefix - use output_dir
+        output_dir = Path(output_dir)
+        file_prefix = prefix
+    
     output_dir.mkdir(parents=True, exist_ok=True)
     
     # Collect all components and relations
@@ -36,7 +46,7 @@ def export_to_golden_standard(
         all_relations.extend(graph.to_golden_standard_relations())
     
     # Export components
-    components_path = output_dir / f"components_{prefix}.csv"
+    components_path = output_dir / f"components_{file_prefix}.csv"
     if all_components:
         components_df = pl.DataFrame(all_components)
         components_df.write_csv(components_path, separator=SEPARATOR)
@@ -49,7 +59,7 @@ def export_to_golden_standard(
         logger.warning("no_components_to_export", path=str(components_path))
     
     # Export relations
-    relations_path = output_dir / f"relations_{prefix}.csv"
+    relations_path = output_dir / f"relations_{file_prefix}.csv"
     if all_relations:
         relations_df = pl.DataFrame(all_relations)
         relations_df.write_csv(relations_path, separator=SEPARATOR)
