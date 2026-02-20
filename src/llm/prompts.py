@@ -397,6 +397,142 @@ Answer:
 
 
 
+def premise_relations(
+    conclusion_number: int,
+    text: str,
+    arg_components: str,
+    dict_components: Dict[int, str],
+    available_ids: Optional[Set[int]] = None,
+) -> str:
+    """Generate a single prompt that identifies both support and attack relations.
+
+    Replaces calling premise_support + premise_attack separately, halving API calls
+    during BFS relation extraction.
+
+    Args:
+        conclusion_number: Target component ID.
+        text: Original text.
+        arg_components: All numbered components (for context).
+        dict_components: ID -> text mapping.
+        available_ids: If given, restrict the LLM to only consider these IDs.
+    """
+    if available_ids:
+        eligible = sorted(available_ids)
+        eligible_str = ", ".join(str(i) for i in eligible)
+        constraint = (
+            f"\n**Important**: You may ONLY choose from the following component numbers: "
+            f"{eligible_str}.\nDo NOT include any component numbers outside this set.\n"
+        )
+    else:
+        constraint = ""
+
+    instruction = f"""You will be given a short argumentative text and its numbered components.
+For a specified **target component**, your task is to classify every eligible component as:
+  • **Support** – it gives a reason, justification, evidence, or explanation directly for the target.
+  • **Attack**  – it challenges, contradicts, limits, or undermines the target.
+  • **Neither** – it has no direct relation to the target.
+
+### Definitions
+**Direct support**: the component justifies the target *by itself*, without depending on an
+intermediate component to make the link. Indirect (chained) support does NOT count.
+
+**Direct attack**: the component contradicts or weakens the target directly — explicit
+disagreement, counter-examples, feasibility challenges, conditions that would invalidate the claim.
+Indirect attacks (via intermediate steps) do NOT count.
+
+### Important guidance
+- Attack relations are less common than support. Only mark a component as Attack if it
+  genuinely challenges the target.
+- Return 0 for Support (or Attack) when no eligible component fills that role.
+- A component may only appear in Support OR Attack, never both.
+{constraint}
+### Output format (strict — two lines, nothing else)
+Support: <comma-separated IDs in ascending order, or 0>
+Attack: <comma-separated IDs in ascending order, or 0>
+
+### Worked examples
+
+**Example 1**
+Text:
+Raising the minimum wage improves workers' quality of life. Higher income allows people to afford better housing. Better housing conditions can improve mental health. However, some economists argue that higher wages reduce job availability.
+
+Components:
+1 - Raising the minimum wage improves workers' quality of life.
+2 - Higher income allows people to afford better housing.
+3 - Better housing conditions can improve mental health.
+4 - Some economists argue that higher wages reduce job availability.
+
+Target component: 1
+Support: 2
+Attack: 4
+Explanation: 2 justifies 1 directly; 4 undermines 1 by pointing to a negative side-effect. 3 is indirect (it supports 2, not 1).
+
+**Example 2**
+Text:
+Schools should ban phones during class. Phones distract students from learning. Many students use phones to cheat during exams. Smartphones can also be useful educational tools.
+
+Components:
+1 - Schools should ban phones during class.
+2 - Phones distract students from learning.
+3 - Many students use phones to cheat during exams.
+4 - Smartphones can also be useful educational tools.
+
+Target component: 1
+Support: 2, 3
+Attack: 4
+Explanation: 2 and 3 each give independent reasons for the policy; 4 directly challenges the ban.
+
+**Example 3**
+Text:
+A recent RCT showed vitamin D supplementation reduces depressive symptoms. The RCT had a 12-month follow-up confirming sustained mood improvement. However, the study sample was small, limiting generalisability.
+
+Components:
+1 - A recent RCT showed vitamin D supplementation reduces depressive symptoms.
+2 - The RCT had a 12-month follow-up confirming sustained mood improvement.
+3 - However, the study sample was small, limiting generalisability.
+
+Target component: 1
+Support: 2
+Attack: 3
+Explanation: 2 bolsters 1 with further evidence; 3 undermines 1 by questioning external validity.
+
+**Example 4**
+Text:
+Improving public transport can reduce car usage. Better public transport means shorter commute times. Shorter commutes lead to more productive workers.
+
+Components:
+1 - Improving public transport can reduce car usage.
+2 - Better public transport means shorter commute times.
+3 - Shorter commutes lead to more productive workers.
+
+Target component: 1
+Support: 0
+Attack: 0
+Explanation: Neither 2 nor 3 directly justifies or challenges 1.
+
+---
+Now apply the same logic to the new case:
+
+Text:
+{{text}}
+
+Components:
+{{arg_components}}
+
+Target component: {{conclusion_number}} – "{{dict_components[conclusion_number]}}"
+
+Remember: examine every eligible component and output strictly two lines.
+Support: <IDs or 0>
+Attack: <IDs or 0>
+"""
+    # Use regular string formatting to avoid issues with the f-string braces in the template
+    instruction = instruction.replace("{text}", text)
+    instruction = instruction.replace("{arg_components}", arg_components)
+    instruction = instruction.replace("{conclusion_number}", str(conclusion_number))
+    instruction = instruction.replace("{dict_components[conclusion_number]}", dict_components[conclusion_number])
+    return instruction
+
+
 def missing_premise_support(
     premise: int,
     text: str,

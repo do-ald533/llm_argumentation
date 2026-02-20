@@ -52,6 +52,33 @@ class ArgumentationPipeline:
                        tracking_uri=config.mlflow_tracking_uri,
                        experiment=config.mlflow_experiment_name)
     
+    def _load_preloaded_components(self, path: Path) -> dict:
+        """Load components from a CSV file and index them by text_id.
+
+        The CSV must have columns: text_id, component_tokens, labels
+        (same format as the golden standard / export output).
+        Returns a dict mapping text_id -> {int: ArgumentComponent}.
+        """
+        from src.models import ArgumentComponent
+        df = pl.read_csv(path)
+        grouped: dict = {}
+        for row in df.iter_rows(named=True):
+            text_id = row["text_id"]
+            if text_id not in grouped:
+                grouped[text_id] = {}
+            comp_id = len(grouped[text_id]) + 1
+            grouped[text_id][comp_id] = ArgumentComponent(
+                id=comp_id,
+                text=row["component_tokens"],
+                text_id=text_id,
+                label=row["labels"]
+            )
+        logger.info("preloaded_components_loaded",
+                    path=str(path),
+                    text_count=len(grouped),
+                    total_components=sum(len(v) for v in grouped.values()))
+        return grouped
+
     def process_csv(
         self, 
         input_file: Path, 
@@ -60,7 +87,8 @@ class ArgumentationPipeline:
         golden_components_path: Optional[Path] = None,
         golden_relations_path: Optional[Path] = None,
         run_name: Optional[str] = None,
-        graph_image: bool = False
+        graph_image: bool = False,
+        skip_identification_path: Optional[Path] = None
     ) -> List[ArgumentGraph]:
         """Process texts from CSV file with MLflow tracking.
         
@@ -89,7 +117,19 @@ class ArgumentationPipeline:
         
         total_texts = len(df)
         logger.info("texts_to_process", count=total_texts)
-        
+
+        preloaded_components_by_text: dict = {}
+        if skip_identification_path:
+            if not skip_identification_path.exists():
+                raise FileNotFoundError(
+                    f"--skip-identification file not found: {skip_identification_path}"
+                )
+            preloaded_components_by_text = self._load_preloaded_components(
+                skip_identification_path
+            )
+            logger.info("identification_step_skipped",
+                        source=str(skip_identification_path))
+
         mlflow_active = self.config.enable_mlflow and MLFLOW_AVAILABLE
         
         if mlflow_active:
@@ -106,6 +146,7 @@ class ArgumentationPipeline:
                 "total_texts": total_texts,
                 "prompt_version": self.config.prompt_version,
                 "prompt_hash": get_prompt_hash(),
+                "skip_identification": str(skip_identification_path) if skip_identification_path else "false",
             })
             
             prompts_file = Path("src/llm/prompts.py")
@@ -122,7 +163,8 @@ class ArgumentationPipeline:
             logger.info("processing_text", number=idx, total=total_texts, text_id=text_id)
             
             try:
-                graph = self.workflow.run(text, text_id)
+                preloaded = preloaded_components_by_text.get(text_id)
+                graph = self.workflow.run(text, text_id, preloaded_components=preloaded)
                 graphs.append(graph)
                 
                 if graph_image:

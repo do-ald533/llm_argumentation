@@ -10,7 +10,7 @@ from collections import deque
 from typing import Dict, List, Set, Tuple
 from src.models import ArgumentComponent, ArgumentRelation
 from src.llm import LLMClient, PromptManager
-from src.utils import parse_answer_ids, format_components_string
+from src.utils import parse_answer_ids, parse_support_attack_ids, format_components_string
 from src.logging_config import get_logger
 
 
@@ -68,11 +68,11 @@ class RelationExtractionTask:
             forbidden |= visited
             
             self.logger.debug("visiting_node", node=current, text_id=text_id)
-            
-            support_ids = self._get_support_premises(
+
+            support_ids, attack_ids = self._get_relations(
                 current, text, arg_components, dict_components, forbidden
             )
-            
+
             if support_ids:
                 children.setdefault(current, []).extend(support_ids)
                 for prem_id in support_ids:
@@ -84,11 +84,7 @@ class RelationExtractionTask:
                             relation_type="support"
                         ))
                         queue.append(prem_id)
-            
-            attack_ids = self._get_attack_premises(
-                current, text, arg_components, dict_components, forbidden
-            )
-            
+
             if attack_ids:
                 children.setdefault(current, []).extend(attack_ids)
                 for prem_id in attack_ids:
@@ -114,74 +110,52 @@ class RelationExtractionTask:
         
         return relations, visited, unvisited
     
-    def _get_support_premises(
+    def _get_relations(
         self,
         conclusion_id: int,
         text: str,
         arg_components: str,
         dict_components: Dict[int, str],
         forbidden: Set[int]
-    ) -> List[int]:
-        """Ask LLM which components directly support the given conclusion."""
+    ) -> Tuple[List[int], List[int]]:
+        """Ask LLM which components support and which attack the given conclusion.
+
+        Issues a single API call using the combined premise_relations prompt.
+
+        Returns:
+            Tuple (support_ids, attack_ids)
+        """
         available_ids = {
             cid for cid in dict_components
             if cid not in forbidden and cid != conclusion_id
         }
-        
+
         if not available_ids:
-            return []
-        
-        prompt = self.prompts.premise_support(
+            return [], []
+
+        prompt = self.prompts.premise_relations(
             conclusion_id, text, arg_components, dict_components,
             available_ids=available_ids
         )
         response = self.llm.generate(prompt)
-        raw_ids = parse_answer_ids(response)
-        
-        valid_ids = [
-            pid for pid in raw_ids
+        raw_support, raw_attack = parse_support_attack_ids(response)
+
+        valid_support = [
+            pid for pid in raw_support
             if pid in dict_components and pid not in forbidden
         ]
-        
-        if valid_ids:
-            self.logger.debug(
-                "support_found", conclusion=conclusion_id, premises=valid_ids
-            )
-        
-        return valid_ids
-    
-    def _get_attack_premises(
-        self,
-        conclusion_id: int,
-        text: str,
-        arg_components: str,
-        dict_components: Dict[int, str],
-        forbidden: Set[int]
-    ) -> List[int]:
-        """Ask LLM which components directly attack the given conclusion."""
-        available_ids = {
-            cid for cid in dict_components
-            if cid not in forbidden and cid != conclusion_id
-        }
-        
-        if not available_ids:
-            return []
-        
-        prompt = self.prompts.premise_attack(
-            conclusion_id, text, arg_components, dict_components,
-            available_ids=available_ids
-        )
-        response = self.llm.generate(prompt)
-        raw_ids = parse_answer_ids(response)
-        
-        valid_ids = [
-            pid for pid in raw_ids
+        valid_attack = [
+            pid for pid in raw_attack
             if pid in dict_components and pid not in forbidden
         ]
-        
-        if valid_ids:
+
+        if valid_support:
             self.logger.debug(
-                "attack_found", conclusion=conclusion_id, premises=valid_ids
+                "support_found", conclusion=conclusion_id, premises=valid_support
             )
-        
-        return valid_ids
+        if valid_attack:
+            self.logger.debug(
+                "attack_found", conclusion=conclusion_id, premises=valid_attack
+            )
+
+        return valid_support, valid_attack

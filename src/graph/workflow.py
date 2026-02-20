@@ -8,7 +8,7 @@ Pipeline steps:
   5. Finalize: derive labels from graph structure
 """
 from langgraph.graph import StateGraph, END
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from src.graph.state import WorkflowState
 from src.tasks import (
     IdentificationTask,
@@ -59,12 +59,20 @@ class ArgumentationWorkflow:
         
         return workflow.compile()
     
-    def run(self, text: str, text_id: str) -> ArgumentGraph:
+    def run(
+        self,
+        text: str,
+        text_id: str,
+        preloaded_components: Optional[Dict] = None
+    ) -> ArgumentGraph:
         """Run the workflow on input text.
         
         Args:
             text: Input text to analyze
             text_id: Identifier for the text
+            preloaded_components: Optional pre-built components dict (int -> ArgumentComponent).
+                When provided, the component-identification LLM step is skipped and
+                the pipeline continues from conclusion extraction onward.
             
         Returns:
             Complete ArgumentGraph with derived labels
@@ -72,7 +80,7 @@ class ArgumentationWorkflow:
         initial_state: WorkflowState = {
             "text_id": text_id,
             "text": text,
-            "components": {},
+            "components": preloaded_components if preloaded_components else {},
             "conclusion_id": None,
             "relations": [],
             "visited": [],
@@ -106,8 +114,20 @@ class ArgumentationWorkflow:
         return graph
     
     def _identify_components(self, state: WorkflowState) -> Dict[str, Any]:
-        """Node 1: Identify argumentative components."""
+        """Node 1: Identify argumentative components.
+        
+        If components are already present in state (pre-loaded via --skip-identification),
+        the LLM call is skipped entirely.
+        """
         self.logger.debug("step_identify_components", text_id=state["text_id"])
+
+        if state["components"]:
+            self.logger.info(
+                "identification_skipped_preloaded",
+                text_id=state["text_id"],
+                count=len(state["components"])
+            )
+            return {"current_step": "identify_components"}
         
         try:
             components = self.identification_task.execute(

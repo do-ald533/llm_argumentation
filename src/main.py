@@ -61,6 +61,15 @@ def main():
         action="store_true",
         help="Save argumentation graph images (PNG) for each processed text"
     )
+    parser.add_argument(
+        "--skip-identification",
+        type=Path,
+        default=None,
+        metavar="COMPONENTS_CSV",
+        help="Path to a components CSV (same format as golden standard) to use instead of "
+             "LLM-based component identification. The pipeline continues normally from "
+             "conclusion extraction onward."
+    )
     
     args = parser.parse_args()
     
@@ -106,7 +115,8 @@ def main():
             golden_components_path=golden_components,
             golden_relations_path=golden_relations,
             run_name=args.run_name,
-            graph_image=args.graph_image
+            graph_image=args.graph_image,
+            skip_identification_path=args.skip_identification
         )
         
         logger.info("processing_complete", 

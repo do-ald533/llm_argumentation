@@ -34,6 +34,32 @@ def parse_answer_ids(response: str) -> List[int]:
     return []
 
 
+def parse_support_attack_ids(response: str) -> tuple:
+    """Parse support and attack IDs from a combined relation prompt response.
+
+    Expects two lines in the response:
+        Support: <comma-separated IDs or 0>
+        Attack:  <comma-separated IDs or 0>
+
+    Args:
+        response: Raw LLM output string
+
+    Returns:
+        Tuple (support_ids, attack_ids) — each is a list of ints (empty for 0 / not found)
+    """
+    def _extract(label: str) -> List[int]:
+        match = re.search(rf'{label}:\s*(.+)', response, re.IGNORECASE)
+        if not match:
+            return []
+        answer_text = match.group(1).strip()
+        if answer_text == '0':
+            return []
+        numbers = re.findall(r'\d+', answer_text)
+        return [int(n) for n in numbers if int(n) != 0]
+
+    return _extract('Support'), _extract('Attack')
+
+
 def parse_conclusion_id(response: str) -> int:
     """Parse conclusion ID from LLM response in 'CONCLUSION: n' format.
     
