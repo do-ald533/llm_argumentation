@@ -36,7 +36,7 @@ class ArgumentRelation(BaseModel):
     source_id: int = Field(..., description="ID of the source component")
     target_id: int = Field(..., description="ID of the target component")
     text_id: str = Field(..., description="Source document identifier")
-    relation_type: Literal["support", "attack"] = Field(..., description="Type of relation")
+    relation_type: Literal["support", "attack", "partial_attack"] = Field(..., description="Type of relation")
     is_convergent: bool = Field(default=False, description="Whether part of convergent argument")
     
     def to_golden_standard(self, components: dict[int, ArgumentComponent]) -> dict:

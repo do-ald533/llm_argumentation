@@ -10,6 +10,7 @@ import networkx as nx
 from src.models import ArgumentComponent, ArgumentRelation
 from src.llm import LLMClient, PromptManager
 from src.utils import parse_answer_ids, format_components_string
+
 from src.logging_config import get_logger
 
 
@@ -28,13 +29,14 @@ class UnvisitedPremisesTask:
         components: Dict[int, ArgumentComponent],
         relations: List[ArgumentRelation],
         unvisited: List[int],
-        conclusion_id: int
+        conclusion_id: int,
+        enable_partial_attack: bool = False
     ) -> Tuple[Dict[int, ArgumentComponent], List[ArgumentRelation], int]:
         """Assign unvisited components to the argument graph.
         
         For each unvisited component, asks the LLM which conclusion it
-        supports or attacks. Detects cycles among newly assigned premises
-        and merges them if needed.
+        supports, attacks, or partially attacks. Detects cycles among newly
+        assigned premises and merges them if needed.
         
         Args:
             text: Original text
@@ -43,6 +45,8 @@ class UnvisitedPremisesTask:
             relations: Existing relations list (will be extended)
             unvisited: List of unvisited component IDs
             conclusion_id: ID of the main conclusion
+            enable_partial_attack: When True, also checks for partial-attack
+                relations (AbstRCT only).
             
         Returns:
             Tuple of (updated_components, updated_relations, updated_conclusion_id)
@@ -86,7 +90,17 @@ class UnvisitedPremisesTask:
                 if t in dict_components and t != premise_id:
                     temp_links.append((premise_id, t, "attack"))
                     found_any = True
-            
+
+            # Check partial-attack (AbstRCT only)
+            if enable_partial_attack:
+                partial_targets = self._get_partial_attack_targets(
+                    premise_id, text, arg_components, dict_components
+                )
+                for t in partial_targets:
+                    if t in dict_components and t != premise_id:
+                        temp_links.append((premise_id, t, "partial_attack"))
+                        found_any = True
+
             # Fallback: if LLM returned nothing valid, link to conclusion
             if not found_any:
                 still_orphan.append(premise_id)
@@ -136,17 +150,24 @@ class UnvisitedPremisesTask:
                 if r.source_id in components and r.target_id in components
             ]
             
-            # Ask what the merged component supports/attacks
-            for mode in ("support", "attack"):
+            # Ask what the merged component supports/attacks/partially-attacks
+            modes = ["support", "attack"]
+            if enable_partial_attack:
+                modes.append("partial_attack")
+            for mode in modes:
                 if mode == "support":
                     targets = self._get_support_targets(
                         new_id, text, arg_components, dict_components
                     )
-                else:
+                elif mode == "attack":
                     targets = self._get_attack_targets(
                         new_id, text, arg_components, dict_components
                     )
-                
+                else:
+                    targets = self._get_partial_attack_targets(
+                        new_id, text, arg_components, dict_components
+                    )
+
                 for t in targets:
                     if t in dict_components and t != new_id:
                         relations.append(ArgumentRelation(
@@ -234,7 +255,21 @@ class UnvisitedPremisesTask:
         )
         response = self.llm.generate(prompt)
         return parse_answer_ids(response)
-    
+
+    def _get_partial_attack_targets(
+        self,
+        premise_id: int,
+        text: str,
+        arg_components: str,
+        dict_components: Dict[int, str]
+    ) -> List[int]:
+        """Ask LLM which components this premise partially attacks (AbstRCT only)."""
+        prompt = self.prompts.missing_premise_partial_attack(
+            premise_id, text, arg_components, dict_components
+        )
+        response = self.llm.generate(prompt)
+        return parse_answer_ids(response)
+
     def _merge_cycle(
         self,
         text: str,

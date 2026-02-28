@@ -27,20 +27,23 @@ class RelationExtractionTask:
         text: str,
         text_id: str,
         components: Dict[int, ArgumentComponent],
-        conclusion_id: int
+        conclusion_id: int,
+        enable_partial_attack: bool = False
     ) -> Tuple[List[ArgumentRelation], Set[int], List[int]]:
         """Extract relations via recursive BFS from the main conclusion.
         
         For each visited node (starting from the conclusion), we ask the LLM
-        which components directly support it and which directly attack it.
-        Premises are forbidden from being ancestors or siblings of the current
-        node.  Each identified premise is then queued for visitation.
+        which components directly support it, attack it, and (when enabled)
+        partially attack it. Premises are forbidden from being ancestors or
+        siblings of the current node. Each identified premise is queued.
         
         Args:
             text: Original text
             text_id: Text identifier
             components: Dictionary of components
             conclusion_id: ID of the main conclusion
+            enable_partial_attack: When True, the LLM is also asked to identify
+                partial-attack relations (AbstRCT only).
             
         Returns:
             Tuple of (relations, visited_set, unvisited_list)
@@ -69,8 +72,9 @@ class RelationExtractionTask:
             
             self.logger.debug("visiting_node", node=current, text_id=text_id)
 
-            support_ids, attack_ids = self._get_relations(
-                current, text, arg_components, dict_components, forbidden
+            support_ids, attack_ids, partial_attack_ids = self._get_relations(
+                current, text, arg_components, dict_components, forbidden,
+                enable_partial_attack=enable_partial_attack
             )
 
             if support_ids:
@@ -96,6 +100,18 @@ class RelationExtractionTask:
                             relation_type="attack"
                         ))
                         queue.append(prem_id)
+
+            if partial_attack_ids:
+                children.setdefault(current, []).extend(partial_attack_ids)
+                for prem_id in partial_attack_ids:
+                    if prem_id not in visited:
+                        relations.append(ArgumentRelation(
+                            source_id=prem_id,
+                            target_id=current,
+                            text_id=text_id,
+                            relation_type="partial_attack"
+                        ))
+                        queue.append(prem_id)
         
         all_ids = set(components.keys())
         unvisited = sorted(all_ids - visited)
@@ -116,14 +132,15 @@ class RelationExtractionTask:
         text: str,
         arg_components: str,
         dict_components: Dict[int, str],
-        forbidden: Set[int]
-    ) -> Tuple[List[int], List[int]]:
-        """Ask LLM which components support and which attack the given conclusion.
+        forbidden: Set[int],
+        enable_partial_attack: bool = False
+    ) -> Tuple[List[int], List[int], List[int]]:
+        """Ask LLM which components support, attack, and partially attack the conclusion.
 
         Issues a single API call using the combined premise_relations prompt.
 
         Returns:
-            Tuple (support_ids, attack_ids)
+            Tuple (support_ids, attack_ids, partial_attack_ids)
         """
         available_ids = {
             cid for cid in dict_components
@@ -131,14 +148,15 @@ class RelationExtractionTask:
         }
 
         if not available_ids:
-            return [], []
+            return [], [], []
 
         prompt = self.prompts.premise_relations(
             conclusion_id, text, arg_components, dict_components,
-            available_ids=available_ids
+            available_ids=available_ids,
+            enable_partial_attack=enable_partial_attack
         )
         response = self.llm.generate(prompt)
-        raw_support, raw_attack = parse_support_attack_ids(response)
+        raw_support, raw_attack, raw_partial = parse_support_attack_ids(response)
 
         valid_support = [
             pid for pid in raw_support
@@ -148,6 +166,10 @@ class RelationExtractionTask:
             pid for pid in raw_attack
             if pid in dict_components and pid not in forbidden
         ]
+        valid_partial = [
+            pid for pid in raw_partial
+            if pid in dict_components and pid not in forbidden
+        ] if enable_partial_attack else []
 
         if valid_support:
             self.logger.debug(
@@ -157,5 +179,9 @@ class RelationExtractionTask:
             self.logger.debug(
                 "attack_found", conclusion=conclusion_id, premises=valid_attack
             )
+        if valid_partial:
+            self.logger.debug(
+                "partial_attack_found", conclusion=conclusion_id, premises=valid_partial
+            )
 
-        return valid_support, valid_attack
+        return valid_support, valid_attack, valid_partial

@@ -63,7 +63,8 @@ class ArgumentationWorkflow:
         self,
         text: str,
         text_id: str,
-        preloaded_components: Optional[Dict] = None
+        preloaded_components: Optional[Dict] = None,
+        enable_partial_attack: bool = False
     ) -> ArgumentGraph:
         """Run the workflow on input text.
         
@@ -73,6 +74,8 @@ class ArgumentationWorkflow:
             preloaded_components: Optional pre-built components dict (int -> ArgumentComponent).
                 When provided, the component-identification LLM step is skipped and
                 the pipeline continues from conclusion extraction onward.
+            enable_partial_attack: When True, BFS and unvisited steps also detect
+                partial-attack relations (AbstRCT only).
             
         Returns:
             Complete ArgumentGraph with derived labels
@@ -86,7 +89,8 @@ class ArgumentationWorkflow:
             "visited": [],
             "unvisited": [],
             "errors": [],
-            "current_step": "start"
+            "current_step": "start",
+            "enable_partial_attack": enable_partial_attack
         }
         
         self.logger.info("processing_text", text_id=text_id)
@@ -188,15 +192,18 @@ class ArgumentationWorkflow:
                 state["text"],
                 state["text_id"],
                 state["components"],
-                state["conclusion_id"]
+                state["conclusion_id"],
+                enable_partial_attack=state.get("enable_partial_attack", False)
             )
             
             support_count = sum(1 for r in relations if r.relation_type == "support")
             attack_count = sum(1 for r in relations if r.relation_type == "attack")
+            partial_count = sum(1 for r in relations if r.relation_type == "partial_attack")
             self.logger.debug(
                 "relations_extracted",
                 support=support_count,
                 attack=attack_count,
+                partial_attack=partial_count,
                 unvisited=len(unvisited)
             )
             
@@ -228,7 +235,8 @@ class ArgumentationWorkflow:
                 state["components"],
                 state["relations"],
                 state["unvisited"],
-                state["conclusion_id"]
+                state["conclusion_id"],
+                enable_partial_attack=state.get("enable_partial_attack", False)
             )
             
             return {

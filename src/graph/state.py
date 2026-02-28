@@ -21,3 +21,4 @@ class WorkflowState(TypedDict):
     
     errors: List[str]
     current_step: str
+    enable_partial_attack: bool

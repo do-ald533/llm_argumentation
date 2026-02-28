@@ -35,17 +35,19 @@ def parse_answer_ids(response: str) -> List[int]:
 
 
 def parse_support_attack_ids(response: str) -> tuple:
-    """Parse support and attack IDs from a combined relation prompt response.
+    """Parse support, attack and partial-attack IDs from a combined relation prompt response.
 
-    Expects two lines in the response:
-        Support: <comma-separated IDs or 0>
-        Attack:  <comma-separated IDs or 0>
+    Expects two or three lines in the response:
+        Support:       <comma-separated IDs or 0>
+        Attack:        <comma-separated IDs or 0>
+        Partial-Attack: <comma-separated IDs or 0>  (optional — absent when not enabled)
 
     Args:
         response: Raw LLM output string
 
     Returns:
-        Tuple (support_ids, attack_ids) — each is a list of ints (empty for 0 / not found)
+        Tuple (support_ids, attack_ids, partial_attack_ids) — each is a list of ints
+        (empty for 0 / not found). partial_attack_ids is always [] when the line is absent.
     """
     def _extract(label: str) -> List[int]:
         match = re.search(rf'{label}:\s*(.+)', response, re.IGNORECASE)
@@ -57,7 +59,7 @@ def parse_support_attack_ids(response: str) -> tuple:
         numbers = re.findall(r'\d+', answer_text)
         return [int(n) for n in numbers if int(n) != 0]
 
-    return _extract('Support'), _extract('Attack')
+    return _extract('Support'), _extract('Attack'), _extract('Partial-Attack')
 
 
 def parse_conclusion_id(response: str) -> int:

@@ -403,8 +403,9 @@ def premise_relations(
     arg_components: str,
     dict_components: Dict[int, str],
     available_ids: Optional[Set[int]] = None,
+    enable_partial_attack: bool = False,
 ) -> str:
-    """Generate a single prompt that identifies both support and attack relations.
+    """Generate a single prompt that identifies support, attack and (optionally) partial-attack.
 
     Replaces calling premise_support + premise_attack separately, halving API calls
     during BFS relation extraction.
@@ -415,6 +416,8 @@ def premise_relations(
         arg_components: All numbered components (for context).
         dict_components: ID -> text mapping.
         available_ids: If given, restrict the LLM to only consider these IDs.
+        enable_partial_attack: When True, adds a third Partial-Attack output line.
+            Only use for datasets that annotate partial-attack (e.g. AbstRCT).
     """
     if available_ids:
         eligible = sorted(available_ids)
@@ -426,110 +429,151 @@ def premise_relations(
     else:
         constraint = ""
 
-    instruction = f"""You will be given a short argumentative text and its numbered components.
-For a specified **target component**, your task is to classify every eligible component as:
-  • **Support** – it gives a reason, justification, evidence, or explanation directly for the target.
-  • **Attack**  – it challenges, contradicts, limits, or undermines the target.
-  • **Neither** – it has no direct relation to the target.
-
-### Definitions
-**Direct support**: the component justifies the target *by itself*, without depending on an
-intermediate component to make the link. Indirect (chained) support does NOT count.
-
-**Direct attack**: the component contradicts or weakens the target directly — explicit
-disagreement, counter-examples, feasibility challenges, conditions that would invalidate the claim.
-Indirect attacks (via intermediate steps) do NOT count.
-
-### Important guidance
-- Attack relations are less common than support. Only mark a component as Attack if it
-  genuinely challenges the target.
-- Return 0 for Support (or Attack) when no eligible component fills that role.
-- A component may only appear in Support OR Attack, never both.
-{constraint}
-### Output format (strict — two lines, nothing else)
-Support: <comma-separated IDs in ascending order, or 0>
-Attack: <comma-separated IDs in ascending order, or 0>
-
-### Worked examples
-
-**Example 1**
+    if enable_partial_attack:
+        relation_types = (
+            "  • **Support**        – gives a reason, justification, evidence, or explanation directly for the target.\n"
+            "  • **Attack**         – fully contradicts, negates, or invalidates the target.\n"
+            "  • **Partial-Attack** – does NOT fully contradict the target, but *constrains* or *weakens* it by\n"
+            "                         qualifying its scope, questioning its significance, or introducing a caveat\n"
+            "                         (e.g. 'however, this should be confirmed by larger trials').\n"
+            "  • **Neither**        – no direct relation to the target."
+        )
+        attack_guidance = (
+            "- **Attack vs Partial-Attack**: use Attack only for full contradiction or negation.\n"
+            "  Use Partial-Attack when the source *weakens or constrains* the target without fully opposing it.\n"
+            "  Partial-Attack is common in medical abstracts as implicit statements about study limitations.\n"
+            "- Return 0 for any category where no eligible component qualifies.\n"
+            "- A component may appear in at most ONE category."
+        )
+        output_format = (
+            "### Output format (strict — three lines, nothing else)\n"
+            "Support: <comma-separated IDs in ascending order, or 0>\n"
+            "Attack: <comma-separated IDs in ascending order, or 0>\n"
+            "Partial-Attack: <comma-separated IDs in ascending order, or 0>"
+        )
+        extra_example = """
+**Example 5 (Partial-Attack)**
 Text:
-Raising the minimum wage improves workers' quality of life. Higher income allows people to afford better housing. Better housing conditions can improve mental health. However, some economists argue that higher wages reduce job availability.
+SLN biopsy is an effective and well-tolerated procedure. However, its safety should be confirmed by the results of larger randomized trials and meta-analyses.
 
 Components:
-1 - Raising the minimum wage improves workers' quality of life.
-2 - Higher income allows people to afford better housing.
-3 - Better housing conditions can improve mental health.
-4 - Some economists argue that higher wages reduce job availability.
-
-Target component: 1
-Support: 2
-Attack: 4
-Explanation: 2 justifies 1 directly; 4 undermines 1 by pointing to a negative side-effect. 3 is indirect (it supports 2, not 1).
-
-**Example 2**
-Text:
-Schools should ban phones during class. Phones distract students from learning. Many students use phones to cheat during exams. Smartphones can also be useful educational tools.
-
-Components:
-1 - Schools should ban phones during class.
-2 - Phones distract students from learning.
-3 - Many students use phones to cheat during exams.
-4 - Smartphones can also be useful educational tools.
-
-Target component: 1
-Support: 2, 3
-Attack: 4
-Explanation: 2 and 3 each give independent reasons for the policy; 4 directly challenges the ban.
-
-**Example 3**
-Text:
-A recent RCT showed vitamin D supplementation reduces depressive symptoms. The RCT had a 12-month follow-up confirming sustained mood improvement. However, the study sample was small, limiting generalisability.
-
-Components:
-1 - A recent RCT showed vitamin D supplementation reduces depressive symptoms.
-2 - The RCT had a 12-month follow-up confirming sustained mood improvement.
-3 - However, the study sample was small, limiting generalisability.
-
-Target component: 1
-Support: 2
-Attack: 3
-Explanation: 2 bolsters 1 with further evidence; 3 undermines 1 by questioning external validity.
-
-**Example 4**
-Text:
-Improving public transport can reduce car usage. Better public transport means shorter commute times. Shorter commutes lead to more productive workers.
-
-Components:
-1 - Improving public transport can reduce car usage.
-2 - Better public transport means shorter commute times.
-3 - Shorter commutes lead to more productive workers.
+1 - SLN biopsy is an effective and well-tolerated procedure.
+2 - However, its safety should be confirmed by the results of larger randomized trials and meta-analyses.
 
 Target component: 1
 Support: 0
 Attack: 0
-Explanation: Neither 2 nor 3 directly justifies or challenges 1.
-
----
-Now apply the same logic to the new case:
-
-Text:
-{{text}}
-
-Components:
-{{arg_components}}
-
-Target component: {{conclusion_number}} – "{{dict_components[conclusion_number]}}"
-
-Remember: examine every eligible component and output strictly two lines.
-Support: <IDs or 0>
-Attack: <IDs or 0>
+Partial-Attack: 2
+Explanation: 2 does not negate 1 outright — it accepts the finding but constrains its certainty by calling for further confirmation. That is a partial-attack, not a full attack.
 """
-    # Use regular string formatting to avoid issues with the f-string braces in the template
-    instruction = instruction.replace("{text}", text)
-    instruction = instruction.replace("{arg_components}", arg_components)
-    instruction = instruction.replace("{conclusion_number}", str(conclusion_number))
-    instruction = instruction.replace("{dict_components[conclusion_number]}", dict_components[conclusion_number])
+        closing_reminder = (
+            "Remember: examine every eligible component and output strictly three lines.\n"
+            "Support: <IDs or 0>\n"
+            "Attack: <IDs or 0>\n"
+            "Partial-Attack: <IDs or 0>"
+        )
+    else:
+        relation_types = (
+            "  • **Support** – it gives a reason, justification, evidence, or explanation directly for the target.\n"
+            "  • **Attack**  – it challenges, contradicts, limits, or undermines the target.\n"
+            "  • **Neither** – it has no direct relation to the target."
+        )
+        attack_guidance = (
+            "- Attack relations are less common than support. Only mark a component as Attack if it\n"
+            "  genuinely challenges the target.\n"
+            "- Return 0 for Support (or Attack) when no eligible component fills that role.\n"
+            "- A component may only appear in Support OR Attack, never both."
+        )
+        output_format = (
+            "### Output format (strict — two lines, nothing else)\n"
+            "Support: <comma-separated IDs in ascending order, or 0>\n"
+            "Attack: <comma-separated IDs in ascending order, or 0>"
+        )
+        extra_example = ""
+        closing_reminder = (
+            "Remember: examine every eligible component and output strictly two lines.\n"
+            "Support: <IDs or 0>\n"
+            "Attack: <IDs or 0>"
+        )
+
+    instruction = (
+        "You will be given a short argumentative text and its numbered components.\n"
+        "For a specified **target component**, your task is to classify every eligible component as:\n"
+        + relation_types + "\n\n"
+        "### Definitions\n"
+        "**Direct support**: the component justifies the target *by itself*, without depending on an\n"
+        "intermediate component to make the link. Indirect (chained) support does NOT count.\n\n"
+        "**Direct attack**: the component contradicts or negates the target directly — explicit\n"
+        "disagreement, counter-examples, or conditions that would invalidate the claim.\n"
+        "Indirect attacks (via intermediate steps) do NOT count.\n\n"
+        "### Important guidance\n"
+        + attack_guidance + "\n"
+        + constraint + "\n"
+        + output_format + "\n\n"
+        "### Worked examples\n\n"
+        "**Example 1**\n"
+        "Text:\n"
+        "Raising the minimum wage improves workers' quality of life. Higher income allows people to afford better housing. "
+        "Better housing conditions can improve mental health. However, some economists argue that higher wages reduce job availability.\n\n"
+        "Components:\n"
+        "1 - Raising the minimum wage improves workers' quality of life.\n"
+        "2 - Higher income allows people to afford better housing.\n"
+        "3 - Better housing conditions can improve mental health.\n"
+        "4 - Some economists argue that higher wages reduce job availability.\n\n"
+        "Target component: 1\n"
+        + ("Support: 2\nAttack: 4\nPartial-Attack: 0\n" if enable_partial_attack else "Support: 2\nAttack: 4\n") +
+        "Explanation: 2 justifies 1 directly; 4 undermines 1 by pointing to a negative side-effect. 3 is indirect.\n\n"
+        "**Example 2**\n"
+        "Text:\n"
+        "Schools should ban phones during class. Phones distract students from learning. "
+        "Many students use phones to cheat during exams. Smartphones can also be useful educational tools.\n\n"
+        "Components:\n"
+        "1 - Schools should ban phones during class.\n"
+        "2 - Phones distract students from learning.\n"
+        "3 - Many students use phones to cheat during exams.\n"
+        "4 - Smartphones can also be useful educational tools.\n\n"
+        "Target component: 1\n"
+        + ("Support: 2, 3\nAttack: 4\nPartial-Attack: 0\n" if enable_partial_attack else "Support: 2, 3\nAttack: 4\n") +
+        "Explanation: 2 and 3 each give independent reasons for the policy; 4 directly challenges the ban.\n\n"
+        "**Example 3**\n"
+        "Text:\n"
+        "A recent RCT showed vitamin D supplementation reduces depressive symptoms. "
+        "The RCT had a 12-month follow-up confirming sustained mood improvement. "
+        "However, the study sample was small, limiting generalisability.\n\n"
+        "Components:\n"
+        "1 - A recent RCT showed vitamin D supplementation reduces depressive symptoms.\n"
+        "2 - The RCT had a 12-month follow-up confirming sustained mood improvement.\n"
+        "3 - However, the study sample was small, limiting generalisability.\n\n"
+        "Target component: 1\n"
+        + ("Support: 2\nAttack: 0\nPartial-Attack: 3\n" if enable_partial_attack else "Support: 2\nAttack: 3\n") +
+        "Explanation: 2 bolsters 1; 3 constrains its generalisability "
+        + ("(partial-attack, not full negation).\n\n" if enable_partial_attack else "(attack).\n\n") +
+        "**Example 4**\n"
+        "Text:\n"
+        "Improving public transport can reduce car usage. Better public transport means shorter commute times. "
+        "Shorter commutes lead to more productive workers.\n\n"
+        "Components:\n"
+        "1 - Improving public transport can reduce car usage.\n"
+        "2 - Better public transport means shorter commute times.\n"
+        "3 - Shorter commutes lead to more productive workers.\n\n"
+        "Target component: 1\n"
+        + ("Support: 0\nAttack: 0\nPartial-Attack: 0\n" if enable_partial_attack else "Support: 0\nAttack: 0\n") +
+        "Explanation: Neither 2 nor 3 directly justifies or challenges 1.\n"
+        + extra_example +
+        "---\n"
+        "Now apply the same logic to the new case:\n\n"
+        "Text:\n"
+        "REPLACE_TEXT\n\n"
+        "Components:\n"
+        "REPLACE_COMPONENTS\n\n"
+        "Target component: REPLACE_NUM – \"REPLACE_TARGET\"\n\n"
+        + closing_reminder + "\n"
+    )
+
+    instruction = instruction.replace("REPLACE_TEXT", text)
+    instruction = instruction.replace("REPLACE_COMPONENTS", arg_components)
+    instruction = instruction.replace("REPLACE_NUM", str(conclusion_number))
+    instruction = instruction.replace("REPLACE_TARGET", dict_components[conclusion_number])
     return instruction
 
 
@@ -720,6 +764,97 @@ Answer:
 '''
     return instruction
 
+
+
+def missing_premise_partial_attack(
+    premise: int,
+    text: str,
+    arg_components: str,
+    dict_components: Dict[int, str],
+) -> str:
+    """Generate prompt to find which components are partially attacked by a given premise.
+
+    Used in Step 4 (unvisited premises) for datasets that annotate partial-attack
+    (e.g. AbstRCT). A partial-attack weakens or constrains the target without fully
+    negating it — typically a caveat about study scope, significance, or generalisability.
+    """
+    instruction = f'''You are given a short argumentative text and a list of numbered components.
+One component (the "premise") was not assigned during the main relation-extraction pass.
+Your task is to determine **which other component(s) it partially attacks**.
+
+A **partial-attack** occurs when the premise does NOT fully contradict the target, but
+*constrains* or *weakens* it by:
+  - Questioning the scope, significance, or generalisability of the target claim.
+  - Introducing a caveat that limits how strongly the target can be asserted.
+  - Calling for further confirmation without outright rejecting the claim.
+
+Distinguish from a full attack (direct contradiction or negation) — use this prompt only
+when the relationship is one of *weakening*, not *refuting*.
+
+### Important guidance
+- Partial-attack is common in medical abstracts as implicit statements about study limitations.
+- Return 0 if the premise does not partially attack any component.
+- A component cannot partially attack itself.
+
+### Examples
+
+Example 1
+Text:
+SLN biopsy is an effective and well-tolerated procedure. However, its safety should be confirmed by the results of larger randomized trials and meta-analyses.
+
+Components:
+1 - SLN biopsy is an effective and well-tolerated procedure.
+2 - However, its safety should be confirmed by the results of larger randomized trials and meta-analyses.
+
+Premise component: 2
+Answer: 1
+Explanation: 2 does not negate 1 outright — it accepts the finding but constrains its certainty. That is a partial-attack.
+
+Example 2
+Text:
+The treatment significantly reduced pain scores at 6 months. However, the study lacked a placebo control group.
+
+Components:
+1 - The treatment significantly reduced pain scores at 6 months.
+2 - However, the study lacked a placebo control group.
+
+Premise component: 2
+Answer: 1
+Explanation: 2 does not say the treatment does not work; it weakens the confidence in the result by pointing to a methodological gap.
+
+Example 3
+Text:
+Drug A lowered blood pressure in the majority of patients. Drug A caused mild side effects in 10% of patients. Mild side effects are generally acceptable in clinical practice.
+
+Components:
+1 - Drug A lowered blood pressure in the majority of patients.
+2 - Drug A caused mild side effects in 10% of patients.
+3 - Mild side effects are generally acceptable in clinical practice.
+
+Premise component: 2
+Answer: 0
+Explanation: 2 notes a side effect but does not weaken or constrain 1; 3 mitigates 2. Neither is a partial-attack relationship originating from 2.
+
+Now, apply this logic to the following case:
+Text:
+{text}
+
+Components:
+{arg_components}
+
+Your task:
+- Consider all components except the premise itself.
+- For each, ask: "Does the premise weaken or constrain this component without fully negating it?"
+- Return 0 if no partial-attack relationship exists.
+
+Output Format:
+Answer: <numbers>
+(e.g., Answer: 1 or Answer: 0)
+
+Premise component: {premise} - "{dict_components[premise]}"
+Answer:
+'''
+    return instruction
 
 
 def merge_components_cycle(

@@ -88,7 +88,8 @@ class ArgumentationPipeline:
         golden_relations_path: Optional[Path] = None,
         run_name: Optional[str] = None,
         graph_image: bool = False,
-        skip_identification_path: Optional[Path] = None
+        skip_identification_path: Optional[Path] = None,
+        enable_partial_attack: bool = False
     ) -> List[ArgumentGraph]:
         """Process texts from CSV file with MLflow tracking.
         
@@ -147,6 +148,7 @@ class ArgumentationPipeline:
                 "prompt_version": self.config.prompt_version,
                 "prompt_hash": get_prompt_hash(),
                 "skip_identification": str(skip_identification_path) if skip_identification_path else "false",
+                "enable_partial_attack": str(enable_partial_attack),
             })
             
             prompts_file = Path("src/llm/prompts.py")
@@ -164,7 +166,11 @@ class ArgumentationPipeline:
             
             try:
                 preloaded = preloaded_components_by_text.get(text_id)
-                graph = self.workflow.run(text, text_id, preloaded_components=preloaded)
+                graph = self.workflow.run(
+                    text, text_id,
+                    preloaded_components=preloaded,
+                    enable_partial_attack=enable_partial_attack
+                )
                 graphs.append(graph)
                 
                 if graph_image:

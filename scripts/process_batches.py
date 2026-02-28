@@ -18,10 +18,12 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 
 
 class BatchProcessor:
-    def __init__(self, batch_dir: str, output_dir: str = "output/batches"):
+    def __init__(self, batch_dir: str, output_dir: str = "output/batches",
+                 extra_flags: Optional[List[str]] = None):
         self.batch_dir = Path(batch_dir)
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.extra_flags: List[str] = extra_flags or []
         self.processes: List[subprocess.Popen] = []
         self.interrupted = False
         
@@ -79,7 +81,7 @@ class BatchProcessor:
             "--input", str(batch_file),
             "--output-prefix", str(output_prefix),
             "--no-mlflow"
-        ]
+        ] + self.extra_flags
         
         try:
             with open(log_file, 'w') as log:
@@ -232,11 +234,33 @@ def main():
         default=None,
         help="Maximum parallel workers (parallel mode only)"
     )
-    
+    parser.add_argument(
+        "--partial-attack",
+        action="store_true",
+        help="Enable partial-attack relation detection (AbstRCT only). "
+             "Forwarded to every batch subprocess."
+    )
+    parser.add_argument(
+        "--skip-identification",
+        type=Path,
+        default=None,
+        metavar="COMPONENTS_CSV",
+        help="Path to a components CSV to skip LLM identification. "
+             "Forwarded to every batch subprocess. The same file is used for "
+             "all batches — it is indexed by text_id so extra rows are ignored."
+    )
+
     args = parser.parse_args()
-    
+
+    # Build the list of extra flags to forward to each src.main subprocess
+    extra_flags: List[str] = []
+    if args.partial_attack:
+        extra_flags.append("--partial-attack")
+    if args.skip_identification:
+        extra_flags += ["--skip-identification", str(args.skip_identification)]
+
     try:
-        processor = BatchProcessor(args.batch_dir, args.output_dir)
+        processor = BatchProcessor(args.batch_dir, args.output_dir, extra_flags=extra_flags)
         
         if args.mode == "sequential":
             processor.process_sequential()

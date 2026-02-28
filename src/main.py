@@ -70,7 +70,14 @@ def main():
              "LLM-based component identification. The pipeline continues normally from "
              "conclusion extraction onward."
     )
-    
+    parser.add_argument(
+        "--partial-attack",
+        action="store_true",
+        help="Enable partial-attack relation detection. Only use with datasets that annotate "
+             "partial-attack (e.g. AbstRCT). When set, the LLM is asked to distinguish between "
+             "full attacks (direct contradiction) and partial-attacks (constraining/weakening)."
+    )
+
     args = parser.parse_args()
     
     logger = setup_logging()
@@ -116,7 +123,8 @@ def main():
             golden_relations_path=golden_relations,
             run_name=args.run_name,
             graph_image=args.graph_image,
-            skip_identification_path=args.skip_identification
+            skip_identification_path=args.skip_identification,
+            enable_partial_attack=args.partial_attack
         )
         
         logger.info("processing_complete", 
