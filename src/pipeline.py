@@ -55,12 +55,33 @@ class ArgumentationPipeline:
     def _load_preloaded_components(self, path: Path) -> dict:
         """Load components from a CSV file and index them by text_id.
 
-        The CSV must have columns: text_id, component_tokens, labels
-        (same format as the golden standard / export output).
+        Accepts both comma-separated (golden standard) and semicolon-separated
+        (pipeline output) files — the separator is detected automatically.
+        Required columns: text_id, component_tokens, labels.
         Returns a dict mapping text_id -> {int: ArgumentComponent}.
         """
         from src.models import ArgumentComponent
-        df = pl.read_csv(path)
+
+        # Auto-detect separator: try comma first, fall back to semicolon
+        required = {"text_id", "component_tokens", "labels"}
+        df = pl.read_csv(path, separator=",")
+        if not required.issubset(set(df.columns)):
+            df = pl.read_csv(path, separator=";")
+        if not required.issubset(set(df.columns)):
+            raise ValueError(
+                f"Components file '{path}' must have columns: "
+                f"text_id, component_tokens, labels. "
+                f"Found: {df.columns}"
+            )
+
+        # Drop rows with null component text (safety net)
+        before = len(df)
+        df = df.filter(pl.col("component_tokens").is_not_null())
+        dropped = before - len(df)
+        if dropped:
+            logger.warning("preloaded_components_null_rows_dropped",
+                           path=str(path), count=dropped)
+
         grouped: dict = {}
         for row in df.iter_rows(named=True):
             text_id = row["text_id"]
@@ -73,10 +94,17 @@ class ArgumentationPipeline:
                 text_id=text_id,
                 label=row["labels"]
             )
+
+        total = sum(len(v) for v in grouped.values())
         logger.info("preloaded_components_loaded",
                     path=str(path),
                     text_count=len(grouped),
-                    total_components=sum(len(v) for v in grouped.values()))
+                    total_components=total)
+
+        if total != len(df):
+            logger.warning("preloaded_components_count_mismatch",
+                           csv_rows=len(df), loaded=total)
+
         return grouped
 
     def process_csv(
