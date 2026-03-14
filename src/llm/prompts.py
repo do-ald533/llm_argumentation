@@ -1,18 +1,3 @@
-"""
-Prompt templates for LLM-based argumentation structuring tasks.
-
-This module contains all prompt generation functions used by the pipeline.
-Each function returns a formatted prompt string for specific argumentation
-analysis tasks.
-
-Pipeline steps:
-  1. argumentative_components  – identify components
-  2. argumentative_conclusion  – pick the main conclusion
-  3. premise_support / premise_attack  – BFS relation extraction
-  4. missing_premise_support / missing_premise_attack  – unvisited premises
-     merge_components_cycle  – cycle resolution
-"""
-
 from typing import Dict, List, Optional, Set
 
 
@@ -920,6 +905,195 @@ Answer: <numbers>
 Premise component: {premise} - "{dict_components[premise]}"
 Answer:
 '''
+    return instruction
+
+
+def missing_premise_attach(
+    premise: int,
+    text: str,
+    arg_components: str,
+    dict_components: Dict[int, str],
+    enable_partial_attack: bool = False,
+) -> str:
+    """Single prompt to attach a missing premise to exactly one component.
+
+    When *enable_partial_attack* is False the model chooses between
+    'support' and 'attack' only.  When True, 'partial_attack' is also
+    an option (used for AbstRCT).
+    """
+    if enable_partial_attack:
+        relation_block = '''   - **support**: the premise gives a reason or justification for the target
+   - **attack**: the premise directly challenges, contradicts, or weakens the target
+   - **partial_attack**: the premise does not fully reject the target, but limits, qualifies, or weakens it'''
+
+        definition_block = '''**support**
+Use **support** when the premise directly helps justify or provide evidence for the target.
+
+**attack**
+Use **attack** when the premise directly opposes the target by contradicting it, presenting a counter-consideration against it, or undermining it in a strong way.
+
+**partial_attack**
+Use **partial_attack** when the premise does **not** fully negate the target, but instead:
+- questions its scope, significance, certainty, or generalisability
+- introduces a caveat or limitation
+- points to missing confirmation, methodological weakness, or restricted applicability
+- weakens confidence in the target without fully rejecting it
+
+This type is especially common in scientific and medical abstracts, where a result is presented positively but then qualified by limitations or calls for further study.'''
+
+        preference_block = '''- Prefer **support** when the premise clearly provides a reason in favor of the target.
+- Prefer **attack** when the premise clearly functions as a contradiction, objection, or strong opposing consideration.
+- Prefer **partial_attack** when the premise weakens the target by adding a caveat, limitation, uncertainty, or qualification, rather than rejecting it outright.'''
+
+        extra_examples = '''
+Example 4
+Text:
+SLN biopsy is an effective and well-tolerated procedure. However, its safety should be confirmed by the results of larger randomized trials and meta-analyses.
+
+Components:
+1 - SLN biopsy is an effective and well-tolerated procedure.
+2 - However, its safety should be confirmed by the results of larger randomized trials and meta-analyses.
+
+Premise component: 2
+Answer: 1 | partial_attack
+Why: 2 does not reject 1, but weakens its certainty by adding a need for further confirmation.
+
+Example 5
+Text:
+The treatment significantly reduced pain scores at 6 months. However, the study lacked a placebo control group.
+
+Components:
+1 - The treatment significantly reduced pain scores at 6 months.
+2 - However, the study lacked a placebo control group.
+
+Premise component: 2
+Answer: 1 | partial_attack
+Why: 2 limits confidence in 1 without fully denying it.
+'''
+
+        task_relation = "**supports**, **attacks**, or **partially attacks**"
+        format_hint = "Answer: <component_number> | <support_or_attack_or_partial_attack>"
+        valid_examples = '''Answer: 2 | support
+Why: This premise gives a direct reason for component 2.
+
+Answer: 5 | attack
+Why: This premise directly contradicts or undermines component 5.
+
+Answer: 1 | partial_attack
+Why: This premise qualifies component 1 without fully rejecting it.'''
+    else:
+        relation_block = '''   - **support**: the premise gives a reason for the target
+   - **attack**: the premise challenges, contradicts, or weakens the target'''
+
+        definition_block = ''
+        preference_block = '''- Support is usually more common than attack, but choose attack when the premise clearly functions as an objection, counterpoint, contradiction, or weakening consideration.'''
+        extra_examples = ''
+        task_relation = "**supports** or **attacks**"
+        format_hint = "Answer: <component_number> | <support_or_attack>"
+        valid_examples = '''Answer: 2 | support
+Answer: 5 | attack'''
+
+    instruction = f'''You are given a short argumentative text and a list of numbered components.
+One of these components (the "premise") was not connected during the main relation-extraction pass.
+
+Your task is to decide **where this premise should attach in the graph**.
+
+You must choose:
+1. **exactly one target component** (different from the premise itself), and
+2. the relation type:
+{relation_block}
+'''
+    if definition_block:
+        instruction += f'''### Relation definitions
+
+{definition_block}
+
+'''
+    instruction += f'''### Goal
+Attach the missing premise to the **single best-fitting component** so that it becomes part of the argumentative graph.
+
+### Important guidance
+- The premise **must be connected**. Do **not** answer "none".
+- A component cannot attach to itself.
+- Choose the **single best** target only.
+- Choose the **most plausible direct relation** only.
+- A **direct** relation means the premise links to the target without requiring an intermediate component.
+- If several targets seem possible, choose the one that is most directly related in meaning.
+{preference_block}
+- Do not choose a component only because it is central or top-level; choose the one most directly connected to the premise.
+
+### Examples
+
+Example 1
+Text:
+Schools should ban phones during class. Phones distract students from learning. Many students use phones to cheat during exams.
+
+Components:
+1 - Schools should ban phones during class.
+2 - Phones distract students from learning.
+3 - Many students use phones to cheat during exams.
+
+Premise component: 3
+Answer: 1 | support
+Why: 3 gives a direct reason in favor of the policy claim in 1.
+
+Example 2
+Text:
+The vaccine is effective against the virus. However, it may cause severe side effects. These side effects are rare and manageable with proper care.
+
+Components:
+1 - The vaccine is effective against the virus.
+2 - However, it may cause severe side effects.
+3 - These side effects are rare and manageable with proper care.
+
+Premise component: 2
+Answer: 1 | attack
+Why: 2 introduces a drawback that directly undermines 1.
+
+Example 3
+Text:
+Improving public transport can reduce car usage. Better public transport means shorter commute times. Shorter commutes lead to more productive workers.
+
+Components:
+1 - Improving public transport can reduce car usage.
+2 - Better public transport means shorter commute times.
+3 - Shorter commutes lead to more productive workers.
+
+Premise component: 3
+Answer: 2 | support
+Why: 3 most directly justifies 2, not 1.
+{extra_examples}
+Now, apply this logic to the following case:
+
+Text:
+{{text}}
+
+Components:
+{{arg_components}}
+
+Your task:
+- Consider all components except the premise itself.
+- Decide which **single component** is the best attachment point.
+- Decide whether the premise {task_relation} that component.
+- The premise must be attached to exactly one component.
+
+Output Format:
+{format_hint}
+Why: <one short sentence>
+
+Valid examples:
+{valid_examples}
+
+Premise component: {{premise}} - "{{premise_text}}"
+Answer:
+'''
+    # fill the runtime placeholders
+    instruction = instruction.format(
+        text=text,
+        arg_components=arg_components,
+        premise=premise,
+        premise_text=dict_components[premise],
+    )
     return instruction
 
 

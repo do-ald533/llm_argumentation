@@ -11,6 +11,7 @@ from src.llm.prompts import (
     missing_premise_support,
     missing_premise_attack,
     missing_premise_partial_attack,
+    missing_premise_attach,
     merge_components_cycle,
 )
 
@@ -26,4 +27,5 @@ class PromptManager:
     missing_premise_support = staticmethod(missing_premise_support)
     missing_premise_attack = staticmethod(missing_premise_attack)
     missing_premise_partial_attack = staticmethod(missing_premise_partial_attack)
+    missing_premise_attach = staticmethod(missing_premise_attach)
     merge_components_cycle = staticmethod(merge_components_cycle)

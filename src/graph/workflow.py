@@ -19,7 +19,7 @@ from src.tasks import (
 from src.llm import LLMClient
 from src.models import ArgumentGraph
 from src.config import Config
-from src.logging_config import get_logger
+from src.logging_config import get_logger, get_debug_logger
 
 
 class ArgumentationWorkflow:
@@ -64,7 +64,8 @@ class ArgumentationWorkflow:
         text: str,
         text_id: str,
         preloaded_components: Optional[Dict] = None,
-        enable_partial_attack: bool = False
+        enable_partial_attack: bool = False,
+        enable_merge_cycle: bool = True,
     ) -> ArgumentGraph:
         """Run the workflow on input text.
         
@@ -76,6 +77,8 @@ class ArgumentationWorkflow:
                 the pipeline continues from conclusion extraction onward.
             enable_partial_attack: When True, BFS and unvisited steps also detect
                 partial-attack relations (AbstRCT only).
+            enable_merge_cycle: When False, skip the cycle-merge step in
+                UnvisitedPremisesTask (cyclic links are kept as-is).
             
         Returns:
             Complete ArgumentGraph with derived labels
@@ -90,7 +93,8 @@ class ArgumentationWorkflow:
             "unvisited": [],
             "errors": [],
             "current_step": "start",
-            "enable_partial_attack": enable_partial_attack
+            "enable_partial_attack": enable_partial_attack,
+            "enable_merge_cycle": enable_merge_cycle,
         }
         
         self.logger.info("processing_text", text_id=text_id)
@@ -166,6 +170,9 @@ class ArgumentationWorkflow:
                 state["components"]
             )
             self.logger.debug("conclusion_extracted", conclusion_id=conclusion_id)
+            get_debug_logger().debug(
+                f"[CONCLUSION] text_id={state['text_id']} conclusion_id={conclusion_id}"
+            )
             return {
                 "conclusion_id": conclusion_id,
                 "current_step": "extract_conclusion"
@@ -236,7 +243,8 @@ class ArgumentationWorkflow:
                 state["relations"],
                 state["unvisited"],
                 state["conclusion_id"],
-                enable_partial_attack=state.get("enable_partial_attack", False)
+                enable_partial_attack=state.get("enable_partial_attack", False),
+                enable_merge_cycle=state.get("enable_merge_cycle", True),
             )
             
             return {

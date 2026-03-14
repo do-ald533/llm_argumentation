@@ -70,8 +70,8 @@ def evaluate_against_golden_standard(
     metrics = EvaluationMetrics()
     
     try:
-        pred_components = pl.read_csv(predicted_components_path)
-        pred_relations = pl.read_csv(predicted_relations_path)
+        pred_components = pl.read_csv(predicted_components_path, separator=";")
+        pred_relations = pl.read_csv(predicted_relations_path, separator=";")
     except Exception as e:
         logger.error("failed_to_load_predictions", error=str(e))
         return metrics

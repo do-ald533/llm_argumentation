@@ -117,7 +117,8 @@ class ArgumentationPipeline:
         run_name: Optional[str] = None,
         graph_image: bool = False,
         skip_identification_path: Optional[Path] = None,
-        enable_partial_attack: bool = False
+        enable_partial_attack: bool = False,
+        enable_merge_cycle: bool = True,
     ) -> List[ArgumentGraph]:
         """Process texts from CSV file with MLflow tracking.
         
@@ -177,6 +178,7 @@ class ArgumentationPipeline:
                 "prompt_hash": get_prompt_hash(),
                 "skip_identification": str(skip_identification_path) if skip_identification_path else "false",
                 "enable_partial_attack": str(enable_partial_attack),
+                "enable_merge_cycle": str(enable_merge_cycle),
             })
             
             prompts_file = Path("src/llm/prompts.py")
@@ -197,7 +199,8 @@ class ArgumentationPipeline:
                 graph = self.workflow.run(
                     text, text_id,
                     preloaded_components=preloaded,
-                    enable_partial_attack=enable_partial_attack
+                    enable_partial_attack=enable_partial_attack,
+                    enable_merge_cycle=enable_merge_cycle,
                 )
                 graphs.append(graph)
                 

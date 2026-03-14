@@ -77,6 +77,14 @@ def main():
              "partial-attack (e.g. AbstRCT). When set, the LLM is asked to distinguish between "
              "full attacks (direct contradiction) and partial-attacks (constraining/weakening)."
     )
+    parser.add_argument(
+        "--no-merge-cycle",
+        dest="merge_cycle",
+        action="store_false",
+        default=True,
+        help="Disable the cycle-merge step in UnvisitedPremisesTask. Cyclic links are kept "
+             "as-is instead of being collapsed into a single merged component."
+    )
 
     args = parser.parse_args()
     
@@ -124,7 +132,8 @@ def main():
             run_name=args.run_name,
             graph_image=args.graph_image,
             skip_identification_path=args.skip_identification,
-            enable_partial_attack=args.partial_attack
+            enable_partial_attack=args.partial_attack,
+            enable_merge_cycle=args.merge_cycle,
         )
         
         logger.info("processing_complete", 

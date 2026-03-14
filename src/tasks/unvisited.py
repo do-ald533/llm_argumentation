@@ -1,17 +1,11 @@
-"""Task for handling unvisited premises (Step 4).
-
-After the recursive BFS relation extraction, some components may remain
-unassigned. This task prompts the LLM to determine which conclusion each
-unvisited component supports or attacks. If two unvisited components
-point to each other (cycle), they are merged into one and re-assigned.
-"""
-from typing import Dict, List, Tuple, Set, FrozenSet
+from typing import Dict, List, Tuple, Set, Optional
+import re
 import networkx as nx
 from src.models import ArgumentComponent, ArgumentRelation
 from src.llm import LLMClient, PromptManager
-from src.utils import parse_answer_ids, format_components_string
+from src.utils import format_components_string
 
-from src.logging_config import get_logger
+from src.logging_config import get_logger, get_debug_logger
 
 
 class UnvisitedPremisesTask:
@@ -30,7 +24,8 @@ class UnvisitedPremisesTask:
         relations: List[ArgumentRelation],
         unvisited: List[int],
         conclusion_id: int,
-        enable_partial_attack: bool = False
+        enable_partial_attack: bool = False,
+        enable_merge_cycle: bool = True,
     ) -> Tuple[Dict[int, ArgumentComponent], List[ArgumentRelation], int]:
         """Assign unvisited components to the argument graph.
         
@@ -47,6 +42,9 @@ class UnvisitedPremisesTask:
             conclusion_id: ID of the main conclusion
             enable_partial_attack: When True, also checks for partial-attack
                 relations (AbstRCT only).
+            enable_merge_cycle: When False, skip cycle detection and merging
+                (Step 3). Cyclic links are left as-is rather than collapsed
+                into a synthetic merged component.
             
         Returns:
             Tuple of (updated_components, updated_relations, updated_conclusion_id)
@@ -63,47 +61,28 @@ class UnvisitedPremisesTask:
         
         dict_components = {cid: comp.text for cid, comp in components.items()}
         arg_components = format_components_string(dict_components)
-        
-        # Step 1: For each unvisited component, find its target
+
+        get_debug_logger().debug(
+            f"[UNVISITED START] text_id={text_id} to_be_visited={unvisited}\n"
+            f"  dict_components={dict_components}\n"
+            f"  arg_components=\n{arg_components}"
+        )
+
+        # Step 1: For each unvisited component, find its target via single prompt
         temp_links: List[Tuple[int, int, str]] = []
-        still_orphan: List[int] = []
-        
+
         for premise_id in unvisited:
             self.logger.debug("checking_unvisited", premise_id=premise_id)
-            
-            found_any = False
-            
-            # Check support
-            support_targets = self._get_support_targets(
-                premise_id, text, arg_components, dict_components
-            )
-            for t in support_targets:
-                if t in dict_components and t != premise_id:
-                    temp_links.append((premise_id, t, "support"))
-                    found_any = True
-            
-            # Check attack
-            attack_targets = self._get_attack_targets(
-                premise_id, text, arg_components, dict_components
-            )
-            for t in attack_targets:
-                if t in dict_components and t != premise_id:
-                    temp_links.append((premise_id, t, "attack"))
-                    found_any = True
 
-            # Check partial-attack (AbstRCT only)
-            if enable_partial_attack:
-                partial_targets = self._get_partial_attack_targets(
-                    premise_id, text, arg_components, dict_components
-                )
-                for t in partial_targets:
-                    if t in dict_components and t != premise_id:
-                        temp_links.append((premise_id, t, "partial_attack"))
-                        found_any = True
+            target_id, relation_type = self._get_attach_target(
+                premise_id, text, arg_components, dict_components,
+                enable_partial_attack=enable_partial_attack,
+            )
 
-            # Fallback: if LLM returned nothing valid, link to conclusion
-            if not found_any:
-                still_orphan.append(premise_id)
+            if target_id is not None and target_id in dict_components and target_id != premise_id:
+                temp_links.append((premise_id, target_id, relation_type))
+            else:
+                # Fallback: LLM returned nothing valid — link to conclusion
                 self.logger.warning(
                     "orphan_fallback_to_conclusion",
                     premise_id=premise_id,
@@ -112,6 +91,11 @@ class UnvisitedPremisesTask:
                 )
                 if conclusion_id is not None and premise_id != conclusion_id:
                     temp_links.append((premise_id, conclusion_id, "support"))
+
+            get_debug_logger().debug(
+                f"[UNVISITED PREMISE] premise_id={premise_id} "
+                f"to_be_visited={unvisited} temp_links={temp_links}"
+            )
         
         # Step 2: Detect cycles among the newly created links
         # Build a directed graph from temp_links and find all cycles
@@ -129,7 +113,7 @@ class UnvisitedPremisesTask:
         
         # Step 3: Handle cycles by merging
         merged_ids: Set[int] = set()
-        if all_cycles:
+        if all_cycles and enable_merge_cycle:
             self.logger.info("cycles_detected", count=len(all_cycles), nodes=sorted(cycle_nodes))
             
             # Merge all cycle-involved nodes together into a single component
@@ -150,32 +134,18 @@ class UnvisitedPremisesTask:
                 if r.source_id in components and r.target_id in components
             ]
             
-            # Ask what the merged component supports/attacks/partially-attacks
-            modes = ["support", "attack"]
-            if enable_partial_attack:
-                modes.append("partial_attack")
-            for mode in modes:
-                if mode == "support":
-                    targets = self._get_support_targets(
-                        new_id, text, arg_components, dict_components
-                    )
-                elif mode == "attack":
-                    targets = self._get_attack_targets(
-                        new_id, text, arg_components, dict_components
-                    )
-                else:
-                    targets = self._get_partial_attack_targets(
-                        new_id, text, arg_components, dict_components
-                    )
-
-                for t in targets:
-                    if t in dict_components and t != new_id:
-                        relations.append(ArgumentRelation(
-                            source_id=new_id,
-                            target_id=t,
-                            text_id=text_id,
-                            relation_type=mode
-                        ))
+            # Ask where the merged component attaches (single call)
+            target_id, relation_type = self._get_attach_target(
+                new_id, text, arg_components, dict_components,
+                enable_partial_attack=enable_partial_attack,
+            )
+            if target_id is not None and target_id in dict_components and target_id != new_id:
+                relations.append(ArgumentRelation(
+                    source_id=new_id,
+                    target_id=target_id,
+                    text_id=text_id,
+                    relation_type=relation_type,
+                ))
         
         # Step 4: Add remaining non-cyclic links (from components not involved in any cycle)
         for a, b, kind in temp_links:
@@ -228,47 +198,49 @@ class UnvisitedPremisesTask:
         
         return components, relations, conclusion_id
     
-    def _get_support_targets(
+    def _get_attach_target(
         self,
         premise_id: int,
         text: str,
         arg_components: str,
-        dict_components: Dict[int, str]
-    ) -> List[int]:
-        """Ask LLM which components this premise directly supports."""
-        prompt = self.prompts.missing_premise_support(
-            premise_id, text, arg_components, dict_components
-        )
-        response = self.llm.generate(prompt)
-        return parse_answer_ids(response)
-    
-    def _get_attack_targets(
-        self,
-        premise_id: int,
-        text: str,
-        arg_components: str,
-        dict_components: Dict[int, str]
-    ) -> List[int]:
-        """Ask LLM which components this premise directly attacks."""
-        prompt = self.prompts.missing_premise_attack(
-            premise_id, text, arg_components, dict_components
-        )
-        response = self.llm.generate(prompt)
-        return parse_answer_ids(response)
+        dict_components: Dict[int, str],
+        enable_partial_attack: bool = False,
+    ) -> Tuple[Optional[int], str]:
+        """Single LLM call to find the attachment point for a missing premise.
 
-    def _get_partial_attack_targets(
-        self,
-        premise_id: int,
-        text: str,
-        arg_components: str,
-        dict_components: Dict[int, str]
-    ) -> List[int]:
-        """Ask LLM which components this premise partially attacks (AbstRCT only)."""
-        prompt = self.prompts.missing_premise_partial_attack(
-            premise_id, text, arg_components, dict_components
+        Returns:
+            (target_id, relation_type) where relation_type is one of
+            'support', 'attack', or 'partial_attack'.
+            Returns (None, 'support') when the response cannot be parsed.
+        """
+        prompt = self.prompts.missing_premise_attach(
+            premise_id, text, arg_components, dict_components,
+            enable_partial_attack=enable_partial_attack,
         )
         response = self.llm.generate(prompt)
-        return parse_answer_ids(response)
+        get_debug_logger().debug(
+            f"[UNVISITED LLM] premise_id={premise_id} "
+            f"response_tail={repr(response[-200:])}"
+        )
+        return self._parse_attach_response(response)
+
+    @staticmethod
+    def _parse_attach_response(response: str) -> Tuple[Optional[int], str]:
+        """Parse 'Answer: <id> | <relation>' from the LLM response.
+
+        Returns:
+            (target_id, relation_type) or (None, 'support') on failure.
+        """
+        match = re.search(
+            r'Answer:\s*(\d+)\s*\|\s*(support|attack|partial_attack)',
+            response,
+            re.IGNORECASE,
+        )
+        if match:
+            target_id = int(match.group(1))
+            relation_type = match.group(2).lower()
+            return target_id, relation_type
+        return None, 'support'
 
     def _merge_cycle(
         self,

@@ -11,7 +11,7 @@ from typing import Dict, List, Set, Tuple
 from src.models import ArgumentComponent, ArgumentRelation
 from src.llm import LLMClient, PromptManager
 from src.utils import parse_answer_ids, parse_support_attack_ids, format_components_string
-from src.logging_config import get_logger
+from src.logging_config import get_logger, get_debug_logger
 
 
 class RelationExtractionTask:
@@ -170,6 +170,12 @@ class RelationExtractionTask:
             pid for pid in raw_partial
             if pid in dict_components and pid not in forbidden
         ] if enable_partial_attack else []
+
+        get_debug_logger().debug(
+            f"[RELATIONS] node={conclusion_id} "
+            f"response_tail={repr(response[-200:])} "
+            f"support={valid_support} attack={valid_attack} partial={valid_partial}"
+        )
 
         if valid_support:
             self.logger.debug(
